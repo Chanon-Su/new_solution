@@ -25,11 +25,12 @@
             - **Pagination (ล่างสุด):**
                 - ฝั่งซ้าย: "Rows per page:" พร้อมปุ่มเลือก 10, 25, 50 (เลขที่เลือกต้องมีพื้นหลังสี Emerald ตามรูป 3)
                 - ฝั่งขวา: แสดงยอดรายการ และปุ่มลูกศร < > แบบมีกรอบสี่เหลี่ยมสีเข้ม
-ด้านใน ตามด้วยข้อความ "ALPHA" (บน) และ "SOLUTION" (ล่าง) แบบซ้อนกัน (Two-line typography)
-                - **Navi-bar (ขวา):** Dashboard, Asset Mart, Transaction-Log (Active: Underline + Emerald Color), เป้าหมาย และไอคอน ✨ (Plans)
-                - **System Icons (ขวาสุด):** Theme Toggle (🌙), Profile (👤), Settings (⚙️) กั้นด้วยเส้นคั่นบางๆ
-                - **Style:** Glassmorphism ชั้นสูงที่มีความเบลอระดับพรีเมียม ขอบละเอียด 1px และเงาสะท้อนที่นุ่มนวล
-            - **Bottom Right:** Floating "?" Help Circle (Z-index: 100).
+        - **Global Header (Top Frame): [FINALIZED - DESIGN LOCKED]**
+            - **Logo (ซ้าย):** แสดงข้อความ "ALPHA" (บน) และ "SOLUTION" (ล่าง) แบบซ้อนกัน (Two-line typography)
+            - **Navi-bar (ขวา):** Dashboard, Asset Mart, Transaction-Log (Active: Underline + Emerald Color), เป้าหมาย และไอคอน ✨ (Plans)
+            - **System Icons (ขวาสุด):** Theme Toggle (🌙), Profile (👤), Settings (⚙️) กั้นด้วยเส้นคั่นบางๆ (Vertical Divider)
+            - **Style:** Glassmorphism ชั้นสูงเบลอระดับพรีเมียม ขอบละเอียด 1px และเงาสะท้อนนุ่มนวล
+        - **Bottom Right:** Floating "?" Help Circle (Z-index: 100).
         - **Add To Log (Zone 1): [FINALIZED - DESIGN LOCKED]** (เป๊ะตามรูปที่ 1)
             - **Header:** "เพิ่มเข้าบันทึก" พร้อมเส้น Emerald แนวตั้งทางซ้าย (Glow Effect)
             - **Card Style:** พื้นหลัง Obsidian ทึบแสง (98%) ขอบละเอียด 1px (rgba 255,255,255,0.1)
@@ -68,33 +69,32 @@
             - **Block:** คือหน่วยที่เล็กที่สุดที่ประกอบด้วย 2 ส่วนคือ **BaseVis** + **Vis**
                 - **BaseVis (The "Pot" - กระถาง):** ฐานสี่เหลี่ยมที่กำหนดขนาด (กว้าง x ยาว) บนระบบ Grid เพื่อกำหนดขอบเขตของพื้นที่
                 - **Vis (The "Tree" - ต้นไม้):** ตัวแสดงผลข้อมูล (Charts, Tables, Indicators) ที่เติบโตและปรับขนาดตาม BaseVis
-        - **3. Interactive Experience (Edit Mode):**
-            - **Split View:** เมื่อเข้าโหมดแก้ไข หน้าจอจะแบ่งเป็นส่วนจัดการ Block และส่วนแสดงผลแบบ Real-time
-            - **Block Management:** ผู้ใช้งานสามารถ เพิ่ม (Add), ลบ (Delete), ปรับขนาด (Resize) และย้ายตำแหน่ง (Rearrange) ได้อย่างอิสระ
+        - **3. Interactive Experience (Edit Mode): [FINALIZED - รูปที่ 2 & 5]**
+            - **Split View:** เมื่อเข้าโหมดแก้ไข หน้าจอจะโชว์ Grid และปุ่มควบคุมเพิ่มขึ้นมา
+            - **Edit UI:** ปุ่ม Edit (Pencil) จะเรืองแสงสีเหลือง (Glow) พร้อมปรากฏปุ่ม Plus และ Layout ขึ้นมาด้านบนในแนวตั้ง
+            - **Block Actions:** เมื่ออยู่ใน Edit Mode ทุก Block จะแสดงไอคอน **Settings (Gear)** และ **Delete (Trash)** แบบถาวร (ตลอดเวลา) พร้อมจุด Resize handle ที่มุมขวาล่าง
+            - **Block Management:** ผู้ใช้งานสามารถ เพิ่ม (Add), ลบ (Delete - กดแล้วลบทันทีไม่มีการถามยืนยัน), ปรับขนาด (Resize) และย้ายตำแหน่ง (Rearrange) ได้
         - **4. Fixed Zen Frame Philosophy (Final Design Locked - DASHBOARD ONLY):**
-            - **Viewport Locking:** เฉพาะพื้นที่ Dashboard เท่านั้นที่จะถูกล็อคให้พอดีกับหน้าจอ (View-port) เสมอ โดยไม่มีการ Scroll ขึ้น-ลง
-            - **Other Pages (T-log, Asset, etc.):** สามารถ Scroll ขึ้น-ลงได้ตามปกติเพื่อรองรับข้อมูลจำนวนมาก
-            - **Fluid Proportions:** ใช้ระบบสัดส่วนที่ปรับตัวอัตโนมัติจากขนาดจอ (Dynamic Scaling) โดยใช้สัดส่วนทองคำในการจัดวาง เพื่อให้ดูดีทั้งบนจอ Laptop 13" และ Monitor 32"
-            - **Zen Constraint:** หากจอมีขนาดกว้างพิเศษ (Ultrawide) ระบบจะรักษาสัดส่วนกลางจอไว้เพื่อไม่ให้เนื้อหากระจายเกินไปจนเสียสมาธิ
-        - **5. Absolute Grid Persistence & Precision (Architecture Locked):**
-            - **Edit Mode UI:** ปุ่ม "Edit Mode" อยู่เหนือปุ่ม Help (?) เมื่อกดจะเปลี่ยนเป็นสีเหลือง และมีปุ่มเพิ่มขึ้นมา 2 ปุ่มคือ "ปรับ Layout" และ "เพิ่ม Block"
-            - **Dynamic Grid Configurator:** ใน Edit Mode ผู้ใช้งานสามารถปรับจำนวน Grid ได้เองทางแถบควบคุมด้านซ้าย โดยจำกัดสูงสุดที่ **20 Columns x 16 Rows** เพื่อรักษาประสิทธิภาพการประมวลผล (Performance Guardrail)
+            - **Viewport Locking:** พื้นที่ Dashboard จะถูกล็อคให้พอดีกับหน้าจอ (View-port) เสมอ โดยไม่มีการ Scroll ขึ้น-ลง
+            - **Fluid Proportions:** ใช้ระบบสัดส่วนที่ปรับตัวอัตโนมัติจากขนาดจอ (Dynamic Scaling) โดยใช้สัดส่วนทองคำ
+            - **Zen Constraint:** หากจอมีขนาดกว้างพิเศษ (Ultrawide) ระบบจะรักษาสัดส่วนกลางจอไว้
+        - **5. Absolute Grid Persistence & Precision (Architecture Locked): [FINALIZED - รูปที่ 2 & 3]**
+            - **Dynamic Grid Configurator:** ในโหมด Layout (รูปที่ 3) จะปรากฏ **"แผงควบคุม Grid" (Floating Panel)** ด้านขวาล่างใกล้ปุ่ม Layout เพื่อปรับจำนวน Column/Row (จำกัดสูงสุด 20x16)
             - **3-Level Grid Visibility:**
                 - **Normal:** ไม่แสดงเส้น Grid (Pure Obsidian Void)
-                - **Edit Mode:** แสดงเส้น Grid จางๆ (50% Opacity) เพื่อช่วยในการเล็งตำแหน่ง
-                - **Layout Mode:** แสดงเส้น Grid ชัดเจน 100% พร้อมตัวเลข Coordinates เพื่อความแม่นยำสูงสุด
-            - **Visual Feedback:** เมื่อปรับ Layout ตัว Block จะโปร่งแสงลงเพื่อให้เห็น Grid ด้านหลังชัดเจน
-            - **Tactile Drag & Resize (Solid Object):** ทั้งการลาก (Drag) และการปรับขนาด (Resize) จะหยุดเคลื่อนที่ทันทีเมื่อชนกับวัตถุอื่น (Solid Barrier) ไม่มีการดีดกลับหรือสลับที่ มีการแสดงผล **สีแดงจางๆ (Faint Red Overlay)** ที่ Block ปลายทางที่โดนชนเพื่อสื่อสารว่าตำแหน่งนั้นติดขัด
-            - **Vis Scaling Philosophy:** ตัวแสดงผล (Vis/Tree) จะปรับตัวตามรูปทรงของ Block เสมอ หากรูปทรงที่ผู้ใช้เลือกดูไม่เหมาะสม กราฟจะแสดงผลตามนั้นเพื่อให้ผู้ใช้ได้เรียนรู้และปรับแต่งตามสุนทรียภาพของตนเอง
+                - **Edit Mode:** แสดงเส้น Grid (Dots/Pluses) จางๆ 50% Opacity เพื่อช่วยเล็งตำแหน่ง
+                - **Layout Mode:** แสดงเส้น Grid ชัดเจน 100% (สีขาว) พร้อม **ตัวเลขพิกัด (Coordinates)** เป็นวงกลมสีเขียวมรกตที่ขอบบนและซ้าย
+            - **Tactile Drag & Resize (Solid Object):**
+                - ระบบการลากและปรับขนาดจะเป็น **"Snap-to-Grid" 100%** เสมอ
+                - วัตถุหยุดเคลื่อนที่ทันทีเมื่อชนกัน (Solid Barrier) และโชว์สีแดงจางๆ ที่จุดที่ชน
         - **6. Smart Overflow & Add Logic:**
-            - ปุ่มเพิ่ม Block (+) จะเพิ่มขนาด 1x1 ลงในที่ว่างแรก (First available slot)
-            - หากหน้า 1 เต็ม ระบบจะขยับไปหาที่ว่างในหน้า 2 และ "Drift" ผู้ใช้งานไปยังหน้านั้นโดยอัตโนมัติ
-            - หากเต็มทุกหน้า ปุ่ม (+) จะเปลี่ยนเป็นสี **Rose Red** และระบุว่า Dashboard Full
+            - ปุ่มเพิ่ม Block (+) จะเพิ่มขนาด 1x1 ลงใน **"ที่ว่างแรกสุดที่พบในหน้าปัจจุบัน"** (First available slot of the current page)
+            - หากหน้าปัจจุบันเต็ม ระบบจะ Drift ไปหาที่ว่างในหน้าถัดไปโดยอัตโนมัติ
+            - **Limit:** รองรับสูงสุดที่ **3 หน้า Dashboard** เท่านั้น หากเต็มทุกหน้าปุ่ม (+) จะเปลี่ยนเป็นสี Rose Red และระบุว่า Dashboard Full
         - **7. Drift Navigation:**
-            - **No Indicators:** จะไม่มีระบบบอกเลขหน้าหรือจุด Pager บนหน้าจอ เพื่อรักษาความสะอาดตา (Obsidian Void)
-            - **Ghost Arrows:** ปุ่มลูกศรซ้าย/ขวาเป็นแบบ **Minimal Arrows** (เรียบง่าย) จะปรากฏแบบ Ghost Hover ที่ขอบจอเมื่อเลื่อนเมาส์ไปใกล้
-            - **Proportional Scaling:** รักษาเอกลักษณ์ของ Layout โดยการคงสัดส่วน (Aspect Ratio) ของ Dashboard ทั้งชุดไว้เสมอ (Scale up/down proportionally)
-            - เน้นการ Slide ที่นุ่มนวลและประสิทธิภาพสูง (60 FPS Focus)
+            - **Navigation:** ปุ่มลูกศรซ้าย/ขวา (Minimal Arrows) จะล่องหน (Ghost Hover) และปรากฏขึ้นที่ขอบจอเมื่อนำเมาส์ไปวางใกล้ๆ เท่านั้น
+            - **Proportional Scaling:** รักษา Aspect Ratio ของ Dashboard ทั้งชุด
+            - เน้นการ Slide ที่นุ่มนวล (60 FPS Focus)
     - **Language Support (Centralized i18n):** รองรับภาษาไทย และอังกฤษ (Default)
         - **Centralization:** ข้อความทั้งหมดในระบบต้องถูกเก็บไว้ที่ไฟล์เดียว (เช่น `translation.json`) เพื่อให้คุณ Chanon สามารถตรวจสอบและปรับจูนคำแปล (Copywriting) ได้อย่างเบ็ดเสร็จในจุดเดียว
         - **Responsibility:** ให้ Chanon เป็นผู้พิจารณาคำศัพท์สุดท้ายเองทั้งสองภาษา
