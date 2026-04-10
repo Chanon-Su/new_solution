@@ -1,13 +1,37 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Colors */
+  --obsidian-void: #050505;
+  --dark-slate: #121214;
+  --neon-emerald: #10B981;
+  --emerald-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  --snow-white: #FFFFFF;
+  --muted-grey: #9CA3AF;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(18, 18, 20, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(12px);
+
+  /* Layout */
+  --header-height: 72px;
+  --content-max-width: 1400px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: var(--snow-white);
+  background-color: var(--obsidian-void);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,10 +39,72 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--obsidian-void);
+  color: var(--snow-white);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  transition: var(--transition-fast);
+}
+
+/* Scrollbar Style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--obsidian-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dark-slate);
+  border-radius: 10px;
+  border: 2px solid var(--obsidian-void);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-grey);
+}
+
+/* Utilities */
+.emerald-text {
+  color: var(--neon-emerald);
+}
+
+.emerald-gradient-text {
+  background: var(--emerald-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
 }

@@ -1,121 +1,129 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react';
+import Header from './components/Header';
+import Dashboard from './components/Dashboard';
+import AssetMart from './components/AssetMart';
+import TLog from './components/TLog';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+export interface Transaction {
+  id: string;
+  date: string;
+  type: 'BUY' | 'SELL' | 'DIVIDEND';
+  asset: string;
+  category: string;
+  amount: number;
+  price: number;
+  currency: 'THB' | 'USD';
+  fee: number;
+  notes: string;
 }
 
-export default App
+function App() {
+  const [activeTab, setActiveTab] = useState('t-log');
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    const saved = localStorage.getItem('alpha_transactions');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Persistence
+  useEffect(() => {
+    localStorage.setItem('alpha_transactions', JSON.stringify(transactions));
+  }, [transactions]);
+
+  const addTransaction = (tx: Transaction) => {
+    setTransactions(prev => [tx, ...prev]);
+  };
+
+  const deleteTransaction = (id: string) => {
+    setTransactions(prev => prev.filter(tx => tx.id !== id));
+  };
+
+  const importTransactions = (newTxs: Transaction[]) => {
+    setTransactions(newTxs);
+  };
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <Dashboard transactions={transactions} />;
+      case 'asset-mart':
+        return <AssetMart />;
+      case 't-log':
+        return (
+          <TLog 
+            transactions={transactions} 
+            onAdd={addTransaction} 
+            onDelete={deleteTransaction}
+            onImport={importTransactions}
+          />
+        );
+      case 'goal':
+        return (
+          <div className="page-container goal-page">
+            <div className="page-header">
+              <div className="accent-bar"></div>
+              <h2>เป้าหมาย <span className="sub-header">(Project Milestones)</span></h2>
+            </div>
+            
+            <div className="milestone-grid">
+              <div className="glass-panel milestone-card">
+                <h3>🟢 Phase 1: Alpha (Current)</h3>
+                <ul className="milestone-list">
+                  <li className="done">Transaction Log (Add/History)</li>
+                  <li className="done">Local Persistence (LocalStorage)</li>
+                  <li className="done">CSV Export/Import</li>
+                  <li className="done">Basic Interactive Dashboard</li>
+                  <li>Responsive Scaling Polish</li>
+                </ul>
+              </div>
+
+              <div className="glass-panel milestone-card muted">
+                <h3>🟡 Phase 2: Demo</h3>
+                <ul className="milestone-list">
+                  <li>Asset Mart Data (Crypto/Stocks/Gold)</li>
+                  <li>Real-time Price Integration (CoinGecko/Yahoo)</li>
+                  <li>Multi-Dashboard (Drift System)</li>
+                  <li>Bento Grid Categories</li>
+                </ul>
+              </div>
+
+              <div className="glass-panel milestone-card muted">
+                <h3>🔴 Phase 3: Beta</h3>
+                <ul className="milestone-list">
+                  <li>Full Asset Mart Inventory</li>
+                  <li>Portfolio Intelligence (ROI/Cost Analysis)</li>
+                  <li>Advanced Dashboard Interactions</li>
+                  <li>Cloud Sync (Subscription Plan)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return <Dashboard />;
+    }
+  };
+
+  return (
+    <div className="app-shell">
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      
+      <main className="main-content">
+        <div className="page-container">
+          {renderContent()}
+        </div>
+      </main>
+
+      {/* Floating Help Circle */}
+      <button className="help-circle" title="Help">
+        <span className="icon">?</span>
+      </button>
+
+      {/* Background decoration for Zen feel */}
+      <div className="zen-glow top-left"></div>
+      <div className="zen-glow bottom-right"></div>
+    </div>
+  );
+}
+
+export default App;
