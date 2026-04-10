@@ -14,13 +14,13 @@
 (อยากให้ คำที่แทน user ทุกคนในเอกสารและโปรเจคใช้คำว่า "ผู้ใช้งาน" และแทนคำที่แทนว่า user data ด้วย "ประวัติสินทรัพย์")
     - Log-transaction (T-log) - แหล่งรวบรวม **ประวัติสินทรัพย์** ของผู้ใช้งาน
         - **Layout Pattern (Standard for All Pages):** 
-            - **Global Header (Top):** ประกอบด้วย Logo (ฝั่งซ้าย), **Navi-bar (ตรงกลาง)**, และ System Icons (ฝั่งขวา)
+            - **Global Header (Top):** ประกอบด้วย Logo (ฝั่งซ้าย), **Navi-bar (ฝั่งขวา)**(มี Dashboard, สินทรัพย์(Asset), Log-transaction(T-log), และ เป้าหมาย), และ System Icons (ฝั่งขวาสุด)(รูป พระจันทร์เสี้ยว,รูปโปรไฟล์คน,ฟันเฟือง) โดยมี เส้นขีดคั่นบางๆระหว่าง Navi-bar กับ System Icons    
             - **Bottom Right:** Floating "?" Help Circle (Z-index: 100).
         - **Add To Log (Zone 1):** การเพิ่ม **ประวัติสินทรัพย์** ของผู้ใช้งาน
             - **Manual Add To Log:** ผู้ใช้งานกรอกข้อมูลผ่าน Form
                 - **Date:** วันที่ทำรายการ (Date Picker)
                 - **Type:** ประเภท (ซื้อ/Buy, ขาย/Sell, ปันผล/Dividend) - Dropdown
-                - **Asset:** ชื่อย่อสินทรัพย์ และการเลือกประเภทสินทรัพย์ (e.g. หุ้น, คริปโต)
+                - **Asset:** ชื่อย่อสินทรัพย์ และการเลือกประเภทสินทรัพย์ (หุ้น, ทองคำ, Crypto, สหกรณ์, กองทุน เป็น Dropdown)
                 - **Amount:** จำนวนหน่วย
                 - **Price:** ราคาต่อหน่วย (แยกตามสกุลเงินที่กรอก เช่น USD, THB - ยังไม่มีการแปลงข้ามสกุลเงินอัตโนมัติ)
                 - **Fee:** ค่าธรรมเนียมหรือภาษีที่เกี่ยวข้อง
@@ -41,11 +41,10 @@
         - **3. Interactive Experience (Edit Mode):**
             - **Split View:** เมื่อเข้าโหมดแก้ไข หน้าจอจะแบ่งเป็นส่วนจัดการ Block และส่วนแสดงผลแบบ Real-time
             - **Block Management:** ผู้ใช้งานสามารถ เพิ่ม (Add), ลบ (Delete), ปรับขนาด (Resize) และย้ายตำแหน่ง (Rearrange) ได้อย่างอิสระ
-            - **Vis Inventory (Attache Case):** พื้นที่เก็บพัก Block ชั่วคราว (Parking Area) เพื่อให้ผู้ใช้งานปรับผัง Layout ได้สะดวกโดยไม่ติดสถานะ Deadlock (ไม่มีที่วาง)
         - **4. Fixed Zen Frame Philosophy (Final Design Locked - DASHBOARD ONLY):**
             - **Viewport Locking:** เฉพาะพื้นที่ Dashboard เท่านั้นที่จะถูกล็อคให้พอดีกับหน้าจอ (View-port) เสมอ โดยไม่มีการ Scroll ขึ้น-ลง
             - **Other Pages (T-log, Asset, etc.):** สามารถ Scroll ขึ้น-ลงได้ตามปกติเพื่อรองรับข้อมูลจำนวนมาก
-            - **Fluid Proportions:** ใช้ระบบสัดส่วนที่ปรับตัวอัตโนมัติตามขนาดจอ (Dynamic Scaling) โดยใช้สัดส่วนทองคำในการจัดวาง เพื่อให้ดูดีทั้งบนจอ Laptop 13" และ Monitor 32"
+            - **Fluid Proportions:** ใช้ระบบสัดส่วนที่ปรับตัวอัตโนมัติจากขนาดจอ (Dynamic Scaling) โดยใช้สัดส่วนทองคำในการจัดวาง เพื่อให้ดูดีทั้งบนจอ Laptop 13" และ Monitor 32"
             - **Zen Constraint:** หากจอมีขนาดกว้างพิเศษ (Ultrawide) ระบบจะรักษาสัดส่วนกลางจอไว้เพื่อไม่ให้เนื้อหากระจายเกินไปจนเสียสมาธิ
         - **5. Absolute Grid Persistence & Precision (Architecture Locked):**
             - **Edit Mode UI:** ปุ่ม "Edit Mode" อยู่เหนือปุ่ม Help (?) เมื่อกดจะเปลี่ยนเป็นสีเหลือง และมีปุ่มเพิ่มขึ้นมา 2 ปุ่มคือ "ปรับ Layout" และ "เพิ่ม Block"
@@ -55,21 +54,27 @@
                 - **Edit Mode:** แสดงเส้น Grid จางๆ (50% Opacity) เพื่อช่วยในการเล็งตำแหน่ง
                 - **Layout Mode:** แสดงเส้น Grid ชัดเจน 100% พร้อมตัวเลข Coordinates เพื่อความแม่นยำสูงสุด
             - **Visual Feedback:** เมื่อปรับ Layout ตัว Block จะโปร่งแสงลงเพื่อให้เห็น Grid ด้านหลังชัดเจน
-            - **Tactile Drag & Resize (Solid Object):** ทั้งการลาก (Drag) และการปรับขนาด (Resize) จะหยุดเคลื่อนที่ทันทีเมื่อชนกับวัตถุอื่น (Solid Barrier) ไม่มีการดีดกลับหรือสลับที่
+            - **Tactile Drag & Resize (Solid Object):** ทั้งการลาก (Drag) และการปรับขนาด (Resize) จะหยุดเคลื่อนที่ทันทีเมื่อชนกับวัตถุอื่น (Solid Barrier) ไม่มีการดีดกลับหรือสลับที่ มีการแสดงผล **สีแดงจางๆ (Faint Red Overlay)** ที่ Block ปลายทางที่โดนชนเพื่อสื่อสารว่าตำแหน่งนั้นติดขัด
             - **Vis Scaling Philosophy:** ตัวแสดงผล (Vis/Tree) จะปรับตัวตามรูปทรงของ Block เสมอ หากรูปทรงที่ผู้ใช้เลือกดูไม่เหมาะสม กราฟจะแสดงผลตามนั้นเพื่อให้ผู้ใช้ได้เรียนรู้และปรับแต่งตามสุนทรียภาพของตนเอง
         - **6. Smart Overflow & Add Logic:**
             - ปุ่มเพิ่ม Block (+) จะเพิ่มขนาด 1x1 ลงในที่ว่างแรก (First available slot)
             - หากหน้า 1 เต็ม ระบบจะขยับไปหาที่ว่างในหน้า 2 และ "Drift" ผู้ใช้งานไปยังหน้านั้นโดยอัตโนมัติ
             - หากเต็มทุกหน้า ปุ่ม (+) จะเปลี่ยนเป็นสี **Rose Red** และระบุว่า Dashboard Full
-        - **7. Drift Navigation Performance:**
-            - ปุ่มลูกศรซ้าย/ขวาเป็นแบบ **Minimal Arrows** (เรียบง่าย) จะปรากฏแบบ Ghost Hover
+        - **7. Drift Navigation:**
+            - **No Indicators:** จะไม่มีระบบบอกเลขหน้าหรือจุด Pager บนหน้าจอ เพื่อรักษาความสะอาดตา (Obsidian Void)
+            - **Ghost Arrows:** ปุ่มลูกศรซ้าย/ขวาเป็นแบบ **Minimal Arrows** (เรียบง่าย) จะปรากฏแบบ Ghost Hover ที่ขอบจอเมื่อเลื่อนเมาส์ไปใกล้
+            - **Proportional Scaling:** รักษาเอกลักษณ์ของ Layout โดยการคงสัดส่วน (Aspect Ratio) ของ Dashboard ทั้งชุดไว้เสมอ (Scale up/down proportionally)
             - เน้นการ Slide ที่นุ่มนวลและประสิทธิภาพสูง (60 FPS Focus)
     - **Language Support (Centralized i18n):** รองรับภาษาไทย และอังกฤษ (Default)
         - **Centralization:** ข้อความทั้งหมดในระบบต้องถูกเก็บไว้ที่ไฟล์เดียว (เช่น `translation.json`) เพื่อให้คุณ Chanon สามารถตรวจสอบและปรับจูนคำแปล (Copywriting) ได้อย่างเบ็ดเสร็จในจุดเดียว
         - **Responsibility:** ให้ Chanon เป็นผู้พิจารณาคำศัพท์สุดท้ายเองทั้งสองภาษา
     - **Transaction Log Enhancements (Concept Locked/Finalized):**
         - **Layout:** Vertical Stack (Zone 1: Add -> Zone 2: Asset Summary -> Zone 3: History).
-        - **Zone 2 (Card Summary):** แสดงยอดรวมสินทรัพย์ในรูปแบบการ์ดขอบมน (Card) โดยแยกตามสกุลเงินที่บันทึกไว้ (เช่น การ์ด USD และ การ์ด THB) เพื่อลดความซับซ้อนของการคำนวณอัตราแลกเปลี่ยนในเฟสแรก
+        - **Zone 2 (Asset Quantity Summary):** 
+            - แสดงสรุปจำนวนหน่วย (Quantity/Amount) ของสินทรัพย์แต่ละรายการที่มีการบันทึกไว้ (ไม่เกี่ยวกับยอดเงิน)
+            - **Format:** แสดงผลในรูปแบบการ์ดแบบไม่มีไอคอน เพื่อความเรียบง่ายและไม่สับสน
+            - **Interaction:** ใช้ระบบ **Carousel (เลื่อนด้านข้าง)** เพื่อประหยัดพื้นที่
+            - **Sorting Logic (Recency):** เรียงลำดับตามการอัปเดตล่าสุด สินทรัพย์ที่เพิ่งมีการซื้อ/ขายหรือเพิ่มประวัติจะอยู่ทางฝั่งซ้ายสุดเสมอ สินทรัพย์ที่ไม่มีการเคลื่อนไหวนานแล้วจะอยู่ลึกไปทางขวา เพื่อให้ผู้ใช้งานตรวจสอบความถูกต้อง (Re-check) กับยอดถือครองจริงได้สะดวก
         - **Zone 3 (History Table):** แสดงข้อมูลที่สอดคล้องกับ CSV Schema ทั้งหมด
             - **Columns (Visible):** วันที่, ประเภท (Badge), ประเภท (Category), สินทรัพย์ (Icon + Symbol), จำนวน, ราคา (ระบุสกุลเงิน), ค่าธรรมเนียม, มูลค่ารวม (Calculated), โน้ต (Icon), การจัดการ (Edit/Delete icons)
             - **Hidden Column:** id (Unique ID สำหรับอ้างอิงข้อมูล)
@@ -97,7 +102,7 @@
                 2. สินทรัพย์ (Asset)
                 3. Transaction-Log (T-log)
                 4. เป้าหมาย (Goal) - *Project Milestone Tracker*
-            - **Utility Icons (Right):** ประกายดาว (✨), Theme Toggle (🌙), Profile (👤), Settings (⚙️)
+            - **Utility Icons (Right):** Plans (✨), Theme Toggle (☀️,🌙), Profile (👤), Settings (⚙️)
         - เก็บข้อมูลส่วนตัว 
             - user name
             - email
@@ -117,6 +122,7 @@
     - ผู้ใช้งานสามารถใช้งานโปรแกรมได้จริง ครบ 1 สัปดาห์
     - 100 transaction log -> Dashboard
     - ความลื่นไหลของระบบ Dash-Drift และความสนุกในการจัดแต่ง (Tactile Satisfaction)
+    - **Development Strategy:** เริ่มต้นด้วยการพัฒนา **T-log** เป็นอันดับแรก ตามด้วยระบบจัดการข้อมูล (CSV/LocalStorage) และจบด้วยการสร้าง Dashboard ที่เน้น Visual คุณภาพสูง
 
 ### ขอบเขต (Scope): สิ่งที่ต้องทำ และสิ่งที่ไม่ทำ (Out of scope) ในเวอร์ชันนั้นๆ
     - Alpha verison 0.0.1 - 0.1
@@ -203,9 +209,11 @@
         - React
         - Node.js
     - Database
-        - **Local Storage + CSV Strategy:** เน้นเก็บข้อมูลบนเครื่องผู้ใช้ (Client-side Specialist) เพื่อความเป็นส่วนตัวสูงสุดและลดภาระ Server
-        - CSV (Alpha - Demo)
-        - PostgreSQL (Beta - Production)
+        - **Local Storage + CSV Strategy:** ข้อมูลถูกเก็บไว้ใน Browser ของผู้ใช้งาน (`localStorage`) เพื่อความเป็นส่วนตัวสูงสุด 
+        - **Manual Backup:** ผู้ใช้งานเป็นผู้รับผิดชอบการสำรองข้อมูลผ่านปุ่ม **ส่งออก (Export CSV)** และสามารถนำกลับมาใช้ใหม่ผ่านปุ่ม **นำเข้า (Import CSV)**
+        - **External Data APIs:** 
+            - **CoinGecko API:** สำหรับราคา Crypto (Public/Free tier)
+            - **Alpha Vantage / Yahoo Finance:** สำหรับราคาหุ้น, ทองคำ และอัตราแลกเปลี่ยน
     - Deployment
         - Git page (Alpha - Demo)
 ### การสร้างรายได้
