@@ -1,0 +1,19 @@
+# Project Tech Stack: The Alpha Solution
+
+## Frontend Core
+- react: ^19.2.4
+- react-dom: ^19.2.4
+- typescript: ~5.9.3
+
+## Build & Tooling
+- vite: ^8.0.1
+- @vitejs/plugin-react: ^6.0.1
+- eslint: ^9.39.4
+
+## Styling & Components
+- tailwindcss: ^4.2.2
+- @tailwindcss/vite: ^4.2.2
+- lucide-react: ^1.0.1
+
+## Utilities
+- date-fns: ^4.1.0
