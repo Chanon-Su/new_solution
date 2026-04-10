@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
-import AssetMart from './components/AssetMart';
+import AssetMart from './components/AssetMart/AssetMart';
 import TLog from './components/TLog/TLog';
 import type { Transaction } from './types';
 import './App.css';
