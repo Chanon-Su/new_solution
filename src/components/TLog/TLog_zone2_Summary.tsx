@@ -18,23 +18,23 @@ const TLog_zone2_Summary: React.FC = () => {
   ];
 
   return (
-    <section className="tlog-section">
-      <div className="tlog-section-header">
-        <div className="tlog-title-wrapper">
-          <div className="tlog-accent-bar"></div>
-          <h2 className="tlog-section-title">สรุปสินทรัพย์</h2>
+    <section className="flex flex-col gap-5">
+      <div className="mb-0">
+        <div className="flex items-center gap-4 mb-2">
+          <div className="w-1 h-6 bg-[#10B981] rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.4)]"></div>
+          <h2 className="text-2xl font-semibold text-white tracking-tight">สรุปสินทรัพย์</h2>
         </div>
       </div>
 
-      <div className="tlog-summary-carousel">
+      <div className="flex gap-5 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {mockAssetSummary.map((asset) => (
-          <div key={asset.id} className="summary-card">
-            <div className="summary-card-header">
-              <span className="asset-symbol">{asset.symbol}</span>
-              <span className="update-label">{asset.lastUpdate}</span>
+          <div key={asset.id} className="min-w-[240px] bg-[#121214] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 transition-all duration-200 hover:border-[#10B981] hover:bg-[rgba(18,18,20,0.95)]">
+            <div className="flex justify-between items-center mb-5">
+              <span className="font-bold text-lg text-white">{asset.symbol}</span>
+              <span className="text-xs text-[#9CA3AF]">{asset.lastUpdate}</span>
             </div>
-            <div className="asset-value">
-              {asset.amount} <span className="units-label">units</span>
+            <div className="text-3xl font-semibold mb-1 text-white">
+              {asset.amount} <span className="text-[13px] text-[#9CA3AF] font-normal">units</span>
             </div>
           </div>
         ))}
