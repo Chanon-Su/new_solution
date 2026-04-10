@@ -1,151 +1,79 @@
 .app-shell {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  background-color: var(--obsidian-void);
+  padding-top: var(--header-height);
 }
 
 .main-content {
-  margin-top: var(--header-height);
-  flex: 1;
-  padding: 3rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
 
-.page-container {
-  width: 100%;
+.container-centered {
   max-width: var(--content-max-width);
-  animation: fadeIn 0.5s var(--transition-smooth);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Floating Help Circle (PRD บรรทัดที่ 18) */
+.help-circle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  background: var(--dark-slate);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  color: var(--neon-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 500;
+  transition: var(--transition-fast);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+}
+
+.help-circle:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: var(--neon-emerald);
+  color: var(--obsidian-void);
+  box-shadow: 0 0 20px var(--neon-emerald);
+}
+
+/* Zen Background Glows (PRD บรรทัดที่ 209-210) */
+.zen-glow {
+  position: fixed;
+  width: 45vw;
+  height: 45vw;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(120px);
+  opacity: 0.08;
+}
+
+.zen-glow.top-left {
+  top: -15vw;
+  left: -15vw;
+  background: var(--neon-emerald);
+}
+
+.zen-glow.bottom-right {
+  bottom: -15vw;
+  right: -15vw;
+  background: #3B82F6; /* Subtle Blue accent to complement Emerald */
+}
+
+/* Global Transitions for tabs */
+.page-container {
+  animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Floating Help Circle */
-.help-circle {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--neon-emerald);
-  color: var(--obsidian-void);
-  font-size: 24px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
-  z-index: 100;
-  transition: var(--transition-smooth);
-}
-
-.help-circle:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.6);
-}
-
-/* Zen Decor */
-.zen-glow {
-  position: fixed;
-  width: 40vw;
-  height: 40vw;
-  filter: blur(150px);
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.15;
-}
-
-.zen-glow.top-left {
-  top: -10%;
-  left: -5%;
-  background: radial-gradient(circle, var(--neon-emerald) 0%, transparent 70%);
-}
-
-.zen-glow.bottom-right {
-  bottom: -10%;
-  right: -5%;
-  background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  color: var(--snow-white);
-}
-
-.placeholder-card {
-  padding: 80px 40px;
-  text-align: center;
-  border-radius: var(--border-radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 2rem;
-}
-
-.placeholder-card h3 {
-  font-size: 1.5rem;
-  color: var(--neon-emerald);
-}
-
-.placeholder-card p {
-  color: var(--muted-grey);
-}
-
-/* Goal Page Styles */
-.milestone-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.milestone-card {
-  padding: 2rem;
-}
-
-.milestone-card.muted {
-  opacity: 0.6;
-}
-
-.milestone-card h3 {
-  margin-bottom: 1.5rem;
-  font-size: 1.25rem;
-}
-
-.milestone-list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.milestone-list li {
-  color: var(--muted-grey);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.milestone-list li.done {
-  color: var(--snow-white);
-}
-
-.milestone-list li.done::before {
-  content: '✓';
-  color: var(--neon-emerald);
-  font-weight: bold;
-}
-
-.milestone-list li::before {
-  content: '○';
-  color: var(--muted-grey);
 }
