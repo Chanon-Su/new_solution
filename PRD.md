@@ -14,7 +14,7 @@
 (อยากให้ คำที่แทน user ทุกคนในเอกสารและโปรเจคใช้คำว่า "ผู้ใช้งาน" และแทนคำที่แทนว่า user data ด้วย "ประวัติสินทรัพย์")
     - Log-transaction (T-log) - แหล่งรวบรวม **ประวัติสินทรัพย์** ของผู้ใช้งาน
         - **Layout Pattern (Standard for All Pages):** 
-            - **Global Header (Top):** ประกอบด้วย Logo (ฝั่งซ้าย), **Navi-bar (ฝั่งขวา)**(มี Dashboard, สินทรัพย์(Asset), Log-transaction(T-log), และ เป้าหมาย), และ System Icons (ฝั่งขวาสุด)(รูป พระจันทร์เสี้ยว,รูปโปรไฟล์คน,ฟันเฟือง) โดยมี เส้นขีดคั่นบางๆระหว่าง Navi-bar กับ System Icons    
+            - **Global Header (Top):** ประกอบด้วย Logo (ฝั่งซ้าย), ส่วนฝั่งขวาประกอบด้วย **Navi-bar** (มี Dashboard, Asset Mart, Log-transaction(T-log), และ เป้าหมาย) ตามด้วยเส้นขีดคั่นบางๆ และ **System Icons** (ฝั่งขวาสุด)(Plans (✨), Theme Toggle (☀️,🌙), Profile (👤), Settings (⚙️))    
             - **Bottom Right:** Floating "?" Help Circle (Z-index: 100).
         - **Add To Log (Zone 1):** การเพิ่ม **ประวัติสินทรัพย์** ของผู้ใช้งาน
             - **Manual Add To Log:** ผู้ใช้งานกรอกข้อมูลผ่าน Form
@@ -97,9 +97,9 @@
         - **Plans & Subscription:** หน้ารายละเอียดแผนการใช้งาน (Placeholder)
         - **Terms of Service:** ลิงก์นโยบายการใช้งาน
         - **Navigation Structure (Global Top Header):**
-            - **Centered Navi-bar:**
+            - **Right-Aligned Navi-bar (Next to Utilities):**
                 1. Dashboard (แผงควบคุม)
-                2. สินทรัพย์ (Asset)
+                2. Asset Mart
                 3. Transaction-Log (T-log)
                 4. เป้าหมาย (Goal) - *Project Milestone Tracker*
             - **Utility Icons (Right):** Plans (✨), Theme Toggle (☀️,🌙), Profile (👤), Settings (⚙️)
@@ -113,7 +113,7 @@
             - Theme
             - Language
             - Notification
-    - **สินทรัพย์ (Asset) - หรือเดิมคือ Datamart:** แหล่งรวมข้อมูลราคาและรายละเอียดของสินทรัพย์จากโลกภายนอก (External Data) 
+    - **Asset Mart -** แหล่งรวมข้อมูลราคาและรายละเอียดของสินทรัพย์จากโลกภายนอก (External Data) 
         - **Vision:** ให้ผู้ใช้งานสามารถติดตามข้อมูลสินทรัพย์ทุกประเภท (Crypto, หุ้น, ทองคำ, อสังหาฯ) ได้ในที่เดียวโดยไม่ต้องเปิดหลายเว็บไซต์
         - **Structure:** แบ่งหมวดหมู่ตามประเภทสินทรัพย์ (Category-based Tabs/Sections)
         - **Function:** ดูข้อมูลพื้นฐาน, ราคาล่าสุด, และกราฟประกอบการตัดสินใจ
@@ -134,7 +134,7 @@
             - Custom dashboard (Max Grid: 20 Columns x 16 Rows)
             - Vis Types: Asset Allocation (Pie Chart), Recent Transactions (List)
     - Demo version 0.1 - 1.0 (ฉันไม่แน่ใจว่าเราจะเวิอร์ชั่น โปรเจคยังไงดี)
-        - Datamart Asset 3 ตัว
+        - Asset Mart 3 ตัว
             - Bitcoin (เหมือนหุ้น)
             - ทองคำ 99 96.9 เก็บเป็น ออนไลน์หรือทองก้อน
             - หุ้นตัวสำคัญ 1 ตัว
@@ -160,7 +160,7 @@
                 - Language
                 - Notification
     - Beta version 1.0 - 2.0
-        - Datamart Asset - asset ทุกชนิด ชนิดละ 1-2 ตัว
+        - Asset Mart - asset ทุกชนิด ชนิดละ 1-2 ตัว
             - คริปโต เช่น Bitcoin, Ethereum, 
             - ทองคำ
             - หุ้นตัวสำคัญ 3 ตัว เช่น S&P 500, SET50, 

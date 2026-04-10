@@ -64,7 +64,7 @@ To maintain the "Zen" flow, every page must adhere to this architectural pattern
 
 | Component | Position | Behavior |
 | :--- | :--- | :--- |
-| **Global Header** | Top | **Layout:** Logo (Left), **Navi-bar (Center)**, Utilities (Right). <br> **Navi-bar Items:** Dashboard, สินทรัพย์ (Asset), Transaction-Log, เป้าหมาย (Goal). <br> **Utility Icons:** ⚡ (Action), 🌙 (Theme), 👤 (Profile), ⚙️ (Settings). |
+| **Global Header** | Top | **Layout:** Logo (Left), **Navi-bar & Utilities (Right)**. <br> **Components:** Navi-bar (Dashboard, Asset Mart, T-log, เป้าหมาย) + Vertical Divider + Utilities (✨, ☀️/🌙, 👤, ⚙️). |
 | **Zone Header** | Content | มีแถบสีเขียว (Vertical Bar) ด้านซ้ายมือเสมอ เพื่อระบุขอบเขตเนื้อหา |
 | **Action Cards** | Zone 2 | การ์ดขอบมนสี Dark Slate แสดงยอดรวมและไอคอนแนวโน้ม (Green Arrow) |
 | **Data Table** | Zone 3 | แถวมีระยะห่างพอดี, ใช้ Badge (เช่น BUY สีเขียว) และไอคอนโลโก้สินทรัพย์ประกอบ |
