@@ -14,26 +14,24 @@
 (อยากให้ คำที่แทน user ทุกคนในเอกสารและโปรเจคใช้คำว่า "ผู้ใช้งาน" และแทนคำที่แทนว่า user data ด้วย "ประวัติสินทรัพย์")
     - Log-transaction (T-log) - แหล่งรวบรวม **ประวัติสินทรัพย์** ของผู้ใช้งาน
         - **Layout Pattern (Standard for All Pages):** 
-            - **Left:** Collapsible Modern Sidebar (Navigation).
-            - **Top:** Global Header (Title, Plans, Account, Settings).
+            - **Global Header (Top):** ประกอบด้วย Logo (ฝั่งซ้าย), **Navi-bar (ตรงกลาง)**, และ System Icons (ฝั่งขวา)
             - **Bottom Right:** Floating "?" Help Circle (Z-index: 100).
-        - **Add To Log:** การเพิ่ม **ประวัติสินทรัพย์** ของผู้ใช้งาน
-            - **Manual Add To Log:** ผู้ใช้งานกรอกข้อมูลด้วยตนเองผ่าน Form
-                - **Date:** วันที่ทำรายการ
-                - **Type:** ประเภท (ซื้อ/Buy, ขาย/Sell, ปันผล/Dividend)
-                - **Asset:** ชื่อย่อสินทรัพย์
+        - **Add To Log (Zone 1):** การเพิ่ม **ประวัติสินทรัพย์** ของผู้ใช้งาน
+            - **Manual Add To Log:** ผู้ใช้งานกรอกข้อมูลผ่าน Form
+                - **Date:** วันที่ทำรายการ (Date Picker)
+                - **Type:** ประเภท (ซื้อ/Buy, ขาย/Sell, ปันผล/Dividend) - Dropdown
+                - **Asset:** ชื่อย่อสินทรัพย์ และการเลือกประเภทสินทรัพย์ (e.g. หุ้น, คริปโต)
                 - **Amount:** จำนวนหน่วย
-                - **Price:** ราคาต่อหน่วย
+                - **Price:** ราคาต่อหน่วย (แยกตามสกุลเงินที่กรอก เช่น USD, THB - ยังไม่มีการแปลงข้ามสกุลเงินอัตโนมัติ)
                 - **Fee:** ค่าธรรมเนียมหรือภาษีที่เกี่ยวข้อง
-                - **Notes:** บันทึกเพิ่มเติมสำหรับรายการนั้นๆ
-            - **Import & Export:** จัดการข้อมูลแบบ Batch ผ่านไฟล์ CSV
-                - **Import:** นำเข้าข้อมูลจากไฟล์ CSV สู่ระบบ
-                - **Export:** ส่งออกข้อมูลทั้งหมดเป็นไฟล์ CSV
+                - **Notes:** บันทึกเพิ่มเติม (เหตุผล, แพลตฟอร์ม, ฯลฯ)
+                - **CTA Button:** ปุ่ม "เพิ่มเข้าบันทึก" ขนาดใหญ่สี Emerald พร้อมไอคอน `+`
+            - **Batch Tools:** ปุ่ม "นำเข้า (Import)" และ "ส่งออก (Export)" อยู่มุมขวาบนของ Zone 1
     - **Dashboard** - ศูนย์รวมการแสดงผลภาพรวมพอร์ตการลงทุนที่ประมวลผลจาก **ประวัติสินทรัพย์**
         - **1. Multi-Dashboard (Drift Display):** 
             - การแสดงผลหน้า Dashboard หลายชุดที่เชื่อมต่อกันในแนวราบ (Horizontal Span [1][2][3])
             - ผู้ใช้งานสามารถเลื่อน (Slide/Drift) สลับหน้าได้เหมือนหน้า Desktop ของ OS (เช่น macOS/iOS Home Screen) 
-            - มี "Ghost Navigation" (ลูกศรโปร่งแสง) ปรากฏขึ้นที่ขอบจอเมื่อนำเมาส์ไปวาง (Hover) เพื่อบอกทิศทางที่เลื่อนได้
+      - มี "Ghost Navigation" (ลูกศรโปร่งแสง) ปรากฏขึ้นที่ขอบจอเมื่อนำเมาส์ไปวาง (Hover) เพื่อบอกทิศทางที่เลื่อนได้
         - **2. Block System (The Modular Core):**
             - แนวคิดการออกแบบที่เน้นการปรับแต่งได้ตามใจ (Interactive Pivot Utility)
             - **Metaphor:** เปรียบเทียบเหมือน "การจัดสวน" (Garden Design) ที่ประกอบด้วย "กระถาง" และ "ต้นไม้"
@@ -44,54 +42,76 @@
             - **Split View:** เมื่อเข้าโหมดแก้ไข หน้าจอจะแบ่งเป็นส่วนจัดการ Block และส่วนแสดงผลแบบ Real-time
             - **Block Management:** ผู้ใช้งานสามารถ เพิ่ม (Add), ลบ (Delete), ปรับขนาด (Resize) และย้ายตำแหน่ง (Rearrange) ได้อย่างอิสระ
             - **Vis Inventory (Attache Case):** พื้นที่เก็บพัก Block ชั่วคราว (Parking Area) เพื่อให้ผู้ใช้งานปรับผัง Layout ได้สะดวกโดยไม่ติดสถานะ Deadlock (ไม่มีที่วาง)
-        - **4. Fixed Zen Frame Philosophy (Final Design Locked):**
-            - **Viewport Locking:** พื้นที่ Dashboard จะถูกล็อคให้พอดีกับหน้าจอ (View-port) เสมอ โดย **ไม่มีการ Scroll ขึ้น-ลง** (Zero Vertical Scroll) เพื่อรักษาความนิ่งและพรีเมียม
+        - **4. Fixed Zen Frame Philosophy (Final Design Locked - DASHBOARD ONLY):**
+            - **Viewport Locking:** เฉพาะพื้นที่ Dashboard เท่านั้นที่จะถูกล็อคให้พอดีกับหน้าจอ (View-port) เสมอ โดยไม่มีการ Scroll ขึ้น-ลง
+            - **Other Pages (T-log, Asset, etc.):** สามารถ Scroll ขึ้น-ลงได้ตามปกติเพื่อรองรับข้อมูลจำนวนมาก
             - **Fluid Proportions:** ใช้ระบบสัดส่วนที่ปรับตัวอัตโนมัติตามขนาดจอ (Dynamic Scaling) โดยใช้สัดส่วนทองคำในการจัดวาง เพื่อให้ดูดีทั้งบนจอ Laptop 13" และ Monitor 32"
             - **Zen Constraint:** หากจอมีขนาดกว้างพิเศษ (Ultrawide) ระบบจะรักษาสัดส่วนกลางจอไว้เพื่อไม่ให้เนื้อหากระจายเกินไปจนเสียสมาธิ
         - **5. Absolute Grid Persistence & Precision (Architecture Locked):**
-            - **Explicit Positioning:** ทุก Block ต้องยึดตามพิกัด `(x, y)` แบบเบ็ดเสร็จ (Explicit Grid Positioning) เพื่อไม่ให้ Block ขยับตำแหน่งเองเมื่อมีการลบ Block อื่นออก รักษาสถานะความนิ่งของผัง Layout เสมอ
-            - **Zero-Gap Alignment:** ระบบ Grid ต้องใช้ `gap: 0px` เท่านั้น เพื่อให้พิกัดเส้นตารางและเครื่องหมายจุดพิกัด (`+`) ตรงกับขอบของ Block เป๊ะ 100% (ห้ามใช้ CSS Grid Gap ในการเว้นระยะห่างระหว่าง Block)
-            - **Visual Spacing:** การเว้นระยะห่างเพื่อความสวยงาม (Padding) ให้จัดการภายในตัว Block เอง แทนการใช้ Gap ของระบบ Grid เพื่อรักษาความแม่นยำของพิกัด
-            - **Race Condition Prevention:** การเพิ่ม Block ต้องใช้วิธี Functional State Update เพื่อคำนวณหาที่ว่างล่าสุดเสมอ ป้องกันการวางซ้อนกัน (Overlap) เมื่อมีการกดเพิ่มรัวๆ ในเวลาอันสั้น
-            - **Defensive Integrity:** ระบบตรวจสอบที่ว่างต้องรองรับการจัดการข้อมูลที่พิกัดไม่สมบูรณ์ (Missing x/y coordinates) โดยใช้ระบบ Fallback เพื่อให้การตรวจสอบความทับซ้อนทำงานได้อย่างแม่นยำเสมอ
-            - **Live Interaction Standard:** เมื่ออยู่ใน Edit Mode ผู้ใช้ต้องสามารถลาก (Drag) และปรับขนาด (Resize) ได้ทันที โดยตัว Block ต้องเปลี่ยนเป็นกึ่งโปร่งใส (`opacity-50`) เพื่อให้เห็น Grid และเครื่องหมาย `+` ด้านหลัง ช่วยในการเล็งพิกัด
-            - **High-Visibility Handles:** มุมขวาล่างของ Block ต้องมีสัญลักษณ์ Resize ที่ชัดเจน (Corner Triangle + Icon) เพื่อแจ้งให้ผู้ใช้ทราบว่าสามารถปรับขนาดได้ (Discoverability)
-        - **6. Smart Block Overflow Logic:**
-            - ระบบเพิ่ม Block จะต้องค้นหาพื้นที่ว่าง (findFirstAvailableSlot) ในหน้าปัจจุบันก่อน หากหน้าปัจจุบันเต็ม ระบบจะทำการค้นหาในหน้า Desktop ถัดไป (Drift Search) และสลับหน้าผู้ใช้งานไปยังหน้าที่มีการเพิ่ม Block ให้โดยอัตโนมัติ
-            - **Capacity Warning:** หากทุกหน้าเต็ม ปุ่มเพิ่ม (+) จะต้องเปลี่ยนเป็น **สีแดง (Rose Red)** และแสดงข้อความเตือนว่า Dashboard Full เพื่อสื่อสารสถานะความจุของระบบ
-    - **Language Support (i18n):** รองรับภาษาไทย และอังกฤษ (Default)
-        - ให้ Chanon เป็นผู้รับผิดชอบ รวมไว้ที่ไฟล์เดียวก็พอเดี๋ยวฉันเข้าไปแก้ไขเอง
+            - **Edit Mode UI:** ปุ่ม "Edit Mode" อยู่เหนือปุ่ม Help (?) เมื่อกดจะเปลี่ยนเป็นสีเหลือง และมีปุ่มเพิ่มขึ้นมา 2 ปุ่มคือ "ปรับ Layout" และ "เพิ่ม Block"
+            - **Dynamic Grid Configurator:** ใน Edit Mode ผู้ใช้งานสามารถปรับจำนวน Grid ได้เองทางแถบควบคุมด้านซ้าย โดยจำกัดสูงสุดที่ **20 Columns x 16 Rows** เพื่อรักษาประสิทธิภาพการประมวลผล (Performance Guardrail)
+            - **3-Level Grid Visibility:**
+                - **Normal:** ไม่แสดงเส้น Grid (Pure Obsidian Void)
+                - **Edit Mode:** แสดงเส้น Grid จางๆ (50% Opacity) เพื่อช่วยในการเล็งตำแหน่ง
+                - **Layout Mode:** แสดงเส้น Grid ชัดเจน 100% พร้อมตัวเลข Coordinates เพื่อความแม่นยำสูงสุด
+            - **Visual Feedback:** เมื่อปรับ Layout ตัว Block จะโปร่งแสงลงเพื่อให้เห็น Grid ด้านหลังชัดเจน
+            - **Tactile Drag & Resize (Solid Object):** ทั้งการลาก (Drag) และการปรับขนาด (Resize) จะหยุดเคลื่อนที่ทันทีเมื่อชนกับวัตถุอื่น (Solid Barrier) ไม่มีการดีดกลับหรือสลับที่
+            - **Vis Scaling Philosophy:** ตัวแสดงผล (Vis/Tree) จะปรับตัวตามรูปทรงของ Block เสมอ หากรูปทรงที่ผู้ใช้เลือกดูไม่เหมาะสม กราฟจะแสดงผลตามนั้นเพื่อให้ผู้ใช้ได้เรียนรู้และปรับแต่งตามสุนทรียภาพของตนเอง
+        - **6. Smart Overflow & Add Logic:**
+            - ปุ่มเพิ่ม Block (+) จะเพิ่มขนาด 1x1 ลงในที่ว่างแรก (First available slot)
+            - หากหน้า 1 เต็ม ระบบจะขยับไปหาที่ว่างในหน้า 2 และ "Drift" ผู้ใช้งานไปยังหน้านั้นโดยอัตโนมัติ
+            - หากเต็มทุกหน้า ปุ่ม (+) จะเปลี่ยนเป็นสี **Rose Red** และระบุว่า Dashboard Full
+        - **7. Drift Navigation Performance:**
+            - ปุ่มลูกศรซ้าย/ขวาเป็นแบบ **Minimal Arrows** (เรียบง่าย) จะปรากฏแบบ Ghost Hover
+            - เน้นการ Slide ที่นุ่มนวลและประสิทธิภาพสูง (60 FPS Focus)
+    - **Language Support (Centralized i18n):** รองรับภาษาไทย และอังกฤษ (Default)
+        - **Centralization:** ข้อความทั้งหมดในระบบต้องถูกเก็บไว้ที่ไฟล์เดียว (เช่น `translation.json`) เพื่อให้คุณ Chanon สามารถตรวจสอบและปรับจูนคำแปล (Copywriting) ได้อย่างเบ็ดเสร็จในจุดเดียว
+        - **Responsibility:** ให้ Chanon เป็นผู้พิจารณาคำศัพท์สุดท้ายเองทั้งสองภาษา
     - **Transaction Log Enhancements (Concept Locked/Finalized):**
-        - **Layout:** Vertical Stack (Zone 1: Add -> Zone 2: Overview -> Zone 3: History).
-        - **Data Manipulation:** Import/Export consolidated in Zone 1.
-        - **Formatting:** Concise English abbreviations in history table.
-        - **Pagination:** จำกัดการแสดงผล 25, 50, 100 row ต่อหน้า
+        - **Layout:** Vertical Stack (Zone 1: Add -> Zone 2: Asset Summary -> Zone 3: History).
+        - **Zone 2 (Card Summary):** แสดงยอดรวมสินทรัพย์ในรูปแบบการ์ดขอบมน (Card) โดยแยกตามสกุลเงินที่บันทึกไว้ (เช่น การ์ด USD และ การ์ด THB) เพื่อลดความซับซ้อนของการคำนวณอัตราแลกเปลี่ยนในเฟสแรก
+        - **Zone 3 (History Table):** แสดงข้อมูลที่สอดคล้องกับ CSV Schema ทั้งหมด
+            - **Columns (Visible):** วันที่, ประเภท (Badge), ประเภท (Category), สินทรัพย์ (Icon + Symbol), จำนวน, ราคา (ระบุสกุลเงิน), ค่าธรรมเนียม, มูลค่ารวม (Calculated), โน้ต (Icon), การจัดการ (Edit/Delete icons)
+            - **Hidden Column:** id (Unique ID สำหรับอ้างอิงข้อมูล)
+            - **CTA:** ปุ่ม "ดูประวัติทั้งหมด" ด้านล่างของตาราง
+        - **Pagination:** จำกัดการแสดงผล 10, 25, 50, 100 row ต่อหน้า (เพื่อประสิทธิภาพการโหลดข้อมูล)
+        - **CSV Data Schema (Export/Import):** สอดคล้องกับ ZONE 3 100%
+            | Column | Name | Format | Description |
+            | :--- | :--- | :--- | :--- |
+            | 1 | id | Timestamp-Random | Unique ID (Hidden from UI) |
+            | 2 | date | YYYY-MM-DD | วันที่ทำรายการ |
+            | 3 | type | BUY / SELL / DIVIDEND | ประเภทธุรกรรม |
+            | 4 | asset | Asset Symbol | ชื่อย่อสินทรัพย์ |
+            | 5 | category | Category Name | ประเภทสินทรัพย์ (หุ้น, ทองคำ, ฯลฯ) |
+            | 6 | amount | Number | จำนวนหน่วย |
+            | 7 | price | Number | ราคาต่อหน่วย |
+            | 8 | currency | THB / USD | สกุลเงิน |
+            | 9 | fee | Number | ค่าธรรมเนียม |
+            | 10 | notes | String | บันทึกเพิ่มเติม |
     - Profile & setting - จัดการข้อมูลส่วนตัว และตั้งค่าต่างๆ
         - **Plans & Subscription:** หน้ารายละเอียดแผนการใช้งาน (Placeholder)
         - **Terms of Service:** ลิงก์นโยบายการใช้งาน
-        - **Navigation Structure (Collapsible Sidebar):**
-            1. Asset History (ประวัติสินทรัพย์) - รากฐานข้อมูล
-            2. Dashboard (แผงควบคุม) - การแสดงผลภาพรวม (สวน/ผลผลิต)
-            3. Asset-mart - แหล่งข้อมูลสินทรัพย์
-            4. Asset Comparison - ระบบเปรียบเทียบ (TBD)
-            5. Profile & Login
-            6. Setting
-            7. User Manual
+        - **Navigation Structure (Global Top Header):**
+            - **Centered Navi-bar:**
+                1. Dashboard (แผงควบคุม)
+                2. สินทรัพย์ (Asset)
+                3. Transaction-Log (T-log)
+                4. เป้าหมาย (Goal) - *Project Milestone Tracker*
+            - **Utility Icons (Right):** ประกายดาว (✨), Theme Toggle (🌙), Profile (👤), Settings (⚙️)
         - เก็บข้อมูลส่วนตัว 
             - user name
             - email
             - password
-            - profile picture
+            - profile picture (เก็บเป็น Base64 String ใน Local Storage ตามคอนเซปต์ User Owns Data)
             - add/edit friend
         - ตั้งค่าต่างๆ
             - Theme
             - Language
             - Notification
-    - Datamart - เก็บข้อมูลทุกสินทรัพย์ที่เป็นที่นิยม
-        - asset info
-        - asset price
-        - asset chart
-        - compare asset
+    - **สินทรัพย์ (Asset) - หรือเดิมคือ Datamart:** แหล่งรวมข้อมูลราคาและรายละเอียดของสินทรัพย์จากโลกภายนอก (External Data) 
+        - **Vision:** ให้ผู้ใช้งานสามารถติดตามข้อมูลสินทรัพย์ทุกประเภท (Crypto, หุ้น, ทองคำ, อสังหาฯ) ได้ในที่เดียวโดยไม่ต้องเปิดหลายเว็บไซต์
+        - **Structure:** แบ่งหมวดหมู่ตามประเภทสินทรัพย์ (Category-based Tabs/Sections)
+        - **Function:** ดูข้อมูลพื้นฐาน, ราคาล่าสุด, และกราฟประกอบการตัดสินใจ
 ### ตัวชี้วัดความสำเร็จ (Metrics/KPIs): จะวัดผลได้อย่างไรว่าผลิตภัณฑ์ประสบความสำเร็จ   
     - การเก็บ feedback จะผู้ใช้งาน
     - ผู้ใช้งานสามารถใช้งานโปรแกรมได้จริง ครบ 1 สัปดาห์
@@ -105,7 +125,8 @@
             - Sell asset
             - ปันผล asset
         - Dashboard
-            - Custom dashboard
+            - Custom dashboard (Max Grid: 20 Columns x 16 Rows)
+            - Vis Types: Asset Allocation (Pie Chart), Recent Transactions (List)
     - Demo version 0.1 - 1.0 (ฉันไม่แน่ใจว่าเราจะเวิอร์ชั่น โปรเจคยังไงดี)
         - Datamart Asset 3 ตัว
             - Bitcoin (เหมือนหุ้น)
@@ -160,7 +181,9 @@
                 - Theme
                 - Language
                 - Notification
-    - GO live หลังเลย
+    - **เป้าหมาย (Goal):** หน้าจอสำหรับติดตามความคืบหน้าของโปรเจค (Project Milestones)
+        - **Format:** แสดงผลในรูปแบบ Checklist ของฟีเจอร์ที่ต้องทำในแต่ละเฟส (Alpha, Beta, Demo) เพื่อให้เห็นความก้าวหน้าของโปรเจคแบบรวมศูนย์
+    - **GO live หลังเลย**
 ### Theme & art concept
     - สบายตา 
     - เข้าใจง่าย 
@@ -180,6 +203,7 @@
         - React
         - Node.js
     - Database
+        - **Local Storage + CSV Strategy:** เน้นเก็บข้อมูลบนเครื่องผู้ใช้ (Client-side Specialist) เพื่อความเป็นส่วนตัวสูงสุดและลดภาระ Server
         - CSV (Alpha - Demo)
         - PostgreSQL (Beta - Production)
     - Deployment
@@ -188,14 +212,15 @@
     - ใช้คอนเซปต์ เหมือนกับ obsidain
         - ใช้ได้ทุกฟีเจอร์ฟรี
         - แต่ถ้าต้องการความสะดวกสบายมากขึ้น ใช้การ subscription
-            - sync ข้อมูลระหว่างอุปกรณ์
+            - sync ข้อมูลระหว่างอุปกรณ์ (Cloud Sync)
             - เก็บข้อมูลบน cloud ไม่ต้อง import - export ข้ามอุปกรณ์เอง
+            - มีระบบ Login (Username/Password) เพื่อระบุตัวตนและเข้าถึงข้อมูลที่ Sync ไว้
  
-### Product Team
+### Product Team - agents
 - Chanon - Product Owner (it's me)
-- Mira - UX/UI Designer
-- Keal - Full Stack Developer
-- Nara - Tester/QA
+- UX/UI Designer
+- Full Stack Developer
+- Tester/QA
 
 ### the passion project
 - เป็นโปรเจคที่ทำเพื่อการเรียนรู้ และพัฒนาทักษะของทีม
@@ -205,5 +230,5 @@
 - เมตตาทุนนิยม(Compassionate Capitalism) + You first, Me second
 
 ### ข้อจำกัด
-    - ฉันเริ่มโปรเจคนี้คนเดียว และฉันไม่มีประสบการณ์ในการพัฒนาโปรแกรมมาก่อน แนะนำฉันได้เต็มที่ และให้ฉันเป็นคนตัดสินใจ และรับผิดชอบ
-    - ฉันยังไม่มีงบประมาณในการพัฒนาโปรแกรม และไม่มีประสบการณ์ในการระดมทุน เริ่มต้นที่อย่างด้วยวิชาตัวเบา
+- ฉันเริ่มโปรเจคนี้คนเดียว และฉันไม่มีประสบการณ์ในการพัฒนาโปรแกรมมาก่อน แนะนำฉันได้เต็มที่ และให้ฉันเป็นคนตัดสินใจ และรับผิดชอบ
+- ฉันยังไม่มีงบประมาณในการพัฒนาโปรแกรม และไม่มีประสบการณ์ในการระดมทุน เริ่มต้นที่อย่างด้วยวิชาตัวเบา
