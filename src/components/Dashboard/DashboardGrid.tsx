@@ -37,15 +37,15 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({ columns, rows, layoutMode
         </div>
       </div>
 
-      {/* Coordinates Layer - ลอยอยู่ข้างนอกเฟรมเพื่อให้ไม่โดน overflow: hidden ตัดส่วนโค้ง */}
+      {/* Coordinates Layer - ตัวเลขพิกัดเขียว (1-N) วางกึ่งกลางช่อง (Centered in Cells) */}
       <div className={`coordinates-layer standalone ${layoutMode ? 'layout-mode' : ''}`}>
         {Array.from({ length: columns }).map((_, i) => (
           <div
             key={`x-${i}`}
             className="coordinate-circle"
             style={{
-              top: 'var(--dash-margin)',
-              left: `calc(var(--dash-margin) + var(--dash-padding) + (100% - (var(--dash-margin) + var(--dash-padding)) * 2) * ${(i + 0.5) / columns})`,
+              top: 'calc(var(--dash-margin) + var(--dash-border-width) / 2)',
+              left: `calc(var(--dash-margin) + var(--dash-padding) + var(--dash-border-width) + (100% - (var(--dash-margin) + var(--dash-padding) + var(--dash-border-width)) * 2) * ${(i + 0.5) / columns})`,
               transform: 'translate(-50%, -50%)',
               zIndex: 100
             }}
@@ -58,8 +58,8 @@ const DashboardGrid: React.FC<DashboardGridProps> = ({ columns, rows, layoutMode
             key={`y-${i}`}
             className="coordinate-circle"
             style={{
-              left: 'var(--dash-margin)',
-              top: `calc(var(--dash-margin) + var(--dash-padding) + (100% - (var(--dash-margin) + var(--dash-padding)) * 2) * ${(i + 0.5) / rows})`,
+              left: 'calc(var(--dash-margin) + var(--dash-border-width) / 2)',
+              top: `calc(var(--dash-margin) + var(--dash-padding) + var(--dash-border-width) + (100% - (var(--dash-margin) + var(--dash-padding) + var(--dash-border-width)) * 2) * ${(i + 0.5) / rows})`,
               transform: 'translate(-50%, -50%)',
               zIndex: 100
             }}

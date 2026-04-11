@@ -88,6 +88,7 @@ const Dashboard: React.FC = () => {
           <div key={pageIdx} className="drift-screen">
             <div className="dashboard-grid-layout" style={{ width: '100%', height: '100%', position: 'relative' }}>
 
+              {/* Unified Grid Architecture - ทั้งตารางและบล็อกต้องอ้างอิงจุดกำเนิด (0,0) เดียวกัน */}
               <DashboardGrid
                 columns={columns}
                 rows={rows}
@@ -96,7 +97,7 @@ const Dashboard: React.FC = () => {
                 onConfigChange={(c, r) => { setColumns(c); setRows(r); }}
               />
 
-              {/* Blocks - SNAP TO VIRTICES (48px = 24 Chassis + 24 Inset Padding) */}
+              {/* Blocks Layer - วางซ้อนทับ Gridเป๊ะๆ โดยใช้ calc ที่หักลบค่าขอบ (Border) ออกแล้ว */}
               <div
                 className="blocks-layer"
                 style={{
@@ -104,11 +105,12 @@ const Dashboard: React.FC = () => {
                   gridTemplateColumns: `repeat(${columns}, 1fr)`,
                   gridTemplateRows: `repeat(${rows}, 1fr)`,
                   gap: '0',
-                  width: 'calc(100% - (var(--dash-margin) + var(--dash-padding)) * 2)',
-                  height: 'calc(100% - (var(--dash-margin) + var(--dash-padding)) * 2)',
+                  /* คำนวณขอบเขตให้ตรงกับ Grid Content Area */
+                  width: 'calc(100% - (var(--dash-margin) + var(--dash-padding) + var(--dash-border-width)) * 2)',
+                  height: 'calc(100% - (var(--dash-margin) + var(--dash-padding) + var(--dash-border-width)) * 2)',
                   position: 'absolute',
-                  top: 'calc(var(--dash-margin) + var(--dash-padding))',
-                  left: 'calc(var(--dash-margin) + var(--dash-padding))',
+                  top: 'calc(var(--dash-margin) + var(--dash-padding) + var(--dash-border-width))',
+                  left: 'calc(var(--dash-margin) + var(--dash-padding) + var(--dash-border-width))',
                   zIndex: 20,
                   pointerEvents: 'none'
                 } as React.CSSProperties}

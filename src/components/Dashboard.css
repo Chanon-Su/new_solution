@@ -1,8 +1,19 @@
 :root {
-  /*Grid Gap*/
+  /* ============================================================
+     CONFIG ZONE: SPACE & LAYOUT (โซนปรับแต่งระยะห่าง)
+     ============================================================ */
+  
+  /* ช่องว่างระหว่าง "ขอบจอ" กับ "เฟรมหลักของ Dashboard" (Margin)
+     หากปรับเพิ่ม: เฟรมจะเล็กลงและขยับเข้าหากึ่งกลางจอมากขึ้น */
   --dash-margin: 48px;
-  /*Grid Gap*/
+
+  /* ช่องว่าง "ภายในเฟรม" ระหว่าง "ขอบเฟรม" กับ "พื้นที่วางบล็อก" (Padding)
+     หากปรับเพิ่ม: บล็อกทั้งหมดจะขยับเข้าหากึ่งกลางเฟรม (Grid จะหดตัวลง) */
   --dash-padding: 0px;
+
+  /* ความหนาของเส้นขอบเฟรมหลัก (Border Width) 
+     เราจำเป็นต้องรู้ค่านี้เพื่อหักลบจุด Snap ให้เป๊ะ 0px */
+  --dash-border-width: 2px;
 }
 
 .dashboard-page {
@@ -11,7 +22,6 @@
   overflow: hidden;
   position: relative;
   background-color: var(--obsidian-void);
-  /* ล็อคความกว้างให้ไม่มี Scrollbar รบกวนความสมมาตร */
   box-sizing: border-box;
 }
 
@@ -55,8 +65,8 @@
   background: rgba(255, 255, 255, 0.01);
   /*ความเบลอ*/
   backdrop-filter: blur(8px);
-  /*สีขอบ*/
-  border: 2px solid rgba(255, 255, 255, 0.08);
+  /*สีขอบ - ใช้ตัวแปรเพื่อให้คำนวณ Snap ได้เป๊ะ 0px */
+  border: var(--dash-border-width) solid rgba(255, 255, 255, 0.08);
   /*ความมนของมุม*/
   border-radius: 32px;
   pointer-events: none;
