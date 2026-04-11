@@ -17,10 +17,10 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
 }) => {
   return (
     <div className="dashboard-controls">
-      {/* Help Circle (Anchor) */}
-      <div className="control-btn help" title="Need help?">?</div>
+      {/* Help Circle - The Anchor Point at the Bottom */}
+      <div className="control-btn help circle" title="Need help?">?</div>
 
-      {/* Edit Mode Button (Bottom-most in stacking) */}
+      {/* Edit Button - Directly above Help */}
       <div 
         className={`control-btn edit ${editMode ? 'active' : ''}`} 
         onClick={onToggleEdit}
@@ -29,7 +29,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
         ✏️
       </div>
 
-      {/* These appear when Edit Mode is active */}
+      {/* Mode-specific Buttons - Stacked above Edit */}
       {editMode && (
         <>
           <div 
@@ -38,7 +38,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
             title="Toggle Layout Grid"
             style={{ animation: 'bounceIn 0.3s ease-out' }}
           >
-            📐
+            🔲
           </div>
           <div 
             className="control-btn add" 

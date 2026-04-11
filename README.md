@@ -17,3 +17,4 @@ A modern portfolio tracker and digital asset data mart.
 1. Install Node dependencies: `npm install`
 2. Start dev server: `npm run dev`
 3. Activate Python venv: `.\venv\Scripts\activate` (Windows)
+cmd /c npm run dev

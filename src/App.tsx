@@ -82,11 +82,6 @@ function App() {
         {renderContent()}
       </main>
 
-      {/* Floating Help Circle (Z-index 100) */}
-      <button className="help-circle" title="ช่วยเหลือ">
-        <span className="icon">?</span>
-      </button>
-
       {/* Zen Background Elements */}
       <div className="zen-glow top-left"></div>
       <div className="zen-glow bottom-right"></div>

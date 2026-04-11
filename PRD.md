@@ -78,12 +78,18 @@
             - **Viewport Locking:** พื้นที่ Dashboard จะถูกล็อคให้พอดีกับหน้าจอ (View-port) เสมอ โดยไม่มีการ Scroll ขึ้น-ลง
             - **Fluid Proportions:** ใช้ระบบสัดส่วนที่ปรับตัวอัตโนมัติจากขนาดจอ (Dynamic Scaling) โดยใช้สัดส่วนทองคำ
             - **Zen Constraint:** หากจอมีขนาดกว้างพิเศษ (Ultrawide) ระบบจะรักษาสัดส่วนกลางจอไว้
-        - **5. Absolute Grid Persistence & Precision (Architecture Locked): [FINALIZED - รูปที่ 2 & 3]**
-            - **Dynamic Grid Configurator:** ในโหมด Layout (รูปที่ 3) จะปรากฏ **"แผงควบคุม Grid" (Floating Panel)** ด้านขวาล่างใกล้ปุ่ม Layout เพื่อปรับจำนวน Column/Row (จำกัดสูงสุด 20x16)
+        - **5. Absolute Grid Persistence & Precision (Architecture Locked): [FINALIZED - ZERO GAP SYSTEM]**
+            - **Dynamic Grid Configurator:** ในโหมด Layout จะปรากฏ **"แผงควบคุม Grid" (Floating Panel)** ด้านขวาล่างเพื่อปรับจำนวน Column/Row (จำกัดสูงสุด 20x16)
             - **3-Level Grid Visibility:**
                 - **Normal:** ไม่แสดงเส้น Grid (Pure Obsidian Void)
-                - **Edit Mode:** แสดงเส้น Grid (Dots/Pluses) จางๆ 50% Opacity เพื่อช่วยเล็งตำแหน่ง
-                - **Layout Mode:** แสดงเส้น Grid ชัดเจน 100% (สีขาว) พร้อม **ตัวเลขพิกัด (Coordinates)** เป็นวงกลมสีเขียวมรกตที่ขอบบนและซ้าย
+                - **Edit Mode:** แสดงเครื่องหมายจุดตัด **"Plus Grid" (`+`)** จางๆ 30% Opacity เพื่อช่วยสำหรับการจัดวาง
+                - **Layout Mode:** แสดงเครื่องหมาย `+` ชัดเจน 90% (สีขาวเรืองแสง) พร้อม **ตัวเลขพิกัด (Coordinates)** เป็นวงกลมสีเขียวมรกตที่ขอบบนและซ้าย
+            - **0px Snap Alignment Rule:**
+                - บล็อกทุกประเภท (Vis) จะต้อง Snap เข้ากับเครื่องหมาย `+` โดยตรง
+                - **มุมทั้ง 4 มุม** ของบล็อกจะต้องตรงกับจุดกึ่งกลางของเครื่องหมาย `+` ทั้ง 4 จุดแบบพอดี (0px gap) เพื่อให้บล็อกครอบคลุมพื้นที่ Grid Cell ได้อย่างสมบูรณ์แบบ
+            - **Coordinate Logic:**
+                - วงกลมพิกัดสีเขียวจะนับลำดับช่อง (Cells) เริ่มจาก 1
+                - ตำแหน่งของวงกลมพิกัดจะอยู่ **กึ่งกลางช่อง** (ระหว่างเครื่องหมาย `+`) เสมอ เพื่อความชัดเจนในการระบุตำแหน่งช่อง
             - **Tactile Drag & Resize (Solid Object):**
                 - ระบบการลากและปรับขนาดจะเป็น **"Snap-to-Grid" 100%** เสมอ
                 - วัตถุหยุดเคลื่อนที่ทันทีเมื่อชนกัน (Solid Barrier) และโชว์สีแดงจางๆ ที่จุดที่ชน
