@@ -6,6 +6,7 @@ import {
   Calendar, 
   ChevronDown 
 } from 'lucide-react';
+import ZenField from '../UI/ZenField';
 
 const TLog_zone1_Form: React.FC = () => {
   return (
@@ -31,58 +32,38 @@ const TLog_zone1_Form: React.FC = () => {
 
       <div className="bg-[#121214] border border-[rgba(255,255,255,0.08)] rounded-xl p-8 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
         <div className="grid grid-cols-3 gap-6 mb-8">
-          {/* Row 1 */}
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide">วันที่</label>
-            <div className="relative flex items-center bg-[#0a0a0a] border border-white/[0.05] rounded-xl h-[46px] transition-all duration-200 focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981]">
-              <input type="text" defaultValue="04/08/2026" className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none" />
-              <Calendar size={16} className="mr-4 text-[#9CA3AF]" />
-            </div>
-          </div>
+          <ZenField label="วันที่">
+            <input type="text" defaultValue="04/08/2026" className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none" />
+            <Calendar size={16} className="mr-4 text-[#9CA3AF]" />
+          </ZenField>
 
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide">ประเภท</label>
-            <div className="relative flex items-center bg-[#0a0a0a] border border-white/[0.05] rounded-xl h-[46px] transition-all duration-200 focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981]">
-              <select defaultValue="BUY" className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none appearance-none cursor-pointer">
-                <option value="BUY" className="bg-[#121214]">BUY</option>
-                <option value="SELL" className="bg-[#121214]">SELL</option>
-                <option value="DIVIDEND" className="bg-[#121214]">DIVIDEND</option>
-              </select>
-              <ChevronDown size={16} className="mr-4 text-[#9CA3AF] pointer-events-none" />
-            </div>
-          </div>
+          <ZenField label="ประเภท">
+            <select defaultValue="BUY" className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none appearance-none cursor-pointer">
+              <option value="BUY" className="bg-[#121214]">BUY</option>
+              <option value="SELL" className="bg-[#121214]">SELL</option>
+              <option value="DIVIDEND" className="bg-[#121214]">DIVIDEND</option>
+            </select>
+            <ChevronDown size={16} className="mr-4 text-[#9CA3AF] pointer-events-none" />
+          </ZenField>
 
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide">สินทรัพย์</label>
-            <div className="relative flex items-center bg-[#0a0a0a] border border-white/[0.05] rounded-xl h-[46px] transition-all duration-200 focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981]">
-              <input type="text" placeholder="เช่น BTC, AAPL" className="flex-1 bg-transparent border-none px-4 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
-              <div className="w-px h-5 bg-white/10"></div>
-              <div className="px-4 text-[13px] font-medium text-white opacity-80">หุ้น</div>
-            </div>
-          </div>
+          <ZenField label="สินทรัพย์">
+            <input type="text" placeholder="เช่น BTC, AAPL" className="flex-1 bg-transparent border-none px-4 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
+            <div className="w-px h-5 bg-white/10"></div>
+            <div className="px-4 text-[13px] font-medium text-white opacity-80">หุ้น</div>
+          </ZenField>
 
-          {/* Row 2 */}
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide">จำนวน</label>
-            <div className="relative flex items-center bg-[#0a0a0a] border border-white/[0.05] rounded-xl h-[46px] transition-all duration-200 focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981]">
-              <input type="number" placeholder="0.00" className="flex-1 bg-transparent border-none px-4 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
-            </div>
-          </div>
+          <ZenField label="จำนวน">
+            <input type="number" placeholder="0.00" className="flex-1 bg-transparent border-none px-4 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
+          </ZenField>
 
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide">ราคาต่อหน่วย</label>
-            <div className="relative flex items-center bg-[#0a0a0a] border border-white/[0.05] rounded-xl h-[46px] transition-all duration-200 focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981]">
-              <span className="pl-4 text-[13px] font-medium text-white opacity-80">USD</span>
-              <input type="number" placeholder="0.00" className="flex-1 bg-transparent border-none px-3 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
-            </div>
-          </div>
+          <ZenField label="ราคาต่อหน่วย">
+            <span className="pl-4 text-[13px] font-medium text-white opacity-80">USD</span>
+            <input type="number" placeholder="0.00" className="flex-1 bg-transparent border-none px-3 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
+          </ZenField>
 
-          <div className="flex flex-col gap-2.5">
-            <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide">ค่าธรรมเนียม</label>
-            <div className="relative flex items-center bg-[#0a0a0a] border border-white/[0.05] rounded-xl h-[46px] transition-all duration-200 focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981]">
-              <input type="number" placeholder="0.00" className="flex-1 bg-transparent border-none px-4 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
-            </div>
-          </div>
+          <ZenField label="ค่าธรรมเนียม">
+            <input type="number" placeholder="0.00" className="flex-1 bg-transparent border-none px-4 text-[#9CA3AF] focus:text-white text-[14px] outline-none" />
+          </ZenField>
         </div>
 
         <div className="flex gap-6 items-end">

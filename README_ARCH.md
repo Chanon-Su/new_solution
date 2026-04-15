@@ -27,10 +27,11 @@ root/
 ├── src/                # Main Application Source
 │   ├── components/     # Modular UI logic
 │   │   ├── Dashboard/  # Grid-based modular dashboard system
-│   │   ├── TLog/       # Transaction logging (Add, Summary, History)
-│   │   ├── AssetMart/  # Market data and asset discovery
+│   │   ├── TLog/       # Transaction logging sub-modules
+│   │   ├── AssetMart/  # Market data components
+│   │   ├── UI/         # Shared Design System components (ZenField, etc.)
 │   │   └── Header.tsx  # Global glassmorphism navigation
-│   ├── hooks/          # Custom React Hooks (Business Logic)
+│   ├── hooks/          # Custom Hooks (useDashboard, Business Logic)
 │   ├── types.ts        # Centralized TypeScript interfaces
 │   ├── index.css       # Design System (Tailwind v4 variables & Global styles)
 │   └── App.tsx         # Root Router and Layout assembly
