@@ -86,50 +86,46 @@ const Dashboard: React.FC = () => {
       <div className="drift-viewport" style={{ transform: `translateX(-${(activePage * 100) / totalPages}%)` }} >
         {Array.from({ length: totalPages }).map((_, pageIdx) => (
           <div key={pageIdx} className="drift-screen">
-            <div className="dashboard-grid-layout" style={{ width: '100%', height: '100%', position: 'relative' }}>
+              {/* Unified World Space - พื้นที่พิกัดกลางที่คุมทั้งเลเยอร์ตารางและเลเยอร์บล็อก */}
+              <div className="dashboard-world-space">
+                <div className="world-content-area">
+                  <DashboardGrid
+                    columns={columns}
+                    rows={rows}
+                    editMode={editMode}
+                    layoutMode={layoutMode}
+                    onConfigChange={(c, r) => { setColumns(c); setRows(r); }}
+                  />
 
-              {/* Unified Grid Architecture - ทั้งตารางและบล็อกต้องอ้างอิงจุดกำเนิด (0,0) เดียวกัน */}
-              <DashboardGrid
-                columns={columns}
-                rows={rows}
-                editMode={editMode}
-                layoutMode={layoutMode}
-                onConfigChange={(c, r) => { setColumns(c); setRows(r); }}
-              />
-
-              {/* Blocks Layer - วางซ้อนทับ Gridเป๊ะๆ โดยใช้ calc ที่หักลบค่าขอบ (Border) ออกแล้ว */}
-              <div
-                className="blocks-layer"
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                  gridTemplateRows: `repeat(${rows}, 1fr)`,
-                  gap: '0',
-                  /* คำนวณขอบเขตให้ตรงกับ Grid Content Area */
-                  width: 'calc(100% - (var(--dash-margin) + var(--dash-padding) + var(--dash-border-width)) * 2)',
-                  height: 'calc(100% - (var(--dash-margin) + var(--dash-padding) + var(--dash-border-width)) * 2)',
-                  position: 'absolute',
-                  top: 'calc(var(--dash-margin) + var(--dash-padding) + var(--dash-border-width))',
-                  left: 'calc(var(--dash-margin) + var(--dash-padding) + var(--dash-border-width))',
-                  zIndex: 20,
-                  pointerEvents: 'none'
-                } as React.CSSProperties}
-              >
-                {blocks
-                  .filter(b => b.page === pageIdx)
-                  .map(block => (
-                    <DashboardBlock
-                      key={block.id}
-                      block={block}
-                      columns={columns}
-                      rows={rows}
-                      editMode={editMode}
-                      onUpdate={handleUpdateBlock}
-                      onDelete={handleDeleteBlock}
-                    />
-                  ))}
+                  {/* Blocks Layer — plain absolute container, blocks position themselves via % */}
+                  <div
+                    className="blocks-layer"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      zIndex: 20,
+                      pointerEvents: 'none',
+                    } as React.CSSProperties}
+                  >
+                    {blocks
+                      .filter(b => b.page === pageIdx)
+                      .map(block => (
+                        <DashboardBlock
+                          key={block.id}
+                          block={block}
+                          columns={columns}
+                          rows={rows}
+                          editMode={editMode}
+                          onUpdate={handleUpdateBlock}
+                          onDelete={handleDeleteBlock}
+                        />
+                      ))}
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
         ))}
       </div>
