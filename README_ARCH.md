@@ -30,6 +30,7 @@ root/
 │   │   ├── TLog/       # Transaction logging (Add, Summary, History)
 │   │   ├── AssetMart/  # Market data and asset discovery
 │   │   └── Header.tsx  # Global glassmorphism navigation
+│   ├── hooks/          # Custom React Hooks (Business Logic)
 │   ├── types.ts        # Centralized TypeScript interfaces
 │   ├── index.css       # Design System (Tailwind v4 variables & Global styles)
 │   └── App.tsx         # Root Router and Layout assembly
