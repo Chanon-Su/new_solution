@@ -279,18 +279,25 @@
 .dashboard-block {
   box-sizing: border-box;
   /* Ensure 0px alignment with Grid Vertices */
-  background: var(--glass-bg);
+  background: rgba(40, 40, 45, 0.85); /* สว่างขึ้น 1 ระดับ */
   backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.15); /* ขอบชัดเขนขึ้น */
   border-radius: 12px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   transition: all var(--transition-fast);
-  cursor: grab;
   overflow: hidden;
   z-index: 10;
   pointer-events: all;
+}
+
+.edit-mode .dashboard-block {
+  cursor: grab;
+}
+
+.edit-mode .dashboard-block.dragging {
+  cursor: grabbing;
 }
 
 .layout-mode .dashboard-block {
@@ -306,7 +313,38 @@
   z-index: 100;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   opacity: 0.9;
-  cursor: grabbing;
+}
+
+.block-header {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.block-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-grey);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.block-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  border: 1px dashed rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.no-select {
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 /* Floating Controls Layer */

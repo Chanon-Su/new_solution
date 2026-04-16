@@ -26,6 +26,7 @@ const Dashboard: React.FC = () => {
     toggleLayout,
     nextPage,
     prevPage,
+    isAreaAvailable,
   } = useDashboard();
 
   return (
@@ -73,6 +74,7 @@ const Dashboard: React.FC = () => {
                         editMode={editMode}
                         onUpdate={updateBlock}
                         onDelete={deleteBlock}
+                        isAreaAvailable={isAreaAvailable}
                       />
                     ))}
                 </div>
@@ -89,6 +91,7 @@ const Dashboard: React.FC = () => {
           setColumns={setColumns}
           rows={rows}
           setRows={setRows}
+          blocks={blocks}
         />
       )}
 
