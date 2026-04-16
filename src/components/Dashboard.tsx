@@ -5,6 +5,7 @@ import DashboardBlock from './Dashboard/DashboardBlock';
 import DashboardControls from './Dashboard/DashboardControls';
 import GridConfigurator from './Dashboard/GridConfigurator';
 import NavigationArrows from './Dashboard/NavigationArrows';
+import CoordinatesLayer from './Dashboard/CoordinatesLayer';
 import { useDashboard } from '../hooks/useDashboard';
 
 const Dashboard: React.FC = () => {
@@ -76,6 +77,7 @@ const Dashboard: React.FC = () => {
                     ))}
                 </div>
               </div>
+              <CoordinatesLayer columns={columns} rows={rows} />
             </div>
           </div>
         ))}

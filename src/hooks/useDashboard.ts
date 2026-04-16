@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import type { DashboardBlock as IBlock } from '../types';
 
-const STORAGE_KEY = 'obsidian-zen-dashboard-config';
+const STORAGE_KEY = 'alpha-zen-dashboard-v3';
 const TOTAL_PAGES = 3;
 
 export const useDashboard = () => {
   const [columns, setColumns] = useState<number>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved).columns : 20;
+    return saved ? JSON.parse(saved).columns : 6;
   });
 
   const [rows, setRows] = useState<number>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved).rows : 16;
+    return saved ? JSON.parse(saved).rows : 4;
   });
 
   const [activePage, setActivePage] = useState(0);
@@ -22,11 +22,7 @@ export const useDashboard = () => {
   const [blocks, setBlocks] = useState<IBlock[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return JSON.parse(saved).blocks;
-    return [
-      { id: '1', x: 2, y: 2, w: 8, h: 6, type: 'allocation', title: 'Asset Allocation', page: 0 },
-      { id: '2', x: 11, y: 2, w: 8, h: 4, type: 'value', title: 'Total Portfolio Value', page: 0 },
-      { id: '3', x: 11, y: 7, w: 8, h: 8, type: 'activity', title: 'Recent Activity', page: 0 }
-    ];
+    return []; // ล้างข้อมูลเริ่มต้นให้เป็นช่องว่าง
   });
 
   useEffect(() => {
@@ -45,15 +41,18 @@ export const useDashboard = () => {
     let foundX = -1;
     let foundY = -1;
 
-    for (let r = 1; r <= rows; r++) {
-      for (let c = 1; c <= columns; c++) {
+    // ระบบ 0-indexed: เริ่มต้นหาจากคอลัมน์ 0 และแถว 0
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
         const isOccupied = blocks.some(b =>
           b.page === activePage &&
           c >= b.x && c < b.x + b.w &&
           r >= b.y && r < b.y + b.h
         );
         if (!isOccupied) {
-          foundX = c; foundY = r; break;
+          foundX = c;
+          foundY = r;
+          break;
         }
       }
       if (foundX !== -1) break;
@@ -62,12 +61,18 @@ export const useDashboard = () => {
     if (foundX !== -1) {
       const newBlock: IBlock = {
         id: Math.random().toString(36).substr(2, 9),
-        x: foundX, y: foundY, w: 1, h: 1,
-        type: 'empty', title: 'New Block', page: activePage
+        x: foundX,
+        y: foundY,
+        w: 4, // Default width 4 units
+        h: 4, // Default height 4 units
+        type: 'empty',
+        title: 'New Block',
+        page: activePage
       };
       setBlocks([...blocks, newBlock]);
-    } else if (activePage < TOTAL_PAGES - 1) {
-      setActivePage(activePage + 1);
+    } else {
+      // แจ้งเตือนหรือจัดการเมื่อ Grid เต็ม
+      console.warn('Dashboard is full on this page.');
     }
   };
 

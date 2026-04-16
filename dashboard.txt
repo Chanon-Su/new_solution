@@ -1,0 +1,55 @@
+1. State Initialization (hooks/useDashboard.ts):
+- กำหนดตัวแปร columns และ rows (Default: 20x16)
+- เก็บ blocks เป็น Array ของ Object ที่มีพิกัด x, y, w, h
+- จุดสังเกต: พิกัด x, y ปัจจุบันบันทึกแบบ 1-indexed (เริ่มนับ 1 ที่จุดตัดแรก)
+- Storage Key: `obsidian-zen-dashboard-config`
+
+2. Viewport & Paging Setup (Dashboard.tsx):
+- สร้าง drift-viewport สำหรับการทำสไลด์หน้า (Horizontal Paging)
+- ใช้ transform: translateX เพื่อเลื่อนหน้าจอตาม activePage
+- โครงสร้าง: .dashboard-page > .drift-viewport > .drift-screen (multi-page)
+
+3. Grid Visualization (DashboardGrid.tsx):
+- Intersections (Dots): วนลูปสร้างจุด + ตามจำนวน (columns + 1) * (rows + 1)
+- ใช้ position: absolute และคำนวณตำแหน่งด้วย % (left: (100 / columns) * c %)
+- ใช้ transform: translate(-50%, -50%) เพื่อให้จุดตัดอยู่กึ่งกลางพอดี
+- Coordinates (Numbers): วางตัวเลขพิกัดเขียวที่ (i + 0.5) ของ Cell เพื่อบอก index (ใช้ standalone layer)
+
+4. Block Positioning Logic (DashboardBlock.tsx):
+- คำนวณตำแหน่งด้วยสูตร %:
+  left = ((x - 1) / columns) * 100%
+  top = ((y - 1) / rows) * 100%
+  width = (w / columns) * 100%
+  height = (h / rows) * 100%
+- Core Problem: การใช้ (x - 1) เป็นการพยายามแปลง 1-index ให้เป็น 0-index ในระดับ Rendering ซึ่งทำให้ตรรกะซ้ำซ้อนและ Error-prone
+
+5. Interaction System (Drag & Resize):
+- Drag: ใช้ window mousemoveListener, คำนวณ deltaPixel -> แปลงเป็น deltaCell (หาร cellWidth) -> Math.round เพื่อ Snap
+- UI Feedback: เปลี่ยน cursor เป็น grab/grabbing และเพิ่ม class .dragging
+- Resize: รองรับ 8 ทิศทาง (N, S, E, W, NW, NE, SW, SE) โดยส่ง resizeDir เข้าไปใน MouseDown handler
+
+---
+[SYSTEM ARCHITECT NOTE]: 
+กำลังจะดำเนินการ Phase 0: The Clean Slate เพื่อกำจัดตรรกะเดิมออกให้หมด และเริ่มสร้างใหม่โดยใช้ระบบ 0-indexed ที่มีความแม่นยำสูงขึ้น (Precision Snap)
+
+Dashboard base
+- แสง Zen Glow Gradient 
+- dashboard base = dashboard-world-space สี rgba(18, 18, 20, 0.8) ไม่มี Inset Shadow
+- 
+
+layout setting
+- ปรับ step-btn เป็นขึ้นกับลง Vertical Alignment
+- default columns = 6, rows = 4
+- Maximun columns = 20, rows = 16
+- minimum columns = 4, rows = 2
+- เก็บเป็น local storage
+- columns 6 หมายถึง มีช่องว่าง 6 ช่อง โดยไม่นับซ้ายและขวาสุด
+- ขอบซ้ายขวาคงที่ 40px (บน-ล่าง-ซ้าย-ขวา) เป็น fixmargin ไม่มีเปลี่ยน
+- 1-Indexed Labels coordinate
+    - เริ่มนับ 1 ที่จุดตัดแรก ใช้ในการนำและแสดงจำนวนช่องว่าง เพื่อสัมพันธ์กับ ปุ่มที่ปรับจำนวน
+    - วางตัวเลขไว้ที่ขอบของ dashboard-world-space
+        - ด้าบบน เพื่อแสดงลำดับของ ช่องว่างของคอลัมน์
+        - ด้านซ้าย เพื่อแสดงลำดับของ ช่องว่างของแถว
+
+Block
+- 
