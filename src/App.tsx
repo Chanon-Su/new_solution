@@ -10,33 +10,6 @@ function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   
   // Mock Data สำหรับงาน UI
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: 'mock-1',
-      date: '2026-04-10',
-      type: 'BUY',
-      asset: 'BTC',
-      category: 'Crypto',
-      amount: 0.05,
-      price: 2450900,
-      currency: 'THB',
-      fee: 250,
-      notes: 'HODL for Zen'
-    },
-    {
-      id: 'mock-2',
-      date: '2026-04-09',
-      type: 'BUY',
-      asset: 'SET50',
-      category: 'หุ้น',
-      amount: 1200,
-      price: 950,
-      currency: 'THB',
-      fee: 0,
-      notes: 'Index accumulation'
-    }
-  ]);
-
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -44,14 +17,7 @@ function App() {
       case 'asset-mart':
         return <AssetMart />;
       case 't-log':
-        return (
-          <TLog 
-            transactions={transactions} 
-            onAdd={() => {}} 
-            onDelete={() => {}}
-            onImport={() => {}}
-          />
-        );
+        return <TLog />;
       case 'goal':
         return (
           <div className="page-container goal-page container-centered p-20 text-center">
