@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'asset-mart', label: 'Asset Mart', icon: ShoppingBag },
+    { id: 'asset-mart', label: 'Asset-Mart', icon: ShoppingBag },
     { id: 't-log', label: 'Transaction-Log', icon: ScrollText },
     { id: 'goal', label: 'เป้าหมาย', icon: Flag },
     { id: 'plans', label: '', icon: Sparkles, isIconOnly: true },
@@ -39,7 +39,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 <li 
                   key={item.id} 
                   className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    if (item.id === 'asset-mart') {
+                      window.dispatchEvent(new Event('alpha_reset_asset_mart'));
+                    }
+                  }}
                 >
                   <div className="nav-item-content">
                     {item.isIconOnly ? (

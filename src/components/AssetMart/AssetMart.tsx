@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BentoGrid from './BentoGrid';
 import FollowList from './FollowList';
 import AssetInventory from './AssetInventory';
@@ -23,6 +23,18 @@ const AssetMart: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
 
+  // Reset logic when clicking Asset Mart in Navigator
+  useEffect(() => {
+    const handleReset = () => {
+      setViewMode('main');
+      setSelectedCategory(null);
+      setSelectedAsset(null);
+    };
+
+    window.addEventListener('alpha_reset_asset_mart', handleReset);
+    return () => window.removeEventListener('alpha_reset_asset_mart', handleReset);
+  }, []);
+
   const handleCategorySelect = (id: string) => {
     setSelectedCategory(id);
     setViewMode('inventory');
@@ -31,6 +43,11 @@ const AssetMart: React.FC = () => {
   const handleAssetSelect = (asset: Asset) => {
     setSelectedAsset(asset);
     setViewMode('detail');
+  };
+
+  const handleShowAllAssets = () => {
+    setSelectedCategory('all');
+    setViewMode('inventory');
   };
 
   const handleBackToMain = () => {
@@ -52,9 +69,10 @@ const AssetMart: React.FC = () => {
             <div className="flex items-center gap-4">
               <div className="w-1.5 h-8 bg-emerald-500 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Asset Mart</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Asset-Mart</h1>
                 <p className="text-sm text-gray-500">
-                  {viewMode === 'main' ? 'ศูนย์กลางข้อมูลสินทรัพย์และการลงทุนระดับพรีเมียม' : `หมวดหมู่: ${selectedCategory}`}
+                  {viewMode === 'main' ? 'ศูนย์กลางข้อมูลสินทรัพย์และการลงทุนระดับพรีเมียม' : 
+                   selectedCategory === 'all' ? 'กำลังสำรวจ: สินทรัพย์ทั้งหมดในตลาด' : `หมวดหมู่: ${selectedCategory}`}
                 </p>
               </div>
             </div>
@@ -83,7 +101,10 @@ const AssetMart: React.FC = () => {
               <BentoGrid onSelect={handleCategorySelect} />
             </div>
             <div className="mart-zone-2">
-              <FollowList />
+              <FollowList 
+                onSelectAsset={handleAssetSelect} 
+                onExplore={handleShowAllAssets}
+              />
             </div>
           </>
         )}

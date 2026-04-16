@@ -1,18 +1,55 @@
-import React from 'react';
-import { ArrowLeft, ExternalLink, Calendar, Info, TrendingUp, DollarSign, Activity, FileText } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, ExternalLink, Calendar, Info, TrendingUp, DollarSign, Activity, FileText, Heart } from 'lucide-react';
 
 interface AssetDetailProps {
   asset: {
+    id: string; // Add ID to asset for tracking
     name: string;
     symbol: string;
     price: string;
     roi: string;
     isUp: boolean;
+    change?: string; // Optional change for follow list display
   };
   onBack: () => void;
 }
 
 const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
+  const [isFollowed, setIsFollowed] = useState(false);
+
+  // Check if followed on mount
+  useEffect(() => {
+    const followedStr = localStorage.getItem('alpha_followed_assets');
+    if (followedStr) {
+      const followed = JSON.parse(followedStr);
+      setIsFollowed(followed.some((a: any) => a.id === asset.id));
+    }
+  }, [asset.id]);
+
+  const toggleFollow = () => {
+    const followedStr = localStorage.getItem('alpha_followed_assets');
+    let followed = followedStr ? JSON.parse(followedStr) : [];
+    
+    if (isFollowed) {
+      followed = followed.filter((a: any) => a.id !== asset.id);
+      setIsFollowed(false);
+    } else {
+      followed.push({
+        id: asset.id,
+        name: asset.name,
+        symbol: asset.symbol,
+        price: asset.price,
+        change: asset.roi, // Using ROI as change for now
+        isUp: asset.isUp
+      });
+      setIsFollowed(true);
+    }
+    
+    localStorage.setItem('alpha_followed_assets', JSON.stringify(followed));
+    // Dispatch custom event to notify FollowList
+    window.dispatchEvent(new Event('followStateChanged'));
+  };
+
   return (
     <div className="asset-detail-container">
       {/* Navigation & Header */}
@@ -38,8 +75,16 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
             <button className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all">
               <ExternalLink className="w-5 h-5" />
             </button>
-            <button className="submit-btn-emerald px-6 py-3 rounded-xl font-bold">
-              Add to Portfolio
+            <button 
+              onClick={toggleFollow}
+              className={`submit-btn-emerald px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all duration-300 ${
+                isFollowed 
+                  ? 'bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+                  : 'bg-white/5 text-gray-400 border border-white/10 hover:border-emerald-500/50 hover:text-emerald-400'
+              }`}
+            >
+              <Heart className={`w-5 h-5 ${isFollowed ? 'fill-current' : ''}`} />
+              {isFollowed ? 'Following' : 'Follow'}
             </button>
           </div>
         </div>
