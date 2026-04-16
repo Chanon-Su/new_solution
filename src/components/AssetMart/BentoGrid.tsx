@@ -32,14 +32,12 @@ const BentoGrid: React.FC<{ onSelect: (id: string) => void }> = ({ onSelect }) =
           className={`bento-card ${cat.isLarge ? 'others-card' : ''}`}
           onClick={() => onSelect(cat.id)}
         >
-          <div className="bento-card-content">
-            <div className="bento-icon-wrapper">
-              {React.cloneElement(cat.icon as React.ReactElement, { size: 24 })}
-            </div>
-            <div className="bento-info">
-              <h3>{cat.name} <span className="text-xs text-gray-500 font-normal">({cat.nameSub})</span></h3>
-              <p>{cat.desc}</p>
-            </div>
+          <div className="bento-icon-wrapper">
+            {React.cloneElement(cat.icon as React.ReactElement, { size: 28 })}
+          </div>
+          <div className="bento-info">
+            <h3>{cat.name} <span className="text-xs text-gray-500 font-normal uppercase tracking-wider ml-1">[{cat.nameSub}]</span></h3>
+            <p>{cat.desc}</p>
           </div>
         </div>
       ))}

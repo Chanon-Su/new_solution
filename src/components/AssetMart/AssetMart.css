@@ -1,35 +1,47 @@
 .asset-mart-container {
     display: flex;
     gap: 24px;
-    padding: 24px;
-    min-height: calc(100vh - var(--header-height));
+    padding: 0 24px 24px 24px;
     max-width: var(--content-max-width);
     margin: 0 auto;
 }
 
+.asset-mart-container.is-main-view {
+    height: 100%;
+    overflow: hidden;
+}
+
 /* Zone 1: Bento Grid (60%) */
 .mart-zone-1 {
-    flex: 0 0 60%;
+    flex: 0 0 62%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+}
+
+.is-main-view .mart-zone-1 {
+    height: 100%;
 }
 
 /* Zone 2: Follow List (40%) */
 .mart-zone-2 {
-    flex: 0 0 calc(40% - 24px);
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+}
+
+.is-main-view .mart-zone-2 {
+    height: 100%;
 }
 
 /* Bento Grid System */
 .bento-grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 180px) 150px;
+    grid-template-rows: 1fr 1fr 0.8fr; /* Dynamic heights to fill space */
     gap: 16px;
     width: 100%;
+    flex: 1; /* Stretch to fill mart-zone-1 */
+    min-height: 0; /* Allow grid to shrink/grow properly */
 }
 
 .bento-card {
@@ -40,15 +52,20 @@
     transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 24px;
+    justify-content: space-between; /* Space icon and text */
+    padding: 32px;
     border: 1px solid var(--glass-border);
     background: var(--glass-bg);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
 /* Row 3: Others (Full Width) */
 .bento-card.others-card {
     grid-column: span 3;
+    flex-direction: row; /* Horizontal for the large card */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 32px;
 }
 
 /* Hover Glow Effect */
@@ -56,7 +73,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, var(--neon-emerald) 0%, transparent 70%);
+    background: radial-gradient(circle at 50% 0%, var(--neon-emerald) 0%, transparent 80%);
     opacity: 0;
     transition: var(--transition-smooth);
     z-index: 0;
@@ -64,43 +81,87 @@
 }
 
 .bento-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--neon-emerald);
-    box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+    transform: translateY(-8px);
+    border-color: rgba(16, 185, 129, 0.6);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 
+                0 0 20px rgba(16, 185, 129, 0.1);
 }
 
 .bento-card:hover::before {
-    opacity: 0.15;
+    opacity: 0.1;
 }
 
 .bento-card-content {
     position: relative;
     z-index: 2;
     display: flex;
-    align-items: center;
-    gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    width: 100%;
 }
 
 .bento-icon-wrapper {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(16, 185, 129, 0.1);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--neon-emerald);
+    box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.1);
+    transition: var(--transition-smooth);
+}
+
+.bento-card:hover .bento-icon-wrapper {
+    background: var(--neon-emerald);
+    color: var(--obsidian-void);
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.bento-info {
+    width: 100%;
 }
 
 .bento-info h3 {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
     color: var(--snow-white);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
 }
 
 .bento-info p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--muted-grey);
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+/* Search Zone in Mart Zone 1 */
+.search-zone-main {
+    margin-bottom: 20px;
+}
+
+.search-zone-main input {
+    height: 48px;
+    padding-left: 48px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    transition: var(--transition-smooth);
+}
+
+.search-zone-main input:focus {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--neon-emerald);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+}
+
+.search-zone-main .absolute {
+    left: 18px;
 }
 
 /* Follow List Styles */

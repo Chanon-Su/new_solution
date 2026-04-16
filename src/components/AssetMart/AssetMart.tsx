@@ -60,44 +60,28 @@ const AssetMart: React.FC = () => {
     setSelectedAsset(null);
   };
 
-  return (
-    <div className="asset-mart-page min-h-screen">
-      {/* Header Space - Only show in Main and Inventory */}
-      {viewMode !== 'detail' && (
-        <div className="container-centered pt-8 pb-4">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-1.5 h-8 bg-emerald-500 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight">Asset-Mart</h1>
-                <p className="text-sm text-gray-500">
-                  {viewMode === 'main' ? 'ศูนย์กลางข้อมูลสินทรัพย์และการลงทุนระดับพรีเมียม' : 
-                   selectedCategory === 'all' ? 'กำลังสำรวจ: สินทรัพย์ทั้งหมดในตลาด' : `หมวดหมู่: ${selectedCategory}`}
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                <input 
-                  type="text" 
-                  placeholder="ค้นหาสินทรัพย์..." 
-                  className="bg-white/5 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-emerald-500/50 w-64 transition-all"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+  const isMainView = viewMode === 'main';
 
+  return (
+    <div className={`asset-mart-page pt-4 ${isMainView ? 'h-[calc(100vh-var(--header-height))] overflow-hidden' : 'min-h-screen'}`}>
       {/* Main Content Area */}
-      <div className={`asset-mart-container ${viewMode !== 'main' ? 'block' : ''}`}>
+      <div className={`asset-mart-container ${isMainView ? 'is-main-view' : 'block'}`}>
         
         {/* Step 2: Main Bento Grid with Follow List (60/40) */}
         {viewMode === 'main' && (
           <>
             <div className="mart-zone-1">
+              {/* Relocated Search Section */}
+              <div className="search-zone-main mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                  <input 
+                    type="text" 
+                    placeholder="ค้นหาสินทรัพย์..." 
+                    className="bg-white/5 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-emerald-500/50 w-full transition-all"
+                  />
+                </div>
+              </div>
               <BentoGrid onSelect={handleCategorySelect} />
             </div>
             <div className="mart-zone-2">
