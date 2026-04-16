@@ -81,8 +81,30 @@ const TLog_zone1_Form: React.FC = () => {
     }
   };
 
-  const handleSuggestionSelect = (assetSymbol: string) => {
-    setFormData(prev => ({ ...prev, asset: assetSymbol.toUpperCase() }));
+  // Fallback map for legacy followed assets that don't have category metadata
+  const detectCategory = (symbol: string): string => {
+    const s = symbol.toUpperCase();
+    if (['BTC', 'ETH', 'SOL', 'ADA', 'DOT', 'XRP', 'BNB'].includes(s)) return 'CRYPTO';
+    if (['AAPL', 'NVDA', 'TSLA', 'MSFT', 'GOOGL', 'META', 'AMZN'].includes(s)) return 'STOCK';
+    if (['GOLD', 'SILVER', 'OIL'].includes(s)) return 'COMMODITY';
+    if (s.includes('BOND') || s.includes('10Y')) return 'BOND';
+    if (s.includes('SET50') || s.includes('FUND')) return 'FUND';
+    return ''; // Return empty to not change if unknown
+  };
+
+  const handleSuggestionSelect = (assetSymbol: string, category: string) => {
+    const finalCategory = category || detectCategory(assetSymbol);
+    
+    setFormData(prev => ({ 
+      ...prev, 
+      asset: assetSymbol.toUpperCase(),
+      category: finalCategory || prev.category // Keep existing if both fail
+    }));
+    
+    if (finalCategory) {
+      localStorage.setItem('planto_tlog_last_category', finalCategory);
+    }
+    
     setShowSuggestions(false);
   };
 
@@ -375,7 +397,7 @@ const TLog_zone1_Form: React.FC = () => {
                       .map((item) => (
                         <div 
                           key={item.id}
-                          onClick={() => handleSuggestionSelect(item.symbol)}
+                          onClick={() => handleSuggestionSelect(item.symbol, item.category)}
                           className="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/[0.03] transition-colors border-b border-white/[0.03] last:border-none"
                         >
                           <div className="flex flex-col">

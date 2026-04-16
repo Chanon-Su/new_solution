@@ -9,7 +9,8 @@ interface AssetDetailProps {
     price: string;
     roi: string;
     isUp: boolean;
-    change?: string; // Optional change for follow list display
+    change?: string;
+    category: string;
   };
   onBack: () => void;
 }
@@ -39,8 +40,9 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
         name: asset.name,
         symbol: asset.symbol,
         price: asset.price,
-        change: asset.roi, // Using ROI as change for now
-        isUp: asset.isUp
+        change: asset.roi,
+        isUp: asset.isUp,
+        category: asset.category
       });
       setIsFollowed(true);
     }

@@ -16,6 +16,7 @@ interface Asset {
   change: string;
   roi: string;
   isUp: boolean;
+  category: string;
 }
 
 const AssetMart: React.FC = () => {
@@ -56,7 +57,11 @@ const AssetMart: React.FC = () => {
   };
 
   const handleBackToInventory = () => {
-    setViewMode('inventory');
+    if (selectedCategory) {
+      setViewMode('inventory');
+    } else {
+      setViewMode('main');
+    }
     setSelectedAsset(null);
   };
 

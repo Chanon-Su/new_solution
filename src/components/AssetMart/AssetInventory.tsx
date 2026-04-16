@@ -9,6 +9,7 @@ interface AssetListItem {
   change: string;
   roi: string;
   isUp: boolean;
+  category: string;
 }
 
 interface AssetInventoryProps {
@@ -31,43 +32,43 @@ const categoryMap: Record<string, { name: string; label: string }> = {
 const mockData: Record<string, AssetListItem[]> = {
   // ... (keep existing categories)
   stocks: [
-    { id: 's1', name: 'Apple Inc.', symbol: 'AAPL', price: '$172.62', change: '+$1.45', roi: '+0.85%', isUp: true },
-    { id: 's2', name: 'Nvidia Corp.', symbol: 'NVDA', price: '$894.52', change: '+$12.30', roi: '+1.40%', isUp: true },
-    { id: 's3', name: 'Tesla, Inc.', symbol: 'TSLA', price: '$171.05', change: '-$4.15', roi: '-2.37%', isUp: false },
-    { id: 's4', name: 'Microsoft', symbol: 'MSFT', price: '$425.22', change: '+$2.10', roi: '+0.50%', isUp: true },
-    { id: 's5', name: 'Alphabet Inc.', symbol: 'GOOGL', price: '$154.85', change: '+$0.95', roi: '+0.62%', isUp: true },
+    { id: 's1', name: 'Apple Inc.', symbol: 'AAPL', price: '$172.62', change: '+$1.45', roi: '+0.85%', isUp: true, category: 'STOCK' },
+    { id: 's2', name: 'Nvidia Corp.', symbol: 'NVDA', price: '$894.52', change: '+$12.30', roi: '+1.40%', isUp: true, category: 'STOCK' },
+    { id: 's3', name: 'Tesla, Inc.', symbol: 'TSLA', price: '$171.05', change: '-$4.15', roi: '-2.37%', isUp: false, category: 'STOCK' },
+    { id: 's4', name: 'Microsoft', symbol: 'MSFT', price: '$425.22', change: '+$2.10', roi: '+0.50%', isUp: true, category: 'STOCK' },
+    { id: 's5', name: 'Alphabet Inc.', symbol: 'GOOGL', price: '$154.85', change: '+$0.95', roi: '+0.62%', isUp: true, category: 'STOCK' },
   ],
   fixedincome: [
-    { id: 'f1', name: 'US 10Y Treasury', symbol: 'US10Y', price: '4.52%', change: '+0.02', roi: '+0.44%', isUp: true },
-    { id: 'f2', name: 'Thai Govt Bond 5Y', symbol: 'THGB5Y', price: '2.45%', change: '-0.01', roi: '-0.40%', isUp: false },
-    { id: 'f3', name: 'Corp Bond Grade A', symbol: 'CB-A', price: '3.85%', change: '+0.05', roi: '+1.30%', isUp: true },
+    { id: 'f1', name: 'US 10Y Treasury', symbol: 'US10Y', price: '4.52%', change: '+0.02', roi: '+0.44%', isUp: true, category: 'BOND' },
+    { id: 'f2', name: 'Thai Govt Bond 5Y', symbol: 'THGB5Y', price: '2.45%', change: '-0.01', roi: '-0.40%', isUp: false, category: 'BOND' },
+    { id: 'f3', name: 'Corp Bond Grade A', symbol: 'CB-A', price: '3.85%', change: '+0.05', roi: '+1.30%', isUp: true, category: 'BOND' },
   ],
   funds: [
-    { id: 'm1', name: 'K-SET50-A', symbol: 'K-SET50', price: '14.52', change: '+$0.12', roi: '+0.83%', isUp: true },
-    { id: 'm2', name: 'SCB Global Equity', symbol: 'SCBGEQ', price: '18.75', change: '+$0.05', roi: '+0.27%', isUp: true },
-    { id: 'm3', name: 'TMB Gold Fund', symbol: 'TMBGOLD', price: '12.45', change: '-$0.02', roi: '-0.16%', isUp: false },
+    { id: 'm1', name: 'K-SET50-A', symbol: 'K-SET50', price: '14.52', change: '+$0.12', roi: '+0.83%', isUp: true, category: 'FUND' },
+    { id: 'm2', name: 'SCB Global Equity', symbol: 'SCBGEQ', price: '18.75', change: '+$0.05', roi: '+0.27%', isUp: true, category: 'FUND' },
+    { id: 'm3', name: 'TMB Gold Fund', symbol: 'TMBGOLD', price: '12.45', change: '-$0.02', roi: '-0.16%', isUp: false, category: 'FUND' },
   ],
   crypto: [
-    { id: 'c1', name: 'Bitcoin', symbol: 'BTC', price: '$64,250.00', change: '+$1,240', roi: '+2.4%', isUp: true },
-    { id: 'c2', name: 'Ethereum', symbol: 'ETH', price: '$3,450.12', change: '+$85', roi: '+1.8%', isUp: true },
-    { id: 'c3', name: 'Solana', symbol: 'SOL', price: '$145.50', change: '-$4.2', roi: '-2.1%', isUp: false },
-    { id: 'c4', name: 'Cardano', symbol: 'ADA', price: '$0.58', change: '+$0.01', roi: '+0.5%', isUp: true },
-    { id: 'c5', name: 'Polkadot', symbol: 'DOT', price: '$9.20', change: '-$0.15', roi: '-1.4%', isUp: false },
+    { id: 'c1', name: 'Bitcoin', symbol: 'BTC', price: '$64,250.00', change: '+$1,240', roi: '+2.4%', isUp: true, category: 'CRYPTO' },
+    { id: 'c2', name: 'Ethereum', symbol: 'ETH', price: '$3,450.12', change: '+$85', roi: '+1.8%', isUp: true, category: 'CRYPTO' },
+    { id: 'c3', name: 'Solana', symbol: 'SOL', price: '$145.50', change: '-$4.2', roi: '-2.1%', isUp: false, category: 'CRYPTO' },
+    { id: 'c4', name: 'Cardano', symbol: 'ADA', price: '$0.58', change: '+$0.01', roi: '+0.5%', isUp: true, category: 'CRYPTO' },
+    { id: 'c5', name: 'Polkadot', symbol: 'DOT', price: '$9.20', change: '-$0.15', roi: '-1.4%', isUp: false, category: 'CRYPTO' },
   ],
   commodities: [
-    { id: 'co1', name: 'Gold Spot', symbol: 'GOLD', price: '$2,385.40', change: '+$12.50', roi: '+0.53%', isUp: true },
-    { id: 'co2', name: 'WTI Crude Oil', symbol: 'OIL', price: '$85.20', change: '-$1.15', roi: '-1.33%', isUp: false },
-    { id: 'co3', name: 'Silver Spot', symbol: 'SILVER', price: '$28.45', change: '+$0.35', roi: '+1.25%', isUp: true },
+    { id: 'co1', name: 'Gold Spot', symbol: 'GOLD', price: '$2,385.40', change: '+$12.50', roi: '+0.53%', isUp: true, category: 'COMMODITY' },
+    { id: 'co2', name: 'WTI Crude Oil', symbol: 'OIL', price: '$85.20', change: '-$1.15', roi: '-1.33%', isUp: false, category: 'COMMODITY' },
+    { id: 'co3', name: 'Silver Spot', symbol: 'SILVER', price: '$28.45', change: '+$0.35', roi: '+1.25%', isUp: true, category: 'COMMODITY' },
   ],
   realestate: [
-    { id: 'r1', name: 'CPN Retail Growth', symbol: 'CPNREIT', price: '10.80', change: '+$0.10', roi: '+0.93%', isUp: true },
-    { id: 'r2', name: 'WHA Premium Growth', symbol: 'WHART', price: '9.45', change: '-$0.05', roi: '-0.53%', isUp: false },
-    { id: 'r3', name: 'Digital Telecommunication', symbol: 'DIF', price: '8.15', change: '+$0.05', roi: '+0.62%', isUp: true },
+    { id: 'r1', name: 'CPN Retail Growth', symbol: 'CPNREIT', price: '10.80', change: '+$0.10', roi: '+0.93%', isUp: true, category: 'REALESTATE' },
+    { id: 'r2', name: 'WHA Premium Growth', symbol: 'WHART', price: '9.45', change: '-$0.05', roi: '-0.53%', isUp: false, category: 'REALESTATE' },
+    { id: 'r3', name: 'Digital Telecommunication', symbol: 'DIF', price: '8.15', change: '+$0.05', roi: '+0.62%', isUp: true, category: 'REALESTATE' },
   ],
   others: [
-    { id: 'o1', name: 'Fine Wine Index', symbol: 'WINE', price: '$425.00', change: '+$5.00', roi: '+1.19%', isUp: true },
-    { id: 'o2', name: 'Rare Watches Fund', symbol: 'WATCH', price: '$12,450', change: '+$150', roi: '+1.22%', isUp: true },
-    { id: 'o3', name: 'Carbon Credits', symbol: 'CARBON', price: '$72.15', change: '-$2.45', roi: '-3.28%', isUp: false },
+    { id: 'o1', name: 'Fine Wine Index', symbol: 'WINE', price: '$425.00', change: '+$5.00', roi: '+1.19%', isUp: true, category: 'OTHER' },
+    { id: 'o2', name: 'Rare Watches Fund', symbol: 'WATCH', price: '$12,450', change: '+$150', roi: '+1.22%', isUp: true, category: 'OTHER' },
+    { id: 'o3', name: 'Carbon Credits', symbol: 'CARBON', price: '$72.15', change: '-$2.45', roi: '-3.28%', isUp: false, category: 'OTHER' },
   ],
 };
 
