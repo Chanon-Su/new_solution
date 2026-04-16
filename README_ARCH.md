@@ -26,12 +26,13 @@ root/
 ├── public/             # Static assets (logo, icons)
 ├── src/                # Main Application Source
 │   ├── components/     # Modular UI logic
-│   │   ├── Dashboard/  # Grid-based modular dashboard system
+│   │   ├── Dashboard/  # Grid-based modular dashboard system (BlocksLayer, DashboardBlock, etc.)
 │   │   ├── TLog/       # Transaction logging sub-modules
 │   │   ├── AssetMart/  # Market data components
 │   │   ├── UI/         # Shared Design System components (ZenField, etc.)
 │   │   └── Header.tsx  # Global glassmorphism navigation
-│   ├── hooks/          # Custom Hooks (useDashboard, Business Logic)
+│   ├── hooks/          # Custom Hooks (useDashboard, useBlockInteraction)
+│   ├── utils/          # Pure helper functions (gridUtils)
 │   ├── types.ts        # Centralized TypeScript interfaces
 │   ├── index.css       # Design System (Tailwind v4 variables & Global styles)
 │   └── App.tsx         # Root Router and Layout assembly

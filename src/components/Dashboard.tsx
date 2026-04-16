@@ -1,7 +1,7 @@
 import React from 'react';
 import './Dashboard.css';
 import DashboardGrid from './Dashboard/DashboardGrid';
-import DashboardBlock from './Dashboard/DashboardBlock';
+import BlocksLayer from './Dashboard/BlocksLayer';
 import DashboardControls from './Dashboard/DashboardControls';
 import GridConfigurator from './Dashboard/GridConfigurator';
 import NavigationArrows from './Dashboard/NavigationArrows';
@@ -10,22 +10,13 @@ import { useDashboard } from '../hooks/useDashboard';
 
 const Dashboard: React.FC = () => {
   const {
-    columns,
-    setColumns,
-    rows,
-    setRows,
-    activePage,
-    editMode,
-    layoutMode,
-    blocks,
-    totalPages,
-    updateBlock,
-    deleteBlock,
-    addBlock,
-    toggleEdit,
-    toggleLayout,
-    nextPage,
-    prevPage,
+    columns, setColumns,
+    rows, setRows,
+    activePage, editMode, layoutMode,
+    blocks, totalPages,
+    updateBlock, deleteBlock, addBlock,
+    toggleEdit, toggleLayout,
+    nextPage, prevPage,
     isAreaAvailable,
   } = useDashboard();
 
@@ -51,33 +42,16 @@ const Dashboard: React.FC = () => {
                   onConfigChange={(c, r) => { setColumns(c); setRows(r); }}
                 />
 
-                <div
-                  className="blocks-layer"
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    zIndex: 20,
-                    pointerEvents: 'none',
-                  } as React.CSSProperties}
-                >
-                  {blocks
-                    .filter(b => b.page === pageIdx)
-                    .map(block => (
-                      <DashboardBlock
-                        key={block.id}
-                        block={block}
-                        columns={columns}
-                        rows={rows}
-                        editMode={editMode}
-                        onUpdate={updateBlock}
-                        onDelete={deleteBlock}
-                        isAreaAvailable={isAreaAvailable}
-                      />
-                    ))}
-                </div>
+                <BlocksLayer 
+                  blocks={blocks}
+                  pageIdx={pageIdx}
+                  columns={columns}
+                  rows={rows}
+                  editMode={editMode}
+                  onUpdate={updateBlock}
+                  onDelete={deleteBlock}
+                  isAreaAvailable={isAreaAvailable}
+                />
               </div>
               <CoordinatesLayer columns={columns} rows={rows} />
             </div>
