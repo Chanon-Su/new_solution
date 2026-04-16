@@ -18,7 +18,7 @@ const TLog_zone1_Form: React.FC = () => {
   
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
-    time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+    time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
     type: 'BUY' as 'BUY' | 'SELL' | 'DIVIDEND',
     asset: '',
     category: 'STOCK',
@@ -32,33 +32,71 @@ const TLog_zone1_Form: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [followedAssets, setFollowedAssets] = useState<any[]>([]);
   const timePickerRef = useRef<HTMLDivElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
 
-  // Click outside to close time picker
+  // Click outside to close pickers/suggestions
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (timePickerRef.current && !timePickerRef.current.contains(event.target as Node)) {
         setIsTimePickerOpen(false);
+      }
+      if (suggestionsRef.current && !suggestionsRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Load followed assets and last category
+  React.useEffect(() => {
+    const followedStr = localStorage.getItem('planto_followed_assets');
+    if (followedStr) {
+      try {
+        setFollowedAssets(JSON.parse(followedStr));
+      } catch (e) {
+        setFollowedAssets([]);
+      }
+    }
+
+    const lastCategory = localStorage.getItem('planto_tlog_last_category');
+    if (lastCategory) {
+      setFormData(prev => ({ ...prev, category: lastCategory }));
+    }
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'asset') {
+      setShowSuggestions(value.length > 0);
+    }
+
+    if (name === 'category') {
+      localStorage.setItem('planto_tlog_last_category', value);
+    }
   };
 
-  const handleTimeSelect = (type: 'hour' | 'minute', val: string) => {
-    const [h, m] = formData.time.split(':');
-    let newTime = '';
-    if (type === 'hour') {
-      newTime = `${val}:${m || '00'}`;
-    } else {
-      newTime = `${h || '00'}:${val}`;
-    }
-    setFormData(prev => ({ ...prev, time: newTime }));
+  const handleSuggestionSelect = (assetSymbol: string) => {
+    setFormData(prev => ({ ...prev, asset: assetSymbol.toUpperCase() }));
+    setShowSuggestions(false);
+  };
+
+  const handleTimeSelect = (type: 'hour' | 'minute' | 'second', val: string) => {
+    const parts = formData.time.split(':');
+    let h = parts[0] || '00';
+    let m = parts[1] || '00';
+    let s = parts[2] || '00';
+    
+    if (type === 'hour') h = val;
+    else if (type === 'minute') m = val;
+    else if (type === 'second') s = val;
+    
+    setFormData(prev => ({ ...prev, time: `${h}:${m}:${s}` }));
   };
 
   const generateId = () => {
@@ -216,7 +254,7 @@ const TLog_zone1_Form: React.FC = () => {
                   name="time"
                   value={formData.time}
                   onChange={handleInputChange}
-                  placeholder="HH:mm" 
+                  placeholder="HH:mm:ss" 
                   readOnly
                   onClick={() => setIsTimePickerOpen(true)}
                   className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none cursor-pointer" 
@@ -231,14 +269,14 @@ const TLog_zone1_Form: React.FC = () => {
                 {isTimePickerOpen && (
                   <div 
                     ref={timePickerRef}
-                    className="absolute top-full left-0 mt-2 w-48 h-64 bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden flex"
+                    className="absolute top-full left-0 mt-2 w-64 h-64 bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden flex"
                   >
                     {/* Hours Column */}
                     <div className="flex-1 overflow-y-auto [scrollbar-width:none] border-r border-white/5 py-2">
                       <div className="text-[10px] text-center font-bold text-[#9CA3AF] mb-2 opacity-40 uppercase tracking-tighter">Hour</div>
                       {Array.from({ length: 24 }).map((_, i) => {
                         const h = i.toString().padStart(2, '0');
-                        const isSelected = formData.time.startsWith(h + ':');
+                        const isSelected = formData.time.split(':')[0] === h;
                         return (
                           <div 
                             key={`h-${i}`}
@@ -257,7 +295,7 @@ const TLog_zone1_Form: React.FC = () => {
                       <div className="text-[10px] text-center font-bold text-[#9CA3AF] mb-2 opacity-40 uppercase tracking-tighter">Min</div>
                       {Array.from({ length: 60 }).map((_, i) => {
                         const m = i.toString().padStart(2, '0');
-                        const isSelected = formData.time.endsWith(':' + m);
+                        const isSelected = formData.time.split(':')[1] === m;
                         return (
                           <div 
                             key={`m-${i}`}
@@ -267,6 +305,25 @@ const TLog_zone1_Form: React.FC = () => {
                             }`}
                           >
                             {m}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {/* Seconds Column */}
+                    <div className="flex-1 overflow-y-auto [scrollbar-width:none] border-l border-white/5 py-2">
+                      <div className="text-[10px] text-center font-bold text-[#9CA3AF] mb-2 opacity-40 uppercase tracking-tighter">Sec</div>
+                      {Array.from({ length: 60 }).map((_, i) => {
+                        const s = i.toString().padStart(2, '0');
+                        const isSelected = formData.time.split(':')[2] === s;
+                        return (
+                          <div 
+                            key={`s-${i}`}
+                            onClick={() => handleTimeSelect('second', s)}
+                            className={`py-1.5 text-center text-[13px] font-mono cursor-pointer transition-colors ${
+                              isSelected ? 'bg-[#10B981] text-black font-bold' : 'text-white hover:bg-white/5'
+                            }`}
+                          >
+                            {s}
                           </div>
                         );
                       })}
@@ -291,17 +348,57 @@ const TLog_zone1_Form: React.FC = () => {
             </ZenField>
 
             <ZenField label="สินทรัพย์" className="tlog-field-asset">
-              <input 
-                type="text" 
-                name="asset"
-                value={formData.asset}
-                onChange={handleInputChange}
-                required
-                autoComplete="off"
-                placeholder="เช่น BTC, AAPL" 
-                className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
-              />
-              <div className="w-px h-5 bg-white/10"></div>
+              <div className="flex-1 flex flex-col relative">
+                <input 
+                  type="text" 
+                  name="asset"
+                  value={formData.asset}
+                  onChange={handleInputChange}
+                  onFocus={() => formData.asset.length > 0 && setShowSuggestions(true)}
+                  required
+                  autoComplete="off"
+                  placeholder="เช่น BTC, AAPL" 
+                  className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50 h-full" 
+                />
+                
+                {showSuggestions && (
+                  <div 
+                    ref={suggestionsRef}
+                    className="absolute top-full left-0 w-full mt-2 bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden backdrop-blur-md"
+                  >
+                    {followedAssets
+                      .filter(item => 
+                        item.symbol.toLowerCase().includes(formData.asset.toLowerCase()) || 
+                        item.name.toLowerCase().includes(formData.asset.toLowerCase())
+                      )
+                      .slice(0, 5)
+                      .map((item) => (
+                        <div 
+                          key={item.id}
+                          onClick={() => handleSuggestionSelect(item.symbol)}
+                          className="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/[0.03] transition-colors border-b border-white/[0.03] last:border-none"
+                        >
+                          <div className="flex flex-col">
+                            <span className="text-[13px] font-bold text-white group-hover:text-emerald-400">{item.symbol}</span>
+                            <span className="text-[10px] text-[#9CA3AF]">{item.name}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
+                          </div>
+                        </div>
+                      ))}
+                    {followedAssets.filter(item => 
+                        item.symbol.toLowerCase().includes(formData.asset.toLowerCase()) || 
+                        item.name.toLowerCase().includes(formData.asset.toLowerCase())
+                      ).length === 0 && (
+                      <div className="px-4 py-4 text-center text-xs text-[#9CA3AF] opacity-50">
+                        ไม่พบข้อมูลในรายการที่ติดตาม
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="w-px h-5 bg-white/10 shrink-0"></div>
               <select 
                 name="category"
                 value={formData.category}

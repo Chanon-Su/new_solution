@@ -19,7 +19,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
 
   // Check if followed on mount
   useEffect(() => {
-    const followedStr = localStorage.getItem('alpha_followed_assets');
+    const followedStr = localStorage.getItem('planto_followed_assets');
     if (followedStr) {
       const followed = JSON.parse(followedStr);
       setIsFollowed(followed.some((a: any) => a.id === asset.id));
@@ -27,7 +27,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
   }, [asset.id]);
 
   const toggleFollow = () => {
-    const followedStr = localStorage.getItem('alpha_followed_assets');
+    const followedStr = localStorage.getItem('planto_followed_assets');
     let followed = followedStr ? JSON.parse(followedStr) : [];
     
     if (isFollowed) {
@@ -45,7 +45,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
       setIsFollowed(true);
     }
     
-    localStorage.setItem('alpha_followed_assets', JSON.stringify(followed));
+    localStorage.setItem('planto_followed_assets', JSON.stringify(followed));
     // Dispatch custom event to notify FollowList
     window.dispatchEvent(new Event('followStateChanged'));
   };

@@ -31,8 +31,8 @@ const AssetMart: React.FC = () => {
       setSelectedAsset(null);
     };
 
-    window.addEventListener('alpha_reset_asset_mart', handleReset);
-    return () => window.removeEventListener('alpha_reset_asset_mart', handleReset);
+    window.addEventListener('planto_reset_asset_mart', handleReset);
+    return () => window.removeEventListener('planto_reset_asset_mart', handleReset);
   }, []);
 
   const handleCategorySelect = (id: string) => {

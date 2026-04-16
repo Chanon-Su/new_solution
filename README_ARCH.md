@@ -7,7 +7,7 @@
 ---
 
 ## 🎯 Project Purpose
-**The Alpha Solution** is a premium, privacy-focused **Portfolio Tracker** and **Data Asset Provider**. It is designed to help users track digital and traditional assets (Crypto, Stocks, Gold, etc.) with a "User Owns Data" philosophy. The application emphasizes a "Zen" aesthetic—clean, modular, and highly tactile—inspired by tools like Obsidian and macOS.
+**PLANTO** is a premium, privacy-focused **Portfolio Tracker** and **Data Asset Provider**. It is designed to help users track digital and traditional assets (Crypto, Stocks, Gold, etc.) with a "User Owns Data" philosophy. The application emphasizes a "Zen" aesthetic—clean, modular, and highly tactile—inspired by tools like Obsidian and macOS.
 
 ## 🛠️ Tech Stack
 - **Core Framework:** React 19 (TypeScript) + Vite

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import type { DashboardBlock as IBlock } from '../types';
 import { isAreaAvailable, findFirstAvailableSpace } from '../utils/gridUtils';
 
-const STORAGE_KEY = 'alpha-zen-dashboard-v3';
+const STORAGE_KEY = 'planto-zen-dashboard-v3';
 const TOTAL_PAGES = 3;
 
 export const useDashboard = () => {

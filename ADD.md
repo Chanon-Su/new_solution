@@ -2,7 +2,7 @@
 > **Concept:** "Obsidian Zen" (เงียบขรึมและทรงพลัง)  
 > **Status:** Draft / Planning Phase  
 
-This document defines the visual soul of **The Alpha Solution**. It moves from soft minimalism into a state of "Obsidian Precision"—where a deep void background meets vibrant data, creating a high-focus environment that feels both premium and futuristic.
+This document defines the visual soul of **PLANTO**. It moves from soft minimalism into a state of "Obsidian Precision"—where a deep void background meets vibrant data, creating a high-focus environment that feels both premium and futuristic.
 
 ---
 
@@ -65,8 +65,16 @@ To maintain the "Zen" flow, every page must adhere to this architectural pattern
 | Component | Position | Behavior |
 | :--- | :--- | :--- |
 | **Global Header** | Top | **Layout:** Logo (Left), **Navi-bar & Utilities (Right)**. <br> **Components:** Navi-bar (Dashboard, Asset Mart, T-log, เป้าหมาย) + Vertical Divider + Utilities (✨, ☀️/🌙, 👤, ⚙️). |
-| **Zone Header** | Content | มีแถบสีเขียว (Vertical Bar) ด้านซ้ายมือเสมอ เพื่อระบุขอบเขตเนื้อหา |
-| **Action Cards** | Zone 2 | การ์ดขอบมนสี Dark Slate แสดงยอดรวมและไอคอนแนวโน้ม (Green Arrow) |
-| **Data Table** | Zone 3 | แถวมีระยะห่างพอดี, ใช้ Badge (เช่น BUY สีเขียว) และไอคอนโลโก้สินทรัพย์ประกอบ |
-| **Help Circle** | Bottom-Right | ปุ่มวงกลมสี Emerald ไอคอน "?" (Z-index 100) |
- & Mood BoardThe Mood"A calm morning in a well-designed studio." > ความรู้สึกเหมือนการเริ่มต้นวันใหม่ที่เงียบสงบ แต่ทุกอย่างรอบตัวถูกจัดวางไว้อย่างสมบูรณ์แบบSpace: ใช้ White Space (พื้นที่ว่าง) อย่างจงใจเพื่อให้ข้อมูล "หายใจ" ได้Texture: พื้นผิวที่ดูนุ่มนวล (Satin matte) หรือกึ่งโปร่งใสเหมือนกระจกฝ้า (Frosted Glass)Motion: การเคลื่อนไหวที่นุ่มนวล (Soft ease-in-out) ไม่กระโชกโฮกฮาก🌈 4. Color Palette (Proposed)เนื่องจากคุณยังไม่ได้ตัดสินใจ ผมขอเสนอโทนที่ตอบโจทย์ "Zen + Apple + Smart" ครับ:RoleTone NameHex CodeFeelingPrimaryDeep Slate / Ink#1A1A1Bความลุ่มลึก ฉลาด และมั่นคงSecondarySoft Canvas#F5F5F7ความสะอาดตา เรียบง่ายแบบ AppleAccentMuted Sage / Indigo#6E7C7Cความสงบแบบ Zen และความพรีเมียมBackgroundPure / Off-White#FFFFFFความบริสุทธิ์และพื้นที่ว่าง✍️ 5. Typography & ElementsTypeface: แนะนำกลุ่ม Geometric Sans-serif (เช่น Inter, SF Pro, หรือ Montserrat) ที่มีความสะอาดและดูเป็นสากลIcons: ใช้เส้น Line Icon ที่มีความบางสม่ำเสมอ (Light weight) เพื่อให้ดูไม่หนักจนเกินไปShapes: ขอบมนที่มีรัศมีพอดี (Subtle Rounded Corners) เพื่อให้ดูเป็นมิตรแต่ยังคงความเนี้ยบ💡 6. Interaction Principle: "The Intuitive Flow"Invisible UI: ยิ่งผู้ใช้รู้สึกว่าไม่ต้องเรียนรู้การใช้งานเลย ยิ่งประสบความสำเร็จMicro-feedback: มีการตอบสนองเล็กๆ น้อยๆ ที่ทำให้รู้ว่าระบบรับรู้แล้ว (เช่น การสั่นเบาๆ หรือการเปลี่ยนสีที่นุ่มนวล)คำแนะนำเพิ่มเติมจากผม:ในเมื่อคุณอยากให้แอปนี้เป็น "แอปสามัญ" เหมือน Facebook หรือ Twitter ความลับไม่ได้อยู่ที่ความ "เยอะ" แต่อยู่ที่ความ "ลื่นไหล" (Frictionless) ครับ
+| **Zone Header** | Content | มีแถบสีเขียว (Vertical   & Mood BoardThe Mood"A calm morning in a well-designed studio." > ความรู้สึกเหมือนการเริ่มต้นวันใหม่ที่เงียบสงบ แต่ทุกอย่างรอบตัวถูกจัดวางไว้อย่างสมบูรณ์แบบSpace: ใช้ White Space (พื้นที่ว่าง) อย่างจงใจเพื่อให้ข้อมูล "หายใจ" ได้Texture: พื้นผิวที่ดูนุ่มนวล (Satin matte) หรือกึ่งโปร่งใสเหมือนกระจกฝ้า (Frosted Glass)Motion: การเคลื่อนไหวที่นุ่มนวล (Soft ease-in-out) ไม่กระโชกโฮกฮาก🌈 4. Color Palette (Proposed)เนื่องจากคุณยังไม่ได้ตัดสินใจ ผมขอเสนอโทนที่ตอบโจทย์ "Zen + Apple + Smart" ครับ:RoleTone NameHex CodeFeelingPrimaryDeep Slate / Ink#1A1A1Bความลุ่มลึก ฉลาด และมั่นคงSecondarySoft Canvas#F5F5F7ความสะอาดตา เรียบง่ายแบบ AppleAccentMuted Sage / Indigo#6E7C7Cความสงบแบบ Zen และความพรีเมียมBackgroundPure / Off-White#FFFFFFความบริสุทธิ์และพื้นที่ว่าง✍️ 5. Typography & ElementsTypeface: แนะนำกลุ่ม Geometric Sans-serif (เช่น Inter, SF Pro, หรือ Montserrat) ที่มีความสะอาดและดูเป็นสากลIcons: ใช้เส้น Line Icon ที่มีความบางสม่ำเสมอ (Light weight) เพื่อให้ดูไม่หนักจนเกินไปShapes: ขอบมนที่มีรัศมีพอดี (Subtle Rounded Corners) เพื่อให้ดูเป็นมิตรแต่ยังคงความเนี้ยบ💡 6. Interaction Principle: "The Intuitive Flow"Invisible UI: ยิ่งผู้ใช้รู้สึกว่าไม่ต้องเรียนรู้การใช้งานเลย ยิ่งประสบความสำเร็จMicro-feedback: มีการตอบสนองเล็กๆ น้อยๆ ที่ทำให้รู้ว่าระบบรับรู้แล้ว (เช่น การสั่นเบาๆ หรือการเปลี่ยนสีที่นุ่มนวล)คำแนะนำเพิ่มเติมจากผม:ในเมื่อคุณอยากให้แอปนี้เป็น "แอปสามัญ" เหมือน Facebook หรือ Twitter ความลับไม่ได้อยู่ที่ความ "เยอะ" แต่อยู่ที่ความ "ลื่นไหล" (Frictionless) ครับ
+
+---
+
+## 🎨 Future Custom Themes (Planned)
+> **Goal:** เพิ่มความหลากหลายและตอบโจทย์รสนิยมผู้ใช้ที่แตกต่างกัน
+
+### 1. Celestial Void (Indigo Theme)
+- **Primary Accent:** Indigo (`#6366F1`)
+- **Secondary Accent:** Violet (`#8B5CF6`)
+- **Concept:** สอดคล้องกับโทนสีที่พบใน `logo.png` ให้ความรู้สึกเหมือนอวกาศและเทคโนโลยีขั้นสูง
+- **Implementation:** รอระบบ Theme Customization ในอนาคต
+ette (Proposed)เนื่องจากคุณยังไม่ได้ตัดสินใจ ผมขอเสนอโทนที่ตอบโจทย์ "Zen + Apple + Smart" ครับ:RoleTone NameHex CodeFeelingPrimaryDeep Slate / Ink#1A1A1Bความลุ่มลึก ฉลาด และมั่นคงSecondarySoft Canvas#F5F5F7ความสะอาดตา เรียบง่ายแบบ AppleAccentMuted Sage / Indigo#6E7C7Cความสงบแบบ Zen และความพรีเมียมBackgroundPure / Off-White#FFFFFFความบริสุทธิ์และพื้นที่ว่าง✍️ 5. Typography & ElementsTypeface: แนะนำกลุ่ม Geometric Sans-serif (เช่น Inter, SF Pro, หรือ Montserrat) ที่มีความสะอาดและดูเป็นสากลIcons: ใช้เส้น Line Icon ที่มีความบางสม่ำเสมอ (Light weight) เพื่อให้ดูไม่หนักจนเกินไปShapes: ขอบมนที่มีรัศมีพอดี (Subtle Rounded Corners) เพื่อให้ดูเป็นมิตรแต่ยังคงความเนี้ยบ💡 6. Interaction Principle: "The Intuitive Flow"Invisible UI: ยิ่งผู้ใช้รู้สึกว่าไม่ต้องเรียนรู้การใช้งานเลย ยิ่งประสบความสำเร็จMicro-feedback: มีการตอบสนองเล็กๆ น้อยๆ ที่ทำให้รู้ว่าระบบรับรู้แล้ว (เช่น การสั่นเบาๆ หรือการเปลี่ยนสีที่นุ่มนวล)คำแนะนำเพิ่มเติมจากผม:ในเมื่อคุณอยากให้แอปนี้เป็น "แอปสามัญ" เหมือน Facebook หรือ Twitter ความลับไม่ได้อยู่ที่ความ "เยอะ" แต่อยู่ที่ความ "ลื่นไหล" (Frictionless) ครับ

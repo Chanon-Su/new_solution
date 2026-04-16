@@ -36,7 +36,7 @@ export const exportToCSV = (transactions: Transaction[]): void => {
   const url = URL.createObjectURL(blob);
   
   link.setAttribute('href', url);
-  link.setAttribute('download', `alpha_tlog_export_${new Date().toISOString().split('T')[0]}.csv`);
+  link.setAttribute('download', `planto_tlog_export_${new Date().toISOString().split('T')[0]}.csv`);
   link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();

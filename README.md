@@ -1,4 +1,4 @@
-# The Alpha Solution
+# PLANTO
 
 A modern portfolio tracker and digital asset data mart.
 

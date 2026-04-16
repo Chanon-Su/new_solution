@@ -1,4 +1,4 @@
-# Project Tech Stack: The Alpha Solution
+# Project Tech Stack: PLANTO
 
 ## Frontend Core
 - react: ^19.2.4

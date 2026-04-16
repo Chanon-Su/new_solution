@@ -26,7 +26,7 @@
                 - ฝั่งซ้าย: "Rows per page:" พร้อมปุ่มเลือก 10, 25, 50 (เลขที่เลือกต้องมีพื้นหลังสี Emerald ตามรูป 3)
                 - ฝั่งขวา: แสดงยอดรายการ และปุ่มลูกศร < > แบบมีกรอบสี่เหลี่ยมสีเข้ม
         - **Global Header (Top Frame): [FINALIZED - DESIGN LOCKED]**
-            - **Logo (ซ้าย):** แสดงข้อความ "ALPHA" (บน) และ "SOLUTION" (ล่าง) แบบซ้อนกัน (Two-line typography)
+            - **Logo (ซ้าย):** แสดงข้อความ "PLANTO" แบบพรีเมียม (Main brand identity)
             - **Navi-bar (ขวา):** Dashboard, Asset Mart, Transaction-Log (Active: Underline + Emerald Color), เป้าหมาย และไอคอน ✨ (Plans)
             - **System Icons (ขวาสุด):** Theme Toggle (🌙), Profile (👤), Settings (⚙️) กั้นด้วยเส้นคั่นบางๆ (Vertical Divider)
             - **Style:** Glassmorphism ชั้นสูงเบลอระดับพรีเมียม ขอบละเอียด 1px และเงาสะท้อนนุ่มนวล

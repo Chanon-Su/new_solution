@@ -1,6 +1,6 @@
 import type { Transaction } from '../types';
 
-const STORAGE_KEY = 'alpha_transactions';
+const STORAGE_KEY = 'planto_transactions';
 
 export const loadTransactions = (): Transaction[] => {
   try {

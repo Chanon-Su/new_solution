@@ -19,15 +19,14 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   return (
     <header className="global-header glass-panel">
       <div className="header-content container-centered">
-        {/* ฝั่งซ้าย: Logo (Golden Version) */}
+        {/* ฝั่งซ้าย: Logo (PLANTO Edition) */}
         <div className="logo-section" onClick={() => setActiveTab('dashboard')}>
           <div className="logo-circle">
             <div className="logo-glow-core"></div>
-            <span className="logo-char">A</span>
+            <img src="/logo.png" alt="PLANTO Logo" className="logo-img" />
           </div>
           <div className="logo-text-stack">
-            <span className="logo-top emerald-text">ALPHA</span>
-            <span className="logo-bottom">SOLUTION</span>
+            <span className="logo-main emerald-text">PLANTO</span>
           </div>
         </div>
 
@@ -42,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   onClick={() => {
                     setActiveTab(item.id);
                     if (item.id === 'asset-mart') {
-                      window.dispatchEvent(new Event('alpha_reset_asset_mart'));
+                      window.dispatchEvent(new Event('planto_reset_asset_mart'));
                     }
                   }}
                 >

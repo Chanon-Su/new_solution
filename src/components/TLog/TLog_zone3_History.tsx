@@ -4,7 +4,7 @@ import HistoryPagination from './HistoryPagination';
 import { useTLog } from '../../hooks/TLogManager';
 
 const TLog_zone3_History: React.FC = () => {
-  const { transactions, removeTransaction, isLoading } = useTLog();
+  const { transactions, removeTransaction, updateTransaction, isLoading } = useTLog();
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -51,6 +51,7 @@ const TLog_zone3_History: React.FC = () => {
         <HistoryTable 
           transactions={paginatedTransactions} 
           onDelete={removeTransaction}
+          onUpdate={updateTransaction}
         />
 
         {transactions.length > 0 && (

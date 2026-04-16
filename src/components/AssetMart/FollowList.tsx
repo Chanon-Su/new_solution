@@ -20,7 +20,7 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
   const [followedAssets, setFollowedAssets] = React.useState<FollowItem[]>([]);
 
   const loadFollowedAssets = () => {
-    const followedStr = localStorage.getItem('alpha_followed_assets');
+    const followedStr = localStorage.getItem('planto_followed_assets');
     if (followedStr) {
       setFollowedAssets(JSON.parse(followedStr));
     } else {
