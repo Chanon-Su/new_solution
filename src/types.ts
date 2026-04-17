@@ -23,3 +23,20 @@ export type DashboardBlock = {
   title: string;
   page: number; // 0, 1, 2
 };
+
+export type BillingOption = {
+  monthlyPrice: number;
+  yearlyPrice: number;
+  currency: string;
+};
+
+export type SubscriptionPlan = {
+  id: string;
+  title: string;
+  description: string;
+  features: string[];
+  billing: BillingOption;
+  type: 'standard' | 'group' | 'vip';
+  rank: number;
+  isFeatured?: boolean;
+};

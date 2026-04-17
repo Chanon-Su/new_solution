@@ -43,6 +43,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     if (item.id === 'asset-mart') {
                       window.dispatchEvent(new Event('planto_reset_asset_mart'));
                     }
+                    if (item.id === 'plans') {
+                      window.dispatchEvent(new Event('planto_reset_subscription'));
+                    }
                   }}
                 >
                   <div className="nav-item-content">
@@ -64,7 +67,11 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             <button className="util-btn theme-btn" title="Toggle Theme">
               <Moon size={18} />
             </button>
-            <button className="util-btn profile-btn" title="Profile">
+            <button 
+              className="util-btn profile-btn" 
+              title="Profile"
+              onClick={() => setActiveTab('profile')}
+            >
               <User size={18} />
             </button>
             <button className="util-btn settings-btn" title="Settings">

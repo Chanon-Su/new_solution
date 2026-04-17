@@ -18,3 +18,5 @@ A modern portfolio tracker and digital asset data mart.
 2. Start dev server: `npm run dev`
 3. Activate Python venv: `.\venv\Scripts\activate` (Windows)
 cmd /c npm run dev
+
+คูปอง VIPALPHA, SAVE10

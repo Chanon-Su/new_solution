@@ -139,8 +139,13 @@
             | 9 | fee | Number | ค่าธรรมเนียม |
             | 10 | notes | String | บันทึกเพิ่มเติม |
     - Profile & setting - จัดการข้อมูลส่วนตัว และตั้งค่าต่างๆ
-        - **Plans & Subscription:** หน้ารายละเอียดแผนการใช้งาน (Placeholder)
-        - **Terms of Service:** ลิงก์นโยบายการใช้งาน
+        - **Plans & Subscription:** หน้ารายละเอียดแผนการใช้งาน (Subscription Journey)
+            - **Multi-step Journey:** แบ่งเป็น 3 ขั้นตอน (1. ค้นหา/เลือกแผน, 2. ตรวจสอบและชำระเงิน, 3. สำเร็จ)
+            - **Smart Labeling:** ระบบปุ่มกดอัจฉริยะที่แสดง "Upgrade" หรือ "Downgrade" ตามลำดับ Rank ของแผนปัจจุบัน
+            - **Group Packs (Activation Codes):** แผนแบบกลุ่ม (Friends/Family) จะได้รับ activation codes สำหรับสมาชิกคนอื่นๆ ทางอีเมล โดยมีระบบยืนยันความเข้าใจ (Compliance Checkbox) ในขั้นตอน Checkout
+            - **Plan Ranking:** ระบบลำดับชั้นของแผน (Basic < Pro < Business < Group < VIP) เพื่อรองรับการจองสิทธิ์ข้ามรุ่นในอนาคต
+            - **Rich Text Features:** รองรับการเน้นข้อความ (Underline) ในรายการฟีเจอร์เพื่อสื่อสารจุดเด่นของแต่ละแผนได้ชัดเจน
+        - **Terms of Service:** ลิงก์นโยบายการใช้งาน (รวมถึงนโยบาย No Immediate Refund เมื่อเปลี่ยนแผน)
         - **Navigation Structure (Global Top Header): [FINALIZED - DESIGN LOCKED]**
             - **Right-Aligned Navi-bar (Next to Utilities):**
                 1. Dashboard

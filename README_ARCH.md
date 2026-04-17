@@ -29,6 +29,10 @@ root/
 │   │   ├── Dashboard/  # Grid-based modular dashboard system (BlocksLayer, DashboardBlock, etc.)
 │   │   ├── TLog/       # Transaction logging sub-modules
 │   │   ├── AssetMart/  # Market data components
+│   │   ├── Subscription/ # Multi-step subscription flow (Journey, Selector, Checkout)
+│   │   │   ├── hooks/      # Custom hooks (useSubscription)
+│   │   │   ├── utils/      # Billing and formatting utilities
+│   │   │   └── planData.ts # Centralized plan configurations and ranking
 │   │   ├── UI/         # Shared Design System components (ZenField, etc.)
 │   │   └── Header.tsx  # Global glassmorphism navigation
 │   ├── hooks/          # Custom Hooks (useDashboard, useBlockInteraction)
