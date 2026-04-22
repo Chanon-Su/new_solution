@@ -1,3 +1,25 @@
+export interface SubChecklistItem {
+  id: string;
+  label: string;
+  isCompleted: boolean;
+  completedAt?: string;
+}
+
+export interface Milestone {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  category: 'money' | 'asset' | 'dividend';
+  targetValue: number;
+  currentValue?: number; // Calculated from T-Log
+  unit: string;
+  linkedAssetSymbol: string; // ผูกกับ T-log และ Asset-mart
+  tags: string[];
+  subChecklist: SubChecklistItem[];
+  createdAt: string;
+}
+
 export type Transaction = {
   id: string;
   date: string;

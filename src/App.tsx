@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import AssetMart from './components/AssetMart/AssetMart';
 import TLog from './components/TLog/TLog';
 import SubscriptionJourney from './components/Subscription/SubscriptionJourney';
+import MilestonesPage from './components/Milestones/MilestonesPage';
 import type { Transaction } from './types';
 import './App.css';
 
@@ -21,12 +22,7 @@ function App() {
       case 't-log':
         return <TLog />;
       case 'goal':
-        return (
-          <div className="page-container goal-page container-centered p-20 text-center">
-            <h2 className="emerald-gradient-text text-4xl font-bold mb-4">Project Milestones</h2>
-            <p className="text-gray-400">ระบบติดตามความคืบหน้าของโปรเจกต์ (Coming Soon)</p>
-          </div>
-        );
+        return <MilestonesPage />;
       case 'plans':
         return (
           <SubscriptionJourney 

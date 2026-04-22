@@ -195,9 +195,22 @@
             - Buy asset
             - Sell asset
             - ปันผล asset
-        - Dashboard
+        - **Dashboard**
             - Custom dashboard (Max Grid: 20 Columns x 16 Rows)
             - Vis Types: Asset Allocation (Pie Chart), Recent Transactions (List)
+        - **Project Milestones (เป้าหมาย)** [MOVED FROM DEMO]:
+            - **Vision:** หน้าจอติดตามความคืบหน้าของเป้าหมายทางการเงินและโปรเจกต์
+            - **Layout:** รองรับ 2 แบบ (Checklist/List และ Bento Grid) สลับได้ที่มุมขวาบน
+            - **Card Components:** Icon, Title, Description, Progress Bar (Text "Progress" + Loading Bar + Value/Target), Hashtags, และปุ่ม Detail
+            - **Detail View (Full Screen):**
+                - **Top Half:** Sub-checklist (Small Wins) สำหรับจดบันทึกความพยายาม สามารถเพิ่มรายการด้วยปุ่ม (+) บางๆ
+                - **Bottom Half:** Dual Chart (Timeline แนวนอน)
+                    - **Line Chart:** แสดงภาพรวมความคืบหน้า (Goal Progress)
+                    - **Histogram:** แสดงประวัติการทำตามแผนย่อย (Checklist History)
+            - **Logic:**
+                - **Progress %:** คำนวณจากข้อมูลจริงใน **T-log** เท่านั้น (สแกนยอดรวมของสินทรัพย์ที่ผูกไว้)
+                - **Checklist:** ใช้สำหรับอัปเดต Histogram ในหน้า Detail เพื่อแสดงวินัยและความพยายาม
+                - **Integration:** ผูกข้อมูลกับ Asset-mart และ T-log (รองรับเป้าหมายประเภท สินทรัพย์, ปันผล, และมูลค่าเงินที่แปลงตามราคาตลาด)
     - Demo version 0.1 - 1.0 (ฉันไม่แน่ใจว่าเราจะเวิอร์ชั่น โปรเจคยังไงดี)
         - Asset Mart 3 ตัว
             - Bitcoin (เหมือนหุ้น)
@@ -252,8 +265,6 @@
                 - Theme
                 - Language
                 - Notification
-    - **เป้าหมาย (Goal):** หน้าจอสำหรับติดตามความคืบหน้าของโปรเจค (Project Milestones)
-        - **Format:** แสดงผลในรูปแบบ Checklist ของฟีเจอร์ที่ต้องทำในแต่ละเฟส (Alpha, Beta, Demo) เพื่อให้เห็นความก้าวหน้าของโปรเจคแบบรวมศูนย์
     - **GO live หลังเลย**
 ### Theme & art concept
     - สบายตา 

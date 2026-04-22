@@ -43,6 +43,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     if (item.id === 'asset-mart') {
                       window.dispatchEvent(new Event('planto_reset_asset_mart'));
                     }
+                    if (item.id === 'goal') {
+                      window.dispatchEvent(new Event('planto_reset_milestones'));
+                    }
                     if (item.id === 'plans') {
                       window.dispatchEvent(new Event('planto_reset_subscription'));
                     }
