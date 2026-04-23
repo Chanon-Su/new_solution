@@ -36,7 +36,7 @@ const MilestoneChart: React.FC<MilestoneChartProps> = ({ data, targetValue, isZo
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
-      <ResponsiveContainer>
+      <ResponsiveContainer minWidth={0} minHeight={0}>
         <ComposedChart data={data} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
           <XAxis 

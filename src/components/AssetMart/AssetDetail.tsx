@@ -35,11 +35,13 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
       followed = followed.filter((a: any) => a.id !== asset.id);
       setIsFollowed(false);
     } else {
+      // Normalize data for calculation and display
       followed.push({
         id: asset.id,
         name: asset.name,
         symbol: asset.symbol,
-        price: asset.price,
+        price: parseFloat(asset.price.replace(/[^\d.]/g, '')), // Raw number for calculation
+        displayPrice: asset.price, // Formatted string for UI
         change: asset.roi,
         isUp: asset.isUp,
         category: asset.category

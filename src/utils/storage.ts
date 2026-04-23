@@ -2,14 +2,22 @@ import type { Transaction } from '../types';
 
 const STORAGE_KEY = 'planto_transactions';
 
+let cachedTransactions: Transaction[] | null = null;
+
 export const loadTransactions = (): Transaction[] => {
+  if (cachedTransactions) return cachedTransactions;
+  
   try {
     const data = localStorage.getItem(STORAGE_KEY);
-    if (!data) return [];
+    if (!data) {
+      cachedTransactions = [];
+      return [];
+    }
     
     const parsed = JSON.parse(data);
     // Safety check: ensure it's an array
-    return Array.isArray(parsed) ? parsed : [];
+    cachedTransactions = Array.isArray(parsed) ? parsed : [];
+    return cachedTransactions;
   } catch (error) {
     console.error('Failed to load transactions from localStorage:', error);
     return [];
@@ -19,6 +27,7 @@ export const loadTransactions = (): Transaction[] => {
 export const saveTransactions = (transactions: Transaction[]): void => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+    cachedTransactions = transactions; // Update cache
   } catch (error) {
     console.error('Failed to save transactions to localStorage:', error);
   }

@@ -28,16 +28,18 @@ const MilestoneCard: React.FC<MilestoneCardProps> = ({ milestone, currentValue, 
       
       <div className="flex justify-between items-start mb-2">
         <h3 className="milestone-title">{milestone.title}</h3>
-        <span className="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-full font-bold uppercase tracking-wider">
-          In Progress
-        </span>
+        {progressPercent >= 100 && (
+          <span className="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-full font-bold uppercase tracking-wider animate-pulse">
+            Complete
+          </span>
+        )}
       </div>
       
       <p className="milestone-desc">{milestone.description}</p>
       
       <div className="progress-section">
         <div className="progress-labels">
-          <span className="progress-text">Progress</span>
+          <span className="progress-text">{progressPercent >= 100 ? 'COMPLETED' : 'PROGRESS'}: {progressPercent}%</span>
           <span className="progress-values">
             {currentValue.toLocaleString()} / {milestone.targetValue.toLocaleString()} {milestone.unit}
           </span>

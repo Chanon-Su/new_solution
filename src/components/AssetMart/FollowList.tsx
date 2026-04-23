@@ -72,7 +72,7 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
                   </div>
                 </div>
                 <div className="follow-item-right">
-                  <span className="follow-item-price text-white font-medium">{item.price}</span>
+                  <span className="follow-item-price text-white font-medium">{item.displayPrice || item.price}</span>
                   <div className={`follow-item-change flex items-center justify-end gap-1 ${item.isUp ? 'text-emerald-400' : 'text-red-400'}`}>
                     {item.isUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                     <span className="text-xs font-semibold">{item.roi}</span>

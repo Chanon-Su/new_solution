@@ -13,9 +13,12 @@ export interface ChartData {
 export const useMilestoneAnalytics = (
   milestone: Milestone, 
   currentValue: number, 
-  frequency: Frequency
+  frequency: Frequency,
+  enabled: boolean = true
 ) => {
   const chartData = useMemo(() => {
+    if (!enabled) return [{ date: 'Loading...', progress: 0, effort: 0 }];
+    
     // 1. Load All Transactions
     const allTransactions = storage.loadTransactions();
     
@@ -114,7 +117,7 @@ export const useMilestoneAnalytics = (
     }) : [
       { date: 'Waiting for Data', progress: 0, effort: 0 }
     ];
-  }, [milestone.subChecklist, frequency, currentValue, milestone.linkedAssetSymbol, milestone.trackingDimension, milestone.category]);
+  }, [milestone.subChecklist, frequency, currentValue, milestone.linkedAssetSymbol, milestone.trackingDimension, milestone.category, enabled]);
 
   return chartData;
 };

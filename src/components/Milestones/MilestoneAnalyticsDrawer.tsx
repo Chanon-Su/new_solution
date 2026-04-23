@@ -5,6 +5,7 @@ import type { ChartData, Frequency } from '../../hooks/useMilestoneAnalytics';
 
 interface MilestoneAnalyticsDrawerProps {
   isDrawerOpen: boolean;
+  isComputing: boolean;
   frequency: Frequency;
   isZoomedToGoal: boolean;
   chartData: ChartData[];
@@ -16,6 +17,7 @@ interface MilestoneAnalyticsDrawerProps {
 
 const MilestoneAnalyticsDrawer: React.FC<MilestoneAnalyticsDrawerProps> = ({
   isDrawerOpen,
+  isComputing,
   frequency,
   isZoomedToGoal,
   chartData,
@@ -81,12 +83,19 @@ const MilestoneAnalyticsDrawer: React.FC<MilestoneAnalyticsDrawerProps> = ({
             ))}
           </div>
         </div>
-        <div className="h-[250px]">
-          <MilestoneChart 
-            data={chartData} 
-            targetValue={targetValue} 
-            isZoomedToGoal={isZoomedToGoal}
-          />
+        <div className="h-[250px] relative">
+          {isComputing || chartData[0]?.date === 'Loading...' ? (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-4 text-emerald-500/40 animate-pulse bg-white/[0.01] rounded-2xl border border-white/5">
+               <div className="w-8 h-8 border-2 border-emerald-500/10 border-t-emerald-500/60 rounded-full animate-spin"></div>
+               <span className="text-[9px] font-bold uppercase tracking-[0.3em] ml-1">Analyzing Transaction Pattern...</span>
+            </div>
+          ) : (
+            <MilestoneChart 
+              data={chartData} 
+              targetValue={targetValue} 
+              isZoomedToGoal={isZoomedToGoal}
+            />
+          )}
         </div>
       </div>
     </div>

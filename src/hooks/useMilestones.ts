@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Milestone, Transaction } from '../types';
 
 export const useMilestones = () => {
@@ -20,36 +20,72 @@ export const useMilestones = () => {
     localStorage.setItem('planto_milestones', JSON.stringify(milestones));
   }, [milestones]);
 
-  // Logic to calculate progress from T-log
-  const calculateProgress = (linkedSymbol: string, category: string, trackingDimension?: 'Cash' | 'Unit'): number => {
+  // Load transactions once and memoize
+  const transactions = useMemo(() => {
     const tLogData = localStorage.getItem('planto_transactions');
-    if (!tLogData) return 0;
-    
+    if (!tLogData) return [];
     try {
-      const transactions: Transaction[] = JSON.parse(tLogData);
-      const filtered = transactions.filter(t => t.asset.toUpperCase() === linkedSymbol.toUpperCase());
-
-      if (category === 'dividend' || trackingDimension === 'Cash') {
-        return filtered.reduce((sum, t) => {
-          if (t.type === 'DIVIDEND') return sum + (t.amount * t.price);
-          if (trackingDimension === 'Cash') {
-            if (t.type === 'BUY') return sum + (t.amount * t.price);
-            if (t.type === 'SELL') return sum - (t.amount * t.price);
-          }
-          return sum;
-        }, 0);
-      } else {
-        // Default to Quantity (Unit)
-        return filtered.reduce((sum, t) => {
-          if (t.type === 'BUY') return sum + t.amount;
-          if (t.type === 'SELL') return sum - t.amount;
-          return sum;
-        }, 0);
-      }
+      return JSON.parse(tLogData) as Transaction[];
     } catch (e) {
-      return 0;
+      return [];
     }
-  };
+  }, []);
+
+  // Load followed assets for current prices and exchange rates
+  const followedAssets = useMemo(() => {
+    const saved = localStorage.getItem('planto_followed_assets');
+    if (!saved) return [];
+    try {
+      return JSON.parse(saved);
+    } catch (e) {
+      return [];
+    }
+  }, []);
+
+  // Logic to calculate progress from T-log (stable reference via useCallback)
+  const calculateProgress = useCallback((linkedSymbol: string, category: string, trackingDimension?: 'Cash' | 'Unit', unit?: string): number => {
+    if (!transactions.length || !linkedSymbol) return 0;
+    
+    const filtered = transactions.filter(t => t.asset.toUpperCase() === linkedSymbol.toUpperCase());
+
+    if (category === 'dividend') {
+      // Dividends are cumulative cash received (historically realized)
+      return filtered.reduce((sum, t) => {
+        if (t.type === 'DIVIDEND') return sum + (t.amount * t.price);
+        return sum;
+      }, 0);
+    } else if (trackingDimension === 'Cash') {
+      // Value (Cash) = Current Holding * Current Market Price
+      const quantity = filtered.reduce((sum, t) => {
+        if (t.type === 'BUY') return sum + t.amount;
+        if (t.type === 'SELL') return sum - t.amount;
+        return sum;
+      }, 0);
+
+      // Find current market price from Asset Mart
+      const asset = followedAssets.find((a: any) => a.symbol.toUpperCase() === linkedSymbol.toUpperCase());
+      // Prefer raw numeric price, fallback to string parsing for old data
+      const currentPrice = asset ? (typeof asset.price === 'number' ? asset.price : parseFloat(String(asset.price).replace(/[^\d.]/g, ''))) : 0;
+      
+      let valuation = quantity * currentPrice;
+
+      // Currency conversion if unit is THB
+      if (unit?.toUpperCase() === 'THB') {
+        const usdBthAsset = followedAssets.find((a: any) => a.symbol === 'USD/THB');
+        const rate = usdBthAsset ? (typeof usdBthAsset.price === 'number' ? usdBthAsset.price : parseFloat(String(usdBthAsset.price).replace(/[^\d.]/g, ''))) : 35; // Default mockup rate
+        valuation = valuation * rate;
+      }
+
+      return valuation;
+    } else {
+      // Default to Quantity (Unit) = Sum of BUY - SELL
+      return filtered.reduce((sum, t) => {
+        if (t.type === 'BUY') return sum + t.amount;
+        if (t.type === 'SELL') return sum - t.amount;
+        return sum;
+      }, 0);
+    }
+  }, [transactions, followedAssets]);
 
   const addMilestone = (milestone: Omit<Milestone, 'id' | 'createdAt' | 'subChecklist'>) => {
     const newId = Math.random().toString(36).substr(2, 9);

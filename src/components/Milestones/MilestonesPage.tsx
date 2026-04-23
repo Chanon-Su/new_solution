@@ -23,16 +23,27 @@ const MilestonesPage: React.FC = () => {
 
   const selectedMilestone = milestones.find(m => m.id === selectedMilestoneId);
 
+  // Memoize milestones with their calculated progress
+  const milestonesWithProgress = React.useMemo(() => {
+    return milestones.map(m => ({
+      ...m,
+      currentProgress: calculateProgress(m.linkedAssetSymbol, m.category, m.trackingDimension, m.unit)
+    }));
+  }, [milestones, calculateProgress]);
   const handleAddBlank = () => {
     const newMilestone = addMilestone({
       title: 'Untitled Goal',
-      description: 'Add a description to your goal...',
+      description: '',
       icon: 'trending-up',
       category: 'money',
-      targetValue: 1000,
-      unit: 'Units',
-      linkedAssetSymbol: 'CASH',
-      tags: ['NEW']
+      targetValue: 0,
+      unit: '',
+      linkedAssetSymbol: '',
+      trackingDimension: 'Cash',
+      precision: 2,
+      tags: [],
+      subChecklist: [],
+      createdAt: new Date().toISOString()
     });
     setIsCreating(true);
     setSelectedMilestoneId(newMilestone.id);
@@ -76,11 +87,11 @@ const MilestonesPage: React.FC = () => {
       </div>
 
       <div className={layout === 'grid' ? 'milestones-grid' : 'milestones-list'}>
-        {milestones.map(milestone => (
+        {milestonesWithProgress.map(milestone => (
           <MilestoneCard 
             key={milestone.id} 
             milestone={milestone}
-            currentValue={calculateProgress(milestone.linkedAssetSymbol, milestone.category, milestone.trackingDimension)}
+            currentValue={milestone.currentProgress}
             onViewDetails={() => {
               setIsCreating(false);
               setSelectedMilestoneId(milestone.id);
@@ -88,7 +99,7 @@ const MilestonesPage: React.FC = () => {
           />
         ))}
 
-        {milestones.length === 0 && (
+        {milestonesWithProgress.length === 0 && (
           <div className="col-span-full py-24 text-center border-2 border-dashed border-white/10 rounded-[2.5rem] bg-white/[0.02] flex flex-col items-center justify-center gap-6">
             <div className="w-20 h-20 rounded-3xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-center text-emerald-500/30">
               <Plus size={40} strokeWidth={1} />
@@ -107,19 +118,22 @@ const MilestonesPage: React.FC = () => {
         )}
       </div>
 
-      {selectedMilestone && (
-        <MilestoneDetailView 
-          milestone={selectedMilestone}
-          currentValue={calculateProgress(selectedMilestone.linkedAssetSymbol, selectedMilestone.category, selectedMilestone.trackingDimension)}
-          onClose={handleCloseDetail}
-          onToggleItem={(itemId) => toggleSubItem(selectedMilestoneId!, itemId)}
-          onAddItem={(label) => updateSubChecklist(selectedMilestoneId!, label)}
-          onReorderItem={reorderSubItem}
-          onUpdateMilestone={updateMilestone}
-          onDeleteMilestone={removeMilestone}
-          initialEditMode={isCreating}
-        />
-      )}
+      {selectedMilestone && (() => {
+          const selectedWithProgress = milestonesWithProgress.find(m => m.id === selectedMilestoneId);
+          return (
+            <MilestoneDetailView 
+              milestone={selectedMilestone}
+              currentValue={selectedWithProgress?.currentProgress ?? 0}
+              onClose={handleCloseDetail}
+              onToggleItem={(itemId) => toggleSubItem(selectedMilestoneId!, itemId)}
+              onAddItem={(label) => updateSubChecklist(selectedMilestoneId!, label)}
+              onReorderItem={reorderSubItem}
+              onUpdateMilestone={updateMilestone}
+              onDeleteMilestone={removeMilestone}
+              initialEditMode={isCreating}
+            />
+          );
+        })()}
     </div>
   );
 };
