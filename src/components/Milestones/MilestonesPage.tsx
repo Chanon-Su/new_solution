@@ -80,7 +80,7 @@ const MilestonesPage: React.FC = () => {
           <MilestoneCard 
             key={milestone.id} 
             milestone={milestone}
-            currentValue={calculateProgress(milestone.linkedAssetSymbol, milestone.category)}
+            currentValue={calculateProgress(milestone.linkedAssetSymbol, milestone.category, milestone.trackingDimension)}
             onViewDetails={() => {
               setIsCreating(false);
               setSelectedMilestoneId(milestone.id);
@@ -89,8 +89,20 @@ const MilestonesPage: React.FC = () => {
         ))}
 
         {milestones.length === 0 && (
-          <div className="col-span-full py-20 text-center border-2 border-dashed border-white/10 rounded-3xl">
-            <p className="text-gray-500">ยังไม่มีเป้าหมาย? เริ่มต้นด้วยการเพิ่มเป้าหมายแรกของคุณ</p>
+          <div className="col-span-full py-24 text-center border-2 border-dashed border-white/10 rounded-[2.5rem] bg-white/[0.02] flex flex-col items-center justify-center gap-6">
+            <div className="w-20 h-20 rounded-3xl bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-center text-emerald-500/30">
+              <Plus size={40} strokeWidth={1} />
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-bold text-white font-['Manrope']">No Milestones Yet</h3>
+              <p className="text-gray-500 max-w-xs mx-auto text-sm leading-relaxed">
+                Transform your financial aspirations into trackable goals. Start by adding your first strategic milestone.
+              </p>
+            </div>
+            <button className="add-milestone-btn mt-2" onClick={handleAddBlank}>
+              <Plus size={18} />
+              <span>Create Your First Goal</span>
+            </button>
           </div>
         )}
       </div>
@@ -98,7 +110,7 @@ const MilestonesPage: React.FC = () => {
       {selectedMilestone && (
         <MilestoneDetailView 
           milestone={selectedMilestone}
-          currentValue={calculateProgress(selectedMilestone.linkedAssetSymbol, selectedMilestone.category)}
+          currentValue={calculateProgress(selectedMilestone.linkedAssetSymbol, selectedMilestone.category, selectedMilestone.trackingDimension)}
           onClose={handleCloseDetail}
           onToggleItem={(itemId) => toggleSubItem(selectedMilestoneId!, itemId)}
           onAddItem={(label) => updateSubChecklist(selectedMilestoneId!, label)}

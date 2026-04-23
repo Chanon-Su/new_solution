@@ -21,20 +21,25 @@ export const useMilestones = () => {
   }, [milestones]);
 
   // Logic to calculate progress from T-log
-  const calculateProgress = (linkedSymbol: string, category: string): number => {
+  const calculateProgress = (linkedSymbol: string, category: string, trackingDimension?: 'Cash' | 'Unit'): number => {
     const tLogData = localStorage.getItem('planto_transactions');
     if (!tLogData) return 0;
     
     try {
       const transactions: Transaction[] = JSON.parse(tLogData);
-      const filtered = transactions.filter(t => t.asset === linkedSymbol);
+      const filtered = transactions.filter(t => t.asset.toUpperCase() === linkedSymbol.toUpperCase());
 
-      if (category === 'dividend') {
-        return filtered
-          .filter(t => t.type === 'DIVIDEND')
-          .reduce((sum, t) => sum + (t.amount * t.price), 0); // Assuming amount * price for total value
+      if (category === 'dividend' || trackingDimension === 'Cash') {
+        return filtered.reduce((sum, t) => {
+          if (t.type === 'DIVIDEND') return sum + (t.amount * t.price);
+          if (trackingDimension === 'Cash') {
+            if (t.type === 'BUY') return sum + (t.amount * t.price);
+            if (t.type === 'SELL') return sum - (t.amount * t.price);
+          }
+          return sum;
+        }, 0);
       } else {
-        // Default to summing quantity for assets
+        // Default to Quantity (Unit)
         return filtered.reduce((sum, t) => {
           if (t.type === 'BUY') return sum + t.amount;
           if (t.type === 'SELL') return sum - t.amount;

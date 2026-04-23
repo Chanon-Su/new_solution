@@ -15,6 +15,7 @@ export interface Milestone {
   currentValue?: number; // Calculated from T-Log
   unit: string;
   linkedAssetSymbol: string; // ผูกกับ T-log และ Asset-mart
+  trackingDimension?: 'Cash' | 'Unit';
   tags: string[];
   subChecklist: SubChecklistItem[];
   createdAt: string;
