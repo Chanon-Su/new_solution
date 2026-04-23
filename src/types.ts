@@ -14,8 +14,10 @@ export interface Milestone {
   targetValue: number;
   currentValue?: number; // Calculated from T-Log
   unit: string;
-  linkedAssetSymbol: string; // ผูกกับ T-log และ Asset-mart
-  trackingDimension?: 'Cash' | 'Unit';
+  linkedAssets: string[];              // Multi-asset list (แทน linkedAssetSymbol)
+  linkedAssetSymbol?: string;          // @deprecated — ใช้เพื่อ migration เท่านั้น
+  trackingDimension?: 'Cash' | 'Unit' | 'Dividend';
+  dividendPeriod?: '1m' | '3m' | '6m' | '1y'; // ใช้เฉพาะ Dividend mode
   precision?: number;
   tags: string[];
   subChecklist: SubChecklistItem[];

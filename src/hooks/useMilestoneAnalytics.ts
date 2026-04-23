@@ -24,8 +24,8 @@ export const useMilestoneAnalytics = (
     
     // 2. Filter transactions for the linked asset
     const filteredTxs = allTransactions.filter(tx => 
-      milestone.linkedAssetSymbol && 
-      tx.asset.toUpperCase() === milestone.linkedAssetSymbol.toUpperCase()
+      milestone.linkedAssets?.[0] && 
+      tx.asset.toUpperCase() === milestone.linkedAssets[0].toUpperCase()
     ).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     const dataMap: Record<string, { date: string; progress: number; effort: number }> = {};
@@ -117,7 +117,7 @@ export const useMilestoneAnalytics = (
     }) : [
       { date: 'Waiting for Data', progress: 0, effort: 0 }
     ];
-  }, [milestone.subChecklist, frequency, currentValue, milestone.linkedAssetSymbol, milestone.trackingDimension, milestone.category, enabled]);
+  }, [milestone.subChecklist, frequency, currentValue, milestone.linkedAssets, milestone.trackingDimension, milestone.category, enabled]);
 
   return chartData;
 };

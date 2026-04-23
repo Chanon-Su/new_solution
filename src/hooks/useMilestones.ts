@@ -6,7 +6,12 @@ export const useMilestones = () => {
     const saved = localStorage.getItem('planto_milestones');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved) as any[];
+        // Migration guard: linkedAssetSymbol (string) → linkedAssets (string[])
+        return parsed.map(m => ({
+          ...m,
+          linkedAssets: m.linkedAssets ?? (m.linkedAssetSymbol ? [m.linkedAssetSymbol] : []),
+        })) as Milestone[];
       } catch (e) {
         console.error('Failed to parse milestones', e);
         return [];
@@ -42,48 +47,106 @@ export const useMilestones = () => {
     }
   }, []);
 
-  // Logic to calculate progress from T-log (stable reference via useCallback)
-  const calculateProgress = useCallback((linkedSymbol: string, category: string, trackingDimension?: 'Cash' | 'Unit', unit?: string): number => {
-    if (!transactions.length || !linkedSymbol) return 0;
-    
-    const filtered = transactions.filter(t => t.asset.toUpperCase() === linkedSymbol.toUpperCase());
+  // คำนวณ progress จาก T-log รองรับ multi-asset + Dividend period
+  const calculateProgress = useCallback((
+    linkedAssets: string[],
+    trackingDimension?: 'Cash' | 'Unit' | 'Dividend',
+    dividendPeriod?: '1m' | '3m' | '6m' | '1y',
+    unit?: string
+  ): number => {
+    if (!transactions.length || !linkedAssets.length) return 0;
 
-    if (category === 'dividend') {
-      // Dividends are cumulative cash received (historically realized)
-      return filtered.reduce((sum, t) => {
-        if (t.type === 'DIVIDEND') return sum + (t.amount * t.price);
-        return sum;
-      }, 0);
-    } else if (trackingDimension === 'Cash') {
-      // Value (Cash) = Current Holding * Current Market Price
-      const quantity = filtered.reduce((sum, t) => {
-        if (t.type === 'BUY') return sum + t.amount;
-        if (t.type === 'SELL') return sum - t.amount;
-        return sum;
-      }, 0);
+    // Map dividend frequency string → number of months
+    const freqMonths: Record<string, number> = { '1m': 1, '3m': 3, '6m': 6, '1y': 12 };
 
-      // Find current market price from Asset Mart
-      const asset = followedAssets.find((a: any) => a.symbol.toUpperCase() === linkedSymbol.toUpperCase());
-      // Prefer raw numeric price, fallback to string parsing for old data
-      const currentPrice = asset ? (typeof asset.price === 'number' ? asset.price : parseFloat(String(asset.price).replace(/[^\d.]/g, ''))) : 0;
-      
-      let valuation = quantity * currentPrice;
+    // USD/THB rate จาก followed assets
+    const usdThbAsset = followedAssets.find((a: any) => a.symbol === 'USD/THB');
+    const usdThbRate = usdThbAsset
+      ? (typeof usdThbAsset.price === 'number' ? usdThbAsset.price : parseFloat(String(usdThbAsset.price).replace(/[^\d.]/g, '')))
+      : 35;
 
-      // Currency conversion if unit is THB
-      if (unit?.toUpperCase() === 'THB') {
-        const usdBthAsset = followedAssets.find((a: any) => a.symbol === 'USD/THB');
-        const rate = usdBthAsset ? (typeof usdBthAsset.price === 'number' ? usdBthAsset.price : parseFloat(String(usdBthAsset.price).replace(/[^\d.]/g, ''))) : 35; // Default mockup rate
-        valuation = valuation * rate;
+    if (trackingDimension === 'Dividend' && dividendPeriod) {
+      // --- Dividend Mode ---
+      const targetMonths = freqMonths[dividendPeriod] ?? 12;
+      let total = 0;
+
+      for (const symbol of linkedAssets) {
+        const assetTxs = transactions.filter(
+          t => t.asset.toUpperCase() === symbol.toUpperCase() &&
+               t.type === 'DIVIDEND' &&
+               t.frequency !== 'OTHER'
+        );
+
+        // จัดกลุ่มตาม frequency แล้วดึง N รายการล่าสุด
+        const freqGroups: Record<string, typeof assetTxs> = {};
+        for (const tx of assetTxs) {
+          const freq = tx.frequency ?? '1y';
+          if (!freqGroups[freq]) freqGroups[freq] = [];
+          freqGroups[freq].push(tx);
+        }
+
+        for (const [freq, txGroup] of Object.entries(freqGroups)) {
+          const dividendMonths = freqMonths[freq];
+          if (!dividendMonths) continue; // OTHER หรือ freq ที่ไม่รู้จัก → ข้าม
+
+          const N = Math.round(targetMonths / dividendMonths);
+          // เรียงจากใหม่สุด แล้วเอา N รายการ
+          const recent = [...txGroup]
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .slice(0, N);
+
+          let assetSum = recent.reduce((sum, t) => sum + (t.amount * t.price), 0);
+
+          // Currency conversion: ถ้า tx เป็น THB แต่เป้าหมายเป็น USD → หาร
+          // ถ้า tx เป็น USD แต่เป้าหมายเป็น THB → คูณ
+          if (recent.length > 0) {
+            const txCurrency = recent[0].currency ?? 'USD';
+            const targetUnit = unit?.toUpperCase() ?? 'USD';
+            if (txCurrency === 'THB' && targetUnit === 'USD') {
+              assetSum = assetSum / usdThbRate;
+            } else if (txCurrency === 'USD' && targetUnit === 'THB') {
+              assetSum = assetSum * usdThbRate;
+            }
+          }
+          total += assetSum;
+        }
       }
+      return total;
 
-      return valuation;
+    } else if (trackingDimension === 'Cash') {
+      // --- Value Mode (multi-asset sum of current market value) ---
+      let total = 0;
+      for (const symbol of linkedAssets) {
+        const filtered = transactions.filter(t => t.asset.toUpperCase() === symbol.toUpperCase());
+        const quantity = filtered.reduce((sum, t) => {
+          if (t.type === 'BUY') return sum + t.amount;
+          if (t.type === 'SELL') return sum - t.amount;
+          return sum;
+        }, 0);
+        const asset = followedAssets.find((a: any) => a.symbol.toUpperCase() === symbol.toUpperCase());
+        const currentPrice = asset
+          ? (typeof asset.price === 'number' ? asset.price : parseFloat(String(asset.price).replace(/[^\d.]/g, '')))
+          : 0;
+        let valuation = quantity * currentPrice;
+        if (unit?.toUpperCase() === 'THB') {
+          valuation = valuation * usdThbRate;
+        }
+        total += valuation;
+      }
+      return total;
+
     } else {
-      // Default to Quantity (Unit) = Sum of BUY - SELL
-      return filtered.reduce((sum, t) => {
-        if (t.type === 'BUY') return sum + t.amount;
-        if (t.type === 'SELL') return sum - t.amount;
-        return sum;
-      }, 0);
+      // --- Quantity Mode (multi-asset sum of units) ---
+      let total = 0;
+      for (const symbol of linkedAssets) {
+        const filtered = transactions.filter(t => t.asset.toUpperCase() === symbol.toUpperCase());
+        total += filtered.reduce((sum, t) => {
+          if (t.type === 'BUY') return sum + t.amount;
+          if (t.type === 'SELL') return sum - t.amount;
+          return sum;
+        }, 0);
+      }
+      return total;
     }
   }, [transactions, followedAssets]);
 

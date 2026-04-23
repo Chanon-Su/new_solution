@@ -35,7 +35,7 @@ const MilestoneDetailView: React.FC<MilestoneDetailViewProps> = ({
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(initialEditMode);
-  const [isAssetDropdownOpen, setIsAssetDropdownOpen] = useState(false);
+  const [isAddAssetDropdownOpen, setIsAddAssetDropdownOpen] = useState(false);
   const [isDimensionDropdownOpen, setIsDimensionDropdownOpen] = useState(false);
   const [isUnitDropdownOpen, setIsUnitDropdownOpen] = useState(false);
   const [isZoomedToGoal, setIsZoomedToGoal] = useState(false);
@@ -85,20 +85,20 @@ const MilestoneDetailView: React.FC<MilestoneDetailViewProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (summaryRef.current && !summaryRef.current.contains(event.target as Node)) {
-        setIsAssetDropdownOpen(false);
+        setIsAddAssetDropdownOpen(false);
         setIsDimensionDropdownOpen(false);
         setIsUnitDropdownOpen(false);
       }
     };
 
-    if (isAssetDropdownOpen || isDimensionDropdownOpen || isUnitDropdownOpen) {
+    if (isAddAssetDropdownOpen || isDimensionDropdownOpen || isUnitDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isAssetDropdownOpen, isDimensionDropdownOpen, isUnitDropdownOpen]);
+  }, [isAddAssetDropdownOpen, isDimensionDropdownOpen, isUnitDropdownOpen]);
 
   return (
     <div className="milestone-detail-overlay">
@@ -113,13 +113,13 @@ const MilestoneDetailView: React.FC<MilestoneDetailViewProps> = ({
             currentValue={currentValue}
             isEditing={isEditing}
             showDeleteConfirm={showDeleteConfirm}
-            isAssetDropdownOpen={isAssetDropdownOpen}
+            isAddAssetDropdownOpen={isAddAssetDropdownOpen}
             isDimensionDropdownOpen={isDimensionDropdownOpen}
             followedAssets={followedAssets}
             onToggleEdit={() => {
               setIsEditing(!isEditing);
               setShowDeleteConfirm(false);
-              setIsAssetDropdownOpen(false);
+              setIsAddAssetDropdownOpen(false);
               setIsDimensionDropdownOpen(false);
             }}
             onShowDeleteConfirm={setShowDeleteConfirm}
@@ -128,20 +128,20 @@ const MilestoneDetailView: React.FC<MilestoneDetailViewProps> = ({
               onClose();
             }}
             onUpdate={(data) => onUpdateMilestone(milestone.id, data)}
-            onToggleAssetDropdown={() => {
-              setIsAssetDropdownOpen(!isAssetDropdownOpen);
+            onToggleAddAssetDropdown={() => {
+              setIsAddAssetDropdownOpen(!isAddAssetDropdownOpen);
               setIsDimensionDropdownOpen(false);
               setIsUnitDropdownOpen(false);
             }}
             onToggleDimensionDropdown={() => {
               setIsDimensionDropdownOpen(!isDimensionDropdownOpen);
-              setIsAssetDropdownOpen(false);
+              setIsAddAssetDropdownOpen(false);
               setIsUnitDropdownOpen(false);
             }}
             isUnitDropdownOpen={isUnitDropdownOpen}
             onToggleUnitDropdown={() => {
               setIsUnitDropdownOpen(!isUnitDropdownOpen);
-              setIsAssetDropdownOpen(false);
+              setIsAddAssetDropdownOpen(false);
               setIsDimensionDropdownOpen(false);
             }}
           />

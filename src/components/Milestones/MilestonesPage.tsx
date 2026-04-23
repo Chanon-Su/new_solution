@@ -27,7 +27,7 @@ const MilestonesPage: React.FC = () => {
   const milestonesWithProgress = React.useMemo(() => {
     return milestones.map(m => ({
       ...m,
-      currentProgress: calculateProgress(m.linkedAssetSymbol, m.category, m.trackingDimension, m.unit)
+      currentProgress: calculateProgress(m.linkedAssets ?? [], m.trackingDimension, m.dividendPeriod, m.unit)
     }));
   }, [milestones, calculateProgress]);
   const handleAddBlank = () => {
@@ -38,7 +38,7 @@ const MilestonesPage: React.FC = () => {
       category: 'money',
       targetValue: 0,
       unit: '',
-      linkedAssetSymbol: '',
+      linkedAssets: [],
       trackingDimension: 'Cash',
       precision: 2,
       tags: [],
