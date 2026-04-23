@@ -97,30 +97,32 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
         <div className="metric-card">
           <div className="flex justify-between items-start">
             <span className="label">Current Price</span>
-            <DollarSign className="w-4 h-4 text-emerald-500" />
+            {asset.category === 'FOREX' ? <Activity className="w-4 h-4 text-emerald-500" /> : <DollarSign className="w-4 h-4 text-emerald-500" />}
           </div>
           <p className="value">{asset.price}</p>
           <p className={`text-xs mt-2 font-bold ${asset.isUp ? 'text-emerald-400' : 'text-red-400'}`}>
-            {asset.isUp ? '+$420.50 (2.4%)' : '-$120.30 (1.1%)'}
+            {asset.category === 'FOREX' 
+              ? `${asset.isUp ? '+' : ''}${asset.change || '0.00'} (${asset.roi})`
+              : asset.isUp ? '+$420.50 (2.4%)' : '-$120.30 (1.1%)'}
           </p>
         </div>
         
         <div className="metric-card">
           <div className="flex justify-between items-start">
-            <span className="label">Market Cap</span>
+            <span className="label">{asset.category === 'FOREX' ? '24h High' : 'Market Cap'}</span>
             <Activity className="w-4 h-4 text-purple-500" />
           </div>
-          <p className="value">$1.24T</p>
-          <p className="text-xs text-gray-500 mt-2">Rank #1 in Market</p>
+          <p className="value">{asset.category === 'FOREX' ? '36.52' : '$1.24T'}</p>
+          <p className="text-xs text-gray-500 mt-2">{asset.category === 'FOREX' ? 'Daily Peak' : 'Rank #1 in Market'}</p>
         </div>
 
         <div className="metric-card">
           <div className="flex justify-between items-start">
-            <span className="label">Cost Basis (Adj)</span>
+            <span className="label">{asset.category === 'FOREX' ? '24h Low' : 'Cost Basis (Adj)'}</span>
             <Info className="w-4 h-4 text-blue-500" />
           </div>
-          <p className="value">$58,400.00</p>
-          <p className="text-xs text-emerald-400 mt-2">Dividend Adjusted</p>
+          <p className="value">{asset.category === 'FOREX' ? '36.38' : '$58,400.00'}</p>
+          <p className="text-xs text-emerald-400 mt-2">{asset.category === 'FOREX' ? 'Daily Floor' : 'Dividend Adjusted'}</p>
         </div>
 
         <div className="metric-card overflow-hidden relative">
@@ -165,7 +167,9 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
               <h4 className="font-bold">Fundamental Analysis</h4>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
-              สินทรัพย์นี้มีแนวโน้มเชิงบวกเนื่องจากการรับรองในระดับสถาบันและความต้องการใช้งานในอุตสาหกรรมเทรดดิ้งที่เพิ่มสูงขึ้น ข้อมูลพื้นฐานยังคงแข็งแกร่งด้วยอัตราการเติบโตของ Network Hashrate 
+              {asset.category === 'FOREX' 
+                ? 'อัตราแลกเปลี่ยนดอลลาร์สหรัฐต่อบาทไทย ได้รับอิทธิพลโดยตรงจากนโยบายทางการเงินของ Fed และ ธปท. รวมถึงทิศทางของ Fund Flow ในตลาดเกิดใหม่ (Emerging Markets)'
+                : 'สินทรัพย์นี้มีแนวโน้มเชิงบวกเนื่องจากการรับรองในระดับสถาบันและความต้องการใช้งานในอุตสาหกรรมเทรดดิ้งที่เพิ่มสูงขึ้น ข้อมูลพื้นฐานยังคงแข็งแกร่งด้วยอัตราการเติบโตของ Network Hashrate'}
             </p>
           </div>
           <div className="p-6 rounded-2xl bg-white/5 border border-white/5">

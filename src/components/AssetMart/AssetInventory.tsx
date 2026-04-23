@@ -66,6 +66,7 @@ const mockData: Record<string, AssetListItem[]> = {
     { id: 'r3', name: 'Digital Telecommunication', symbol: 'DIF', price: '8.15', change: '+$0.05', roi: '+0.62%', isUp: true, category: 'REALESTATE' },
   ],
   others: [
+    { id: 'fx1', name: 'US Dollar / Thai Baht', symbol: 'USD/THB', price: '36.45', change: '+0.12', roi: '+0.33%', isUp: true, category: 'FOREX' },
     { id: 'o1', name: 'Fine Wine Index', symbol: 'WINE', price: '$425.00', change: '+$5.00', roi: '+1.19%', isUp: true, category: 'OTHER' },
     { id: 'o2', name: 'Rare Watches Fund', symbol: 'WATCH', price: '$12,450', change: '+$150', roi: '+1.22%', isUp: true, category: 'OTHER' },
     { id: 'o3', name: 'Carbon Credits', symbol: 'CARBON', price: '$72.15', change: '-$2.45', roi: '-3.28%', isUp: false, category: 'OTHER' },
