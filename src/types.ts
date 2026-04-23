@@ -25,6 +25,7 @@ export type Transaction = {
   id: string;
   date: string;
   type: 'BUY' | 'SELL' | 'DIVIDEND';
+  frequency?: '1m' | '3m' | '6m' | '1y' | 'OTHER';
   asset: string;
   category: string;
   amount: number;

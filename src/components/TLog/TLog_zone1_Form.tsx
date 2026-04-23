@@ -8,6 +8,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import ZenField from '../UI/ZenField';
+import ZenDropdown, { type ZenDropdownOption } from '../UI/ZenDropdown';
 import { useTLog } from '../../hooks/TLogManager';
 import { exportToCSV, parseCSV } from '../../utils/csvUtils';
 import type { Transaction } from '../../types';
@@ -20,6 +21,7 @@ const TLog_zone1_Form: React.FC = () => {
     date: new Date().toISOString().split('T')[0],
     time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
     type: 'BUY' as 'BUY' | 'SELL' | 'DIVIDEND',
+    frequency: undefined as '1m' | '3m' | '6m' | '1y' | 'OTHER' | undefined,
     asset: '',
     category: 'STOCK',
     amount: '',
@@ -79,6 +81,14 @@ const TLog_zone1_Form: React.FC = () => {
     if (name === 'category') {
       localStorage.setItem('planto_tlog_last_category', value);
     }
+  };
+
+  const handleTypeChange = (type: string, subValue?: string) => {
+    setFormData(prev => ({ 
+      ...prev, 
+      type: type as 'BUY' | 'SELL' | 'DIVIDEND',
+      frequency: subValue as any
+    }));
   };
 
   // Fallback map for legacy followed assets that don't have category metadata
@@ -142,6 +152,7 @@ const TLog_zone1_Form: React.FC = () => {
       id: generateId(),
       date: `${formData.date} ${formData.time}`,
       type: formData.type,
+      frequency: formData.frequency,
       category: formData.category,
       asset: formData.asset.trim().toUpperCase(),
       amount: parseFloat(formData.amount),
@@ -164,7 +175,8 @@ const TLog_zone1_Form: React.FC = () => {
         amount: '',
         price: '',
         fee: '',
-        notes: ''
+        notes: '',
+        frequency: undefined
       }));
 
       setTimeout(() => setIsSuccess(false), 2000);
@@ -220,6 +232,22 @@ const TLog_zone1_Form: React.FC = () => {
       return countB - countA;
     });
   }, [transactions, defaultCategories]);
+
+  const typeOptions: ZenDropdownOption[] = [
+    { value: 'BUY', label: 'BUY' },
+    { value: 'SELL', label: 'SELL' },
+    { 
+      value: 'DIVIDEND', 
+      label: 'DIVIDEND', 
+      children: [
+        { value: '1m', label: 'Monthly' },
+        { value: '3m', label: 'Quarterly (3m)' },
+        { value: '6m', label: 'Semi-Annual (6m)' },
+        { value: '1y', label: 'Annual (1y)' },
+        { value: 'OTHER', label: 'Other' }
+      ] 
+    }
+  ];
 
   return (
     <section className="tlog-zone1-section flex flex-col gap-5">
@@ -356,17 +384,13 @@ const TLog_zone1_Form: React.FC = () => {
             </ZenField>
 
             <ZenField label="ประเภทรายการ" className="tlog-field-type">
-              <select 
-                name="type"
+              <ZenDropdown 
+                options={typeOptions}
                 value={formData.type}
-                onChange={handleInputChange}
-                className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none appearance-none cursor-pointer"
-              >
-                <option value="BUY" className="bg-[#121214]">BUY</option>
-                <option value="SELL" className="bg-[#121214]">SELL</option>
-                <option value="DIVIDEND" className="bg-[#121214]">DIVIDEND</option>
-              </select>
-              <ChevronDown size={16} className="mr-4 text-[#9CA3AF] pointer-events-none" />
+                subValue={formData.frequency}
+                onChange={handleTypeChange}
+                className="flex-1"
+              />
             </ZenField>
 
             <ZenField label="สินทรัพย์" className="tlog-field-asset">

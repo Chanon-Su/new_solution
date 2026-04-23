@@ -120,24 +120,42 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onE
                 {/* Type Cell */}
                 <td className="px-3 py-5">
                   {isEditing ? (
-                    <select 
-                      className="bg-black/40 border border-white/10 rounded px-1 py-1 text-[10px] outline-none"
-                      value={displayTx.type}
-                      onChange={(e) => handleEditChange('type', e.target.value)}
-                    >
-                      <option value="BUY">BUY</option>
-                      <option value="SELL">SELL</option>
-                      <option value="DIVIDEND">DIV</option>
-                    </select>
+                    <div className="flex flex-col gap-1">
+                      <select 
+                        className="bg-black/40 border border-white/10 rounded px-1 py-1 text-[10px] outline-none text-white"
+                        value={displayTx.type}
+                        onChange={(e) => handleEditChange('type', e.target.value)}
+                      >
+                        <option value="BUY">BUY</option>
+                        <option value="SELL">SELL</option>
+                        <option value="DIVIDEND">DIVIDEND</option>
+                      </select>
+                      {displayTx.type === 'DIVIDEND' && (
+                        <select 
+                          className="bg-black/40 border border-white/10 rounded px-1 py-1 text-[9px] outline-none text-emerald-400"
+                          value={displayTx.frequency || ''}
+                          onChange={(e) => handleEditChange('frequency', e.target.value)}
+                        >
+                          <option value="">None</option>
+                          <option value="1m">1M</option>
+                          <option value="3m">3M</option>
+                          <option value="6m">6M</option>
+                          <option value="1y">1Y</option>
+                          <option value="OTHER">OTHER</option>
+                        </select>
+                      )}
+                    </div>
                   ) : (
-                    <span className={`inline-flex items-center justify-center px-2.5 py-1 rounded-md text-[10px] font-black tracking-tighter ${
+                    <span className={`inline-flex items-center justify-center px-2.5 py-1 rounded-md text-[10px] font-black tracking-tighter border shadow-[0_2px_10px_rgba(0,0,0,0.2)] transition-all ${
                       tx.type === 'BUY' 
-                        ? 'bg-[#10B981]/10 text-[#10B981] border border-[#10B981]/20' 
+                        ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' 
                         : tx.type === 'SELL' 
-                          ? 'bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/20'
-                          : 'bg-[#6366F1]/10 text-[#6366F1] border border-[#6366F1]/20'
+                          ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20'
+                          : 'bg-[#6366F1]/10 text-[#6366F1] border-[#6366F1]/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
                     }`}>
-                      {tx.type || 'UNKNOWN'}
+                      {tx.type === 'DIVIDEND' && tx.frequency 
+                        ? `DIVIDEND_${tx.frequency.toUpperCase()}` 
+                        : (tx.type || 'UNKNOWN')}
                     </span>
                   )}
                 </td>
