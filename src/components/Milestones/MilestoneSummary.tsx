@@ -68,6 +68,17 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
 
   const precision = milestone.precision ?? 2;
 
+  // Local state for tags input to allow free typing (including trailing #)
+  const [tagInput, setTagInput] = useState(milestone.tags.join('#'));
+
+  // Sync local state when milestone tags change from outside (e.g. initialization)
+  useEffect(() => {
+    // Only sync if not actively editing to avoid jumping cursor
+    if (!isEditing) {
+      setTagInput(milestone.tags.join('#'));
+    }
+  }, [milestone.tags, isEditing]);
+
   // Dividend sub-menu hover state
   const [isDividendHovered, setIsDividendHovered] = useState(false);
   const dividendTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -135,13 +146,18 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
                   {isEditing ? (
                     <input
                       className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider bg-transparent border-none outline-none focus:ring-0 p-0 w-32"
-                      value={milestone.tags.join(' ')}
-                      onChange={(e) => onUpdate({ tags: e.target.value.split(' ').filter(t => t !== '') })}
-                      placeholder="tags..."
+                      value={tagInput}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setTagInput(val);
+                        // Debounced or direct update? Let's do direct but handle the parsing
+                        onUpdate({ tags: val.split('#').map(t => t.trim()).filter(t => t !== '') });
+                      }}
+                      placeholder="TAG1#TAG2..."
                     />
                   ) : (
                     <div className="text-[10px] text-emerald-500/50 font-bold uppercase tracking-wider w-32 truncate">
-                      {milestone.tags.join(' ')}
+                      {milestone.tags.join('#')}
                     </div>
                   )}
                 </div>

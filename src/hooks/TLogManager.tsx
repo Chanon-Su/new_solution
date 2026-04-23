@@ -64,7 +64,17 @@ export const TLogProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const assetSummaries = useMemo(() => {
-    const summaryMap: Record<string, { symbol: string; asset: string; amount: number; lastUpdate: string }> = {};
+    const summaryMap: Record<string, { 
+      symbol: string; 
+      asset: string; 
+      amount: number; 
+      lastUpdate: string;
+      totalDividendPrice: number;
+      dividendCount: number;
+      latestDividendPrice: number;
+      latestDividendDate: string;
+      hasDividends: boolean;
+    }> = {};
 
     internalTransactions.forEach(tx => {
       if (!tx.asset) return;
@@ -75,7 +85,12 @@ export const TLogProvider: React.FC<{ children: React.ReactNode }> = ({ children
           symbol: tx.asset,
           asset: tx.asset,
           amount: 0,
-          lastUpdate: tx.date || new Date().toISOString()
+          lastUpdate: tx.date || new Date().toISOString(),
+          totalDividendPrice: 0,
+          dividendCount: 0,
+          latestDividendPrice: 0,
+          latestDividendDate: '',
+          hasDividends: false
         };
       }
 
@@ -83,6 +98,17 @@ export const TLogProvider: React.FC<{ children: React.ReactNode }> = ({ children
         summaryMap[key].amount += tx.amount || 0;
       } else if (tx.type === 'SELL') {
         summaryMap[key].amount -= tx.amount || 0;
+      } else if (tx.type === 'DIVIDEND') {
+        summaryMap[key].hasDividends = true;
+        summaryMap[key].totalDividendPrice += tx.price || 0;
+        summaryMap[key].dividendCount += 1;
+        
+        const txDate = new Date(tx.date).getTime();
+        const lastDivDate = summaryMap[key].latestDividendDate ? new Date(summaryMap[key].latestDividendDate).getTime() : 0;
+        if (!isNaN(txDate) && (lastDivDate === 0 || txDate >= lastDivDate)) {
+          summaryMap[key].latestDividendPrice = tx.price;
+          summaryMap[key].latestDividendDate = tx.date;
+        }
       }
       
       const txDate = new Date(tx.date).getTime();
@@ -93,7 +119,11 @@ export const TLogProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     return Object.values(summaryMap)
-      .filter(s => s.amount > 0)
+      .filter(s => s.amount > 0 || s.hasDividends)
+      .map(s => ({
+        ...s,
+        avgDividend: s.dividendCount > 0 ? s.totalDividendPrice / s.dividendCount : 0
+      }))
       .sort((a, b) => {
         const dateA = new Date(a.lastUpdate).getTime() || 0;
         const dateB = new Date(b.lastUpdate).getTime() || 0;

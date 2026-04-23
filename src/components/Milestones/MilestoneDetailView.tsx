@@ -68,17 +68,46 @@ const MilestoneDetailView: React.FC<MilestoneDetailViewProps> = ({
     }
   }, [isDrawerOpen]);
 
-  // Load Real Follow List Assets from Asset Mart
+  // Load Assets from Follow List + T-log
   useEffect(() => {
     const followedStr = localStorage.getItem('planto_followed_assets');
+    const transactionsStr = localStorage.getItem('planto_transactions');
+    
+    let allAssets: { symbol: string, name: string }[] = [];
+    const seenSymbols = new Set<string>();
+
+    // 1. From Follow List
     if (followedStr) {
       try {
         const assets = JSON.parse(followedStr);
-        setFollowedAssets(assets.map((a: any) => ({ symbol: a.symbol, name: a.name })));
+        assets.forEach((a: any) => {
+          if (!seenSymbols.has(a.symbol)) {
+            allAssets.push({ symbol: a.symbol, name: a.name });
+            seenSymbols.add(a.symbol);
+          }
+        });
       } catch (e) {
         console.error('Failed to parse followed assets', e);
       }
     }
+
+    // 2. From T-log (Transaction history)
+    if (transactionsStr) {
+      try {
+        const txs = JSON.parse(transactionsStr);
+        txs.forEach((tx: any) => {
+          const symbol = tx.asset;
+          if (symbol && !seenSymbols.has(symbol)) {
+            allAssets.push({ symbol: symbol, name: symbol }); // Use symbol as name if not in Mart
+            seenSymbols.add(symbol);
+          }
+        });
+      } catch (e) {
+        console.error('Failed to parse transactions', e);
+      }
+    }
+
+    setFollowedAssets(allAssets);
   }, []);
 
   // Click Outside Detection

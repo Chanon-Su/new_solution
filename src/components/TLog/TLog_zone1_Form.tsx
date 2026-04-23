@@ -142,6 +142,25 @@ const TLog_zone1_Form: React.FC = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   };
 
+  const formatWithCommas = (value: string) => {
+    if (!value) return '';
+    const parts = value.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  };
+
+  const stripCommas = (value: string) => value.replace(/,/g, '');
+
+  const handleNumericInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const rawValue = stripCommas(value);
+    
+    // Allow only digits and a single decimal point
+    if (/^\d*\.?\d*$/.test(rawValue) || rawValue === '') {
+      setFormData(prev => ({ ...prev, [name]: rawValue }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.asset || !formData.amount || !formData.price) return;
@@ -459,12 +478,11 @@ const TLog_zone1_Form: React.FC = () => {
 
             <ZenField label="จำนวน" className="tlog-field-amount">
               <input 
-                type="number" 
+                type="text" 
                 name="amount"
-                value={formData.amount}
-                onChange={handleInputChange}
+                value={formatWithCommas(formData.amount)}
+                onChange={handleNumericInputChange}
                 required
-                step="any"
                 placeholder="0.00" 
                 className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
               />
@@ -481,12 +499,11 @@ const TLog_zone1_Form: React.FC = () => {
                 <option value="THB" className="bg-[#121214]">THB</option>
               </select>
               <input 
-                type="number" 
+                type="text" 
                 name="price"
-                value={formData.price}
-                onChange={handleInputChange}
+                value={formatWithCommas(formData.price)}
+                onChange={handleNumericInputChange}
                 required
-                step="any"
                 placeholder="0.00" 
                 className="flex-1 bg-transparent border-none px-3 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
               />
@@ -497,11 +514,10 @@ const TLog_zone1_Form: React.FC = () => {
                 {formData.currency}
               </div>
               <input 
-                type="number" 
+                type="text" 
                 name="fee"
-                value={formData.fee}
-                onChange={handleInputChange}
-                step="any"
+                value={formatWithCommas(formData.fee)}
+                onChange={handleNumericInputChange}
                 placeholder="0.00" 
                 className="flex-1 bg-transparent border-none px-3 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
               />
