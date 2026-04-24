@@ -38,7 +38,57 @@ export type Transaction = {
   notes: string;
 };
 
-export type VisType = 'allocation' | 'value' | 'activity' | 'empty';
+// ─── Vis Type System ──────────────────────────────────────────────────────────
+
+export type VisType =
+  | 'pie'
+  | 'bar'
+  | 'target-bar'
+  | 'line'
+  | 'treemap'
+  | 'histogram'
+  | 'table'
+  | 'title'
+  | 'empty';
+
+export type VisDataSource = 'tlog' | 'milestone' | 'assetmart';
+
+export type VisDimension = 'category' | 'asset' | 'type';
+
+export type VisValue = 'cash' | 'unit' | 'count' | 'dividend';
+
+export type VisCurrency = 'THB' | 'USD';
+
+export interface VisFilter {
+  categories?: string[];
+  assets?: string[];
+  txTypes?: ('BUY' | 'SELL' | 'DIVIDEND')[];
+  milestoneIds?: string[];
+}
+
+export interface VisDateRange {
+  preset: 'all' | '7d' | '30d' | '90d' | '1y' | 'ytd' | 'custom';
+  from?: string;
+  to?: string;
+}
+
+export interface VisConfig {
+  visType: VisType;
+  dataSource: VisDataSource;
+  title: string;
+  dimension?: VisDimension;
+  value?: VisValue;
+  currency?: VisCurrency;
+  filter?: VisFilter;
+  dateRange?: VisDateRange;
+  maxRows?: number;           // สำหรับ table (default: 30)
+  assetmartSymbol?: string;   // symbol ที่เลือกจาก Follow List
+  assetmartPreset?: '1D' | '1W' | '1M' | '1Y' | 'ALL';
+  titleText?: string;         // สำหรับ title block
+  titleSubtext?: string;
+}
+
+// ─── Dashboard Block ───────────────────────────────────────────────────────────
 
 export type DashboardBlock = {
   id: string;
@@ -49,6 +99,7 @@ export type DashboardBlock = {
   type: VisType;
   title: string;
   page: number; // 0, 1, 2
+  visConfig?: VisConfig; // Visualization configuration
 };
 
 export type BillingOption = {

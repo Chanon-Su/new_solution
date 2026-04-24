@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TLogProvider } from './hooks/TLogManager';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import AssetMart from './components/AssetMart/AssetMart';
@@ -74,17 +75,19 @@ function App() {
   };
 
   return (
-    <div className="app-shell">
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-      
-      <main className="main-content">
-        {renderContent()}
-      </main>
+    <TLogProvider>
+      <div className="app-shell">
+        <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+        
+        <main className="main-content">
+          {renderContent()}
+        </main>
 
-      {/* Zen Background Elements */}
-      <div className="zen-glow top-left"></div>
-      <div className="zen-glow bottom-right"></div>
-    </div>
+        {/* Zen Background Elements */}
+        <div className="zen-glow top-left"></div>
+        <div className="zen-glow bottom-right"></div>
+      </div>
+    </TLogProvider>
   );
 }
 

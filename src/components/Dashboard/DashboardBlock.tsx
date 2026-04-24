@@ -1,7 +1,10 @@
-import React, { useRef } from 'react';
-import type { DashboardBlock as IBlock } from '../../types';
+import React, { useState, useRef } from 'react';
+import type { DashboardBlock as IBlock, VisConfig } from '../../types';
 import { Settings, Trash2 } from 'lucide-react';
 import { useBlockInteraction } from '../../hooks/useBlockInteraction';
+import VisRenderer from './Vis/VisRenderer';
+import VisConfigPopup from './Vis/VisConfigPopup';
+import './Vis/Vis.css';
 
 interface DashboardBlockProps {
   block: IBlock;
@@ -17,12 +20,13 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
   block, columns, rows, editMode, onUpdate, onDelete, isAreaAvailable
 }) => {
   const blockRef = useRef<HTMLDivElement>(null);
-  
-  const { 
-    isDragging, 
-    isResizing, 
-    onDragStart, 
-    onResizeStart 
+  const [showConfig, setShowConfig] = useState(false);
+
+  const {
+    isDragging,
+    isResizing,
+    onDragStart,
+    onResizeStart
   } = useBlockInteraction({
     block,
     columns,
@@ -44,35 +48,71 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
     zIndex: isDragging ? 100 : 10
   };
 
+  const handleSaveConfig = (config: VisConfig) => {
+    onUpdate(block.id, {
+      type: config.visType,
+      title: config.title,
+      visConfig: config,
+    });
+    setShowConfig(false);
+  };
+
   return (
-    <div 
-      ref={blockRef}
-      className={`dashboard-block ${isDragging ? 'dragging' : ''}`}
-      style={style}
-      onMouseDown={onDragStart}
-    >
-      <div className="block-header">
-        <span className="block-title">{block.title}</span>
-      </div>
-
-      <div className="block-content">
-        {/* Placeholder for future Vis components */}
-      </div>
-
-      {editMode && (
-        <>
-          <div className="block-actions">
-            <button className="action-btn" onClick={(e) => { e.stopPropagation(); /* Settings Placeholder */ }}>
-              <Settings size={14} />
-            </button>
-            <button className="action-btn" onClick={(e) => { e.stopPropagation(); onDelete(block.id); }}>
-              <Trash2 size={14} />
-            </button>
+    <>
+      <div
+        ref={blockRef}
+        className={`dashboard-block ${isDragging ? 'dragging' : ''}`}
+        style={style}
+        onMouseDown={onDragStart}
+      >
+        {/* Block title (แสดงเฉพาะ edit mode หรือ visType ที่ไม่ใช่ title/chart) */}
+        {editMode && (
+          <div className="block-header">
+            <span className="block-title">{block.title}</span>
           </div>
-          <div className="resize-handle" onMouseDown={onResizeStart} />
-        </>
+        )}
+
+        <div className="block-content">
+          <VisRenderer
+            config={block.visConfig}
+            editMode={editMode}
+            onConfigure={() => setShowConfig(true)}
+          />
+        </div>
+
+        {editMode && (
+          <>
+            <div className="block-actions">
+              <button
+                className="action-btn"
+                onClick={(e) => { e.stopPropagation(); setShowConfig(true); }}
+                title="ตั้งค่า Visualization"
+              >
+                <Settings size={14} />
+              </button>
+              <button
+                className="action-btn"
+                onClick={(e) => { e.stopPropagation(); onDelete(block.id); }}
+                title="ลบ Block"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+            <div className="resize-handle" onMouseDown={onResizeStart} />
+          </>
+        )}
+      </div>
+
+      {/* Config Popup — rendered outside block to avoid z-index issues */}
+      {showConfig && (
+        <VisConfigPopup
+          blockId={block.id}
+          initialConfig={block.visConfig}
+          onSave={handleSaveConfig}
+          onCancel={() => setShowConfig(false)}
+        />
       )}
-    </div>
+    </>
   );
 };
 

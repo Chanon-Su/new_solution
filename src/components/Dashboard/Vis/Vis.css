@@ -1,0 +1,513 @@
+/* ─── Vis.css — Visualization System Styles ─────────────────────────────────── */
+
+/* ── VisEmptyState ──────────────────────────────────────────────────────────── */
+
+.vis-empty-state {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0.4;
+}
+
+.vis-empty-state__icon {
+  color: #555;
+}
+
+.vis-empty-state__label {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+}
+
+.vis-empty-state__btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #10b981;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 1;
+}
+
+.vis-empty-state__btn:hover {
+  background: rgba(16, 185, 129, 0.2);
+}
+
+/* ── VisTitleBlock ───────────────────────────────────────────────────────────── */
+
+.vis-title-block {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 16px;
+  gap: 6px;
+}
+
+.vis-title-block__icon {
+  color: #10b981;
+  margin-bottom: 4px;
+}
+
+.vis-title-block__text {
+  font-size: clamp(14px, 3cqw, 28px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.vis-title-block__subtext {
+  font-size: clamp(10px, 1.8cqw, 14px);
+  color: #666;
+  font-weight: 400;
+}
+
+/* ── VisTable ────────────────────────────────────────────────────────────────── */
+
+.vis-table-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.vis-table-scroll {
+  overflow-y: auto;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+.vis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.vis-table thead tr {
+  position: sticky;
+  top: 0;
+  background: #141414;
+  z-index: 1;
+}
+
+.vis-table th {
+  padding: 6px 8px;
+  text-align: left;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #222;
+}
+
+.vis-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #1a1a1a;
+  color: #ccc;
+  vertical-align: middle;
+}
+
+.vis-table tbody tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+.vis-table__date { color: #666; font-size: 10px; }
+.vis-table__asset { color: #10b981; font-weight: 600; }
+.vis-table__number { text-align: right; font-variant-numeric: tabular-nums; }
+
+.vis-table__badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.vis-table__empty {
+  text-align: center;
+  padding: 24px;
+  color: #555;
+  font-size: 12px;
+}
+
+/* ── VisLineChart (AssetMart) ───────────────────────────────────────────────── */
+
+.vis-asset-line-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vis-asset-line-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 0;
+  flex-shrink: 0;
+}
+
+.vis-asset-symbol {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.vis-asset-price {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.vis-asset-price.up { color: #10b981; }
+.vis-asset-price.down { color: #ef4444; }
+
+.vis-asset-change {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.vis-asset-change.up { color: #10b981; }
+.vis-asset-change.down { color: #ef4444; }
+
+/* ─── VisConfigPopup ─────────────────────────────────────────────────────────── */
+
+.vis-config-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: visOverlayIn 0.2s ease;
+  pointer-events: auto; /* มั่นใจว่ากดได้แน่นอน */
+}
+
+@keyframes visOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.vis-config-popup {
+  width: 100%;
+  max-width: 960px; /* ย่อลงเล็กน้อยตามคำแนะนำ */
+  height: min(85vh, 700px); /* ย่อลงเล็กน้อยเพื่อให้กระชับ */
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+  animation: visPopupIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes visPopupIn {
+  from { opacity: 0; transform: scale(0.95) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Header */
+.vis-config-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid #1e1e1e;
+  flex-shrink: 0;
+}
+
+.vis-config-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.vis-config-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.vis-config-close:hover {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+/* Body: Left + Right */
+.vis-config-body {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Left: Form Panel ── */
+.vis-config-form {
+  border-right: 1px solid #1e1e1e;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a2a transparent;
+}
+
+.vis-config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vis-config-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.vis-config-input {
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.vis-config-input:focus {
+  border-color: #10b981;
+}
+
+.vis-config-hint {
+  font-size: 10px;
+  color: #555;
+  font-style: italic;
+}
+
+/* Chart type grid */
+.vis-config-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.vis-config-chart-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 11px;
+}
+
+.vis-config-chart-btn:hover {
+  border-color: #444;
+  color: #fff;
+  background: #202020;
+}
+
+.vis-config-chart-btn.active {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.08);
+  color: #10b981;
+}
+
+.vis-config-chart-emoji {
+  font-size: 18px;
+}
+
+.vis-config-chart-label {
+  font-size: 9px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* Select */
+.vis-config-select-wrapper {
+  position: relative;
+}
+
+.vis-config-select {
+  appearance: none;
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 8px 32px 8px 12px;
+  font-size: 13px;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.vis-config-select:focus {
+  border-color: #10b981;
+}
+
+.vis-config-select-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none;
+}
+
+/* Multi-toggle */
+.vis-config-multi-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vis-config-toggle-btn {
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.vis-config-toggle-btn:hover {
+  border-color: #444;
+  color: #ccc;
+}
+
+.vis-config-toggle-btn.active {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Actions */
+.vis-config-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #1e1e1e;
+}
+
+.vis-config-btn-cancel {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.vis-config-btn-cancel:hover {
+  border-color: #444;
+  color: #ccc;
+}
+
+.vis-config-btn-apply {
+  flex: 2;
+  padding: 10px;
+  border-radius: 10px;
+  background: #10b981;
+  border: none;
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.vis-config-btn-apply:hover {
+  background: #0ea872;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
+}
+
+/* ── Right: Preview Panel ── */
+.vis-config-preview {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 12px;
+}
+
+.vis-config-preview-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.vis-config-preview-badge {
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.vis-config-preview-canvas {
+  flex: 1;
+  background: #0d0d0d;
+  border: 1px solid #1e1e1e;
+  border-radius: 16px;
+  padding: 16px;
+  overflow: hidden;
+}
