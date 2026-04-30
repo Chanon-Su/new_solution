@@ -35,6 +35,8 @@ export type Transaction = {
   price: number;
   currency: 'THB' | 'USD';
   fee: number;
+  fee_discount?: number;
+  fee_vat?: number;
   notes: string;
 };
 

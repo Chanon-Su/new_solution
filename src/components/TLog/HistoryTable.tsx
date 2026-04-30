@@ -229,14 +229,49 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onE
                 {/* Fee Cell */}
                 <td className="px-3 py-5 text-right font-mono text-[13px] text-[#9CA3AF]">
                   {isEditing ? (
-                    <input 
-                      type="number"
-                      className="bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-xs w-16 text-right outline-none"
-                      value={displayTx.fee}
-                      onChange={(e) => handleEditChange('fee', e.target.value)}
-                    />
+                    <div className="flex flex-col gap-1 items-end min-w-[80px]">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[8px] opacity-40">VAT</span>
+                        <input 
+                          type="number"
+                          className="bg-black/40 border border-white/10 rounded px-1 py-0.5 text-[10px] w-14 text-right outline-none"
+                          value={displayTx.fee_vat || ''}
+                          placeholder="VAT"
+                          onChange={(e) => handleEditChange('fee_vat', e.target.value)}
+                        />
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="text-[8px] opacity-40">DSC</span>
+                        <input 
+                          type="number"
+                          className="bg-black/40 border border-white/10 rounded px-1 py-0.5 text-[10px] w-14 text-right outline-none"
+                          value={displayTx.fee_discount || ''}
+                          placeholder="Disc"
+                          onChange={(e) => handleEditChange('fee_discount', e.target.value)}
+                        />
+                      </div>
+                      <div className="flex items-center gap-1 border-t border-white/5 pt-1 mt-0.5">
+                        <span className="text-[8px] font-bold text-[#10B981]">TTL</span>
+                        <input 
+                          type="number"
+                          className="bg-black/40 border border-[#10B981]/30 rounded px-1 py-0.5 text-[11px] w-16 text-right outline-none font-bold text-[#10B981]"
+                          value={displayTx.fee}
+                          onChange={(e) => handleEditChange('fee', e.target.value)}
+                        />
+                      </div>
+                    </div>
                   ) : (
-                    fee > 0 ? fee.toLocaleString(undefined, { minimumFractionDigits: 2 }) : '-'
+                    <div className="flex flex-col items-end">
+                      <span className="text-white/80 font-bold">
+                        {fee > 0 ? fee.toLocaleString(undefined, { minimumFractionDigits: 2 }) : '-'}
+                      </span>
+                      {(displayTx.fee_vat || displayTx.fee_discount) ? (
+                        <div className="flex gap-2 text-[9px] opacity-40 font-sans tracking-tight">
+                          {displayTx.fee_vat ? <span>VAT: {Number(displayTx.fee_vat).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span> : null}
+                          {displayTx.fee_discount ? <span>Disc: {Number(displayTx.fee_discount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span> : null}
+                        </div>
+                      ) : null}
+                    </div>
                   )}
                 </td>
 

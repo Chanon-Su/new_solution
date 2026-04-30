@@ -27,6 +27,8 @@ const TLog_zone1_Form: React.FC = () => {
     amount: '',
     price: '',
     fee: '',
+    fee_vat: '',
+    fee_discount: '',
     currency: 'USD' as 'USD' | 'THB',
     notes: ''
   });
@@ -69,6 +71,21 @@ const TLog_zone1_Form: React.FC = () => {
       setFormData(prev => ({ ...prev, category: lastCategory }));
     }
   }, []);
+
+  // Auto-sum logic for Fee: VAT + Discount -> Total
+  // Only auto-calculates if user is typing in VAT or Discount fields
+  // If user types directly in 'fee' (Total), it stays as the source of truth
+  const [isTotalOverridden, setIsTotalOverridden] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isTotalOverridden) {
+      const vat = parseFloat(formData.fee_vat) || 0;
+      const discount = parseFloat(formData.fee_discount) || 0;
+      if (formData.fee_vat || formData.fee_discount) {
+        setFormData(prev => ({ ...prev, fee: (vat + discount).toString() }));
+      }
+    }
+  }, [formData.fee_vat, formData.fee_discount, isTotalOverridden]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -158,6 +175,13 @@ const TLog_zone1_Form: React.FC = () => {
     // Allow only digits and a single decimal point
     if (/^\d*\.?\d*$/.test(rawValue) || rawValue === '') {
       setFormData(prev => ({ ...prev, [name]: rawValue }));
+      
+      // If user manually edits 'fee', mark as overridden
+      if (name === 'fee') {
+        setIsTotalOverridden(true);
+      }
+      // If user clears VAT and Discount, we might want to allow auto-sum again? 
+      // For now, once edited manually, it stays manual until a new form
     }
   };
 
@@ -178,6 +202,8 @@ const TLog_zone1_Form: React.FC = () => {
       price: parseFloat(formData.price),
       currency: formData.currency,
       fee: parseFloat(formData.fee) || 0,
+      fee_vat: parseFloat(formData.fee_vat) || 0,
+      fee_discount: parseFloat(formData.fee_discount) || 0,
       notes: formData.notes
     };
 
@@ -193,10 +219,14 @@ const TLog_zone1_Form: React.FC = () => {
         asset: '',
         amount: '',
         price: '',
+        price: '',
         fee: '',
+        fee_vat: '',
+        fee_discount: '',
         notes: '',
         frequency: undefined
       }));
+      setIsTotalOverridden(false);
 
       setTimeout(() => setIsSuccess(false), 2000);
     }, 600);
@@ -476,7 +506,7 @@ const TLog_zone1_Form: React.FC = () => {
               </select>
             </ZenField>
 
-            <ZenField label="จำนวน" className="tlog-field-amount">
+            <ZenField label="จำนวน" className="tlog-field-amount col-span-1">
               <input 
                 type="text" 
                 name="amount"
@@ -488,7 +518,7 @@ const TLog_zone1_Form: React.FC = () => {
               />
             </ZenField>
 
-            <ZenField label="ราคาต่อหน่วย" className="tlog-field-price">
+            <ZenField label="ราคาต่อหน่วย" className="tlog-field-price col-span-1">
               <select 
                 name="currency"
                 value={formData.currency}
@@ -509,19 +539,52 @@ const TLog_zone1_Form: React.FC = () => {
               />
             </ZenField>
 
-            <ZenField label="ค่าธรรมเนียม" className="tlog-field-fee">
-              <div className="flex items-center pl-4 text-[13px] font-medium text-white opacity-40">
-                {formData.currency}
+            <div className="tlog-fee-group col-span-1 md:col-span-3 lg:col-span-1">
+              <div className="flex flex-col gap-2.5">
+                <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase px-1">ค่าธรรมเนียม (VAT / ส่วนลด / รวม)</label>
+                <div className="flex items-stretch h-[52px] bg-[#0a0a0a] border border-[rgba(255,255,255,0.05)] rounded-xl overflow-hidden focus-within:border-[#10B981] transition-all duration-200">
+                  {/* VAT 7% */}
+                  <div className="flex-1 flex flex-col justify-center border-r border-white/5 px-3">
+                    <span className="text-[9px] font-bold text-[#9CA3AF] opacity-40 uppercase tracking-tighter mb-0.5">VAT 7%</span>
+                    <input 
+                      type="text" 
+                      name="fee_vat"
+                      value={formatWithCommas(formData.fee_vat)}
+                      onChange={handleNumericInputChange}
+                      placeholder="0.00" 
+                      className="w-full bg-transparent border-none text-white text-[13px] outline-none placeholder:text-[#9CA3AF]/30" 
+                    />
+                  </div>
+                  {/* Discount */}
+                  <div className="flex-1 flex flex-col justify-center border-r border-white/5 px-3 bg-white/[0.01]">
+                    <span className="text-[9px] font-bold text-[#9CA3AF] opacity-40 uppercase tracking-tighter mb-0.5">ส่วนลด</span>
+                    <input 
+                      type="text" 
+                      name="fee_discount"
+                      value={formatWithCommas(formData.fee_discount)}
+                      onChange={handleNumericInputChange}
+                      placeholder="0.00" 
+                      className="w-full bg-transparent border-none text-white text-[13px] outline-none placeholder:text-[#9CA3AF]/30" 
+                    />
+                  </div>
+                  {/* Total Fee */}
+                  <div className="flex-[1.2] flex flex-col justify-center px-4 bg-[#10B981]/[0.03]">
+                    <span className="text-[9px] font-bold text-[#10B981] opacity-60 uppercase tracking-tighter mb-0.5">รวมสุทธิ</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-[10px] font-medium text-[#10B981] opacity-40">{formData.currency}</span>
+                      <input 
+                        type="text" 
+                        name="fee"
+                        value={formatWithCommas(formData.fee)}
+                        onChange={handleNumericInputChange}
+                        placeholder="0.00" 
+                        className="w-full bg-transparent border-none text-[#10B981] text-[14px] font-bold outline-none placeholder:text-[#10B981]/20" 
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <input 
-                type="text" 
-                name="fee"
-                value={formatWithCommas(formData.fee)}
-                onChange={handleNumericInputChange}
-                placeholder="0.00" 
-                className="flex-1 bg-transparent border-none px-3 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
-              />
-            </ZenField>
+            </div>
           </div>
 
           <div className="tlog-form-footer flex flex-col md:flex-row gap-6 items-stretch md:items-end">
