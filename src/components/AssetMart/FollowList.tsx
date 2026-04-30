@@ -9,6 +9,7 @@ interface FollowItem {
   change: string;
   roi: string;
   isUp: boolean;
+  displayPrice?: string;
 }
 
 interface FollowListProps {

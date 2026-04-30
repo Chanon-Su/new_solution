@@ -9,7 +9,6 @@ import {
   Globe,
   Briefcase
 } from 'lucide-react';
-import React from 'react';
 
 // Common asset mapping
 const ASSET_ICON_MAP: Record<string, { icon: any; color: string }> = {

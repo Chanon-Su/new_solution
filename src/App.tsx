@@ -8,7 +8,6 @@ import TLog from './components/TLog/TLog';
 import SubscriptionJourney from './components/Subscription/SubscriptionJourney';
 import MilestonesPage from './components/Milestones/MilestonesPage';
 import QuickFillSetup from './components/TLog/QuickFillSetup';
-import type { Transaction } from './types';
 import './App.css';
 
 function App() {

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Milestone, Transaction } from '../types';
+import type { Milestone } from '../types';
 import * as storage from '../utils/storage';
 
 export type Frequency = 'hour' | 'day' | 'week' | 'month' | 'quarter' | 'year';

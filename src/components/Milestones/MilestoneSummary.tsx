@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { Milestone } from '../../types';
-import { TrendingUp, Settings, CheckCircle2, Trash2, X, ChevronDown, Plus, ChevronRight, Percent } from 'lucide-react';
+import { TrendingUp, Settings, CheckCircle2, Trash2, X, ChevronDown, Plus, ChevronRight } from 'lucide-react';
 
 interface MilestoneSummaryProps {
   milestone: Milestone;

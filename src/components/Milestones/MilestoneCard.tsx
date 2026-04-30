@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Milestone, SubChecklistItem } from '../../types';
-import { Home, Bitcoin, DollarSign, TrendingUp, ChevronRight } from 'lucide-react';
+import type { Milestone } from '../../types';
+import { Home, Bitcoin, DollarSign, TrendingUp } from 'lucide-react';
 
 interface MilestoneCardProps {
   milestone: Milestone;

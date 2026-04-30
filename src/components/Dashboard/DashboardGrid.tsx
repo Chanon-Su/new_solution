@@ -8,7 +8,7 @@ interface DashboardGridProps {
   onConfigChange: (cols: number, rows: number) => void;
 }
 
-const DashboardGrid: React.FC<DashboardGridProps> = ({ columns, rows, layoutMode, editMode, onConfigChange }) => {
+const DashboardGrid: React.FC<DashboardGridProps> = ({ columns, rows, layoutMode, editMode }) => {
   // เงื่อนไข: แสดงตารางเฉพาะเมื่อเปิด Edit Mode เท่านั้น
   if (!editMode) return null;
 

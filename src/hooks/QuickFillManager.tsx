@@ -24,22 +24,9 @@ export const QuickFillProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       } catch (e) {
         console.error('Failed to parse quick fills', e);
       }
-    } else {
-      // Default items if empty
-      const defaultItems: QuickFillItem[] = [
-        { id: '1', name: 'A', icon: '💰', type: 'BUY', category: 'STOCK', currency: 'USD' },
-        { id: '2', name: 'B', icon: '📊', type: 'SELL', category: 'CRYPTO', currency: 'USD' },
-        { id: '3', name: 'C', icon: '🏢', type: 'DIVIDEND', category: 'REALESTATE', currency: 'THB' },
-      ];
-      setQuickFills(defaultItems);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultItems));
     }
   }, []);
 
-  const save = (items: QuickFillItem[]) => {
-    setQuickFills(items);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  };
 
   const addQuickFill = useCallback((item: QuickFillItem) => {
     setQuickFills(prev => {

@@ -41,9 +41,7 @@ const MilestonesPage: React.FC = () => {
       linkedAssets: [],
       trackingDimension: 'Cash',
       precision: 2,
-      tags: [],
-      subChecklist: [],
-      createdAt: new Date().toISOString()
+      tags: []
     });
     setIsCreating(true);
     setSelectedMilestoneId(newMilestone.id);

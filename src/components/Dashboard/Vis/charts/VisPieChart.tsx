@@ -27,7 +27,7 @@ const VisPieChart: React.FC<VisPieChartProps> = ({ points, currency = 'THB' }) =
         ))}
       </Pie>
       <Tooltip
-        formatter={(v: number) => [`${currency} ${v.toLocaleString()}`, '']}
+        formatter={(v: any) => [`${currency} ${Number(v).toLocaleString()}`, '']}
         contentStyle={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: 8 }}
         labelStyle={{ color: '#aaa' }}
         itemStyle={{ color: '#10b981' }}

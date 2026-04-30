@@ -20,7 +20,7 @@ export const VisBarChart: React.FC<VisBarChartProps> = ({ points, currency = 'TH
       <YAxis tick={{ fill: '#888', fontSize: 10 }} axisLine={false} tickLine={false}
         tickFormatter={v => v >= 1000 ? `${(v / 1000).toFixed(0)}K` : String(v)} />
       <Tooltip
-        formatter={(v: number) => [`${currency} ${v.toLocaleString()}`, '']}
+        formatter={(v: any) => [`${currency} ${Number(v).toLocaleString()}`, '']}
         contentStyle={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: 8 }}
         labelStyle={{ color: '#aaa' }}
         itemStyle={{ color: '#10b981' }}
@@ -65,8 +65,8 @@ export const VisTargetBarChart: React.FC<VisTargetBarChartProps> = ({ points }) 
         <YAxis type="category" dataKey="name" tick={{ fill: '#ccc', fontSize: 11 }}
           axisLine={false} tickLine={false} width={90} />
         <Tooltip
-          formatter={(v: number, _: any, props: any) => [
-            `${v.toFixed(1)}% — ${props.payload?.label}`, ''
+          formatter={(v: any, _: any, props: any) => [
+            `${Number(v).toFixed(1)}% — ${props.payload?.label}`, ''
           ]}
           contentStyle={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: 8 }}
           labelStyle={{ color: '#aaa' }}

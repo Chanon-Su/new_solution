@@ -12,11 +12,10 @@ import { getAssetMetadata } from '../../utils/assetMapping';
 interface HistoryTableProps {
   transactions: Transaction[];
   onDelete?: (id: string) => void;
-  onEdit?: (tx: Transaction) => void;
   onUpdate?: (tx: Transaction) => void;
 }
 
-const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onEdit, onUpdate }) => {
+const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onUpdate }) => {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Transaction | null>(null);

@@ -23,13 +23,13 @@ const VisHistogram: React.FC<VisHistogramProps> = ({ points }) => (
       />
       <YAxis tick={{ fill: '#888', fontSize: 10 }} axisLine={false} tickLine={false} />
       <Tooltip
-        formatter={(v: number) => [v, 'Count']}
+        formatter={(v: any) => [v, 'Count']}
         contentStyle={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: 8 }}
         labelStyle={{ color: '#aaa' }}
         itemStyle={{ color: '#10b981' }}
       />
       <Bar dataKey="value" radius={[3, 3, 0, 0]}>
-        {points.map((entry, i) => (
+        {points.map((_entry, i) => (
           <Cell key={`cell-${i}`} fill="#10b981" fillOpacity={0.5 + (i / points.length) * 0.5} />
         ))}
       </Bar>

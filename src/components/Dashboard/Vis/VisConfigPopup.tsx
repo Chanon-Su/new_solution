@@ -36,12 +36,6 @@ function getCategories(): string[] {
   } catch { return ['Crypto', 'Stock', 'Gold', 'Others']; }
 }
 
-function getAssets(): string[] {
-  try {
-    const txs = JSON.parse(localStorage.getItem('planto_transactions') ?? '[]');
-    return [...new Set<string>(txs.map((t: any) => t.asset).filter(Boolean))];
-  } catch { return []; }
-}
 
 function getFollowedSymbols(): string[] {
   try {
@@ -141,7 +135,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
 
   // Auto-set dataSource when chart type changes
   const handleChartTypeChange = (type: VisType) => {
-    const opt = CHART_OPTIONS.find(c => c.type === type);
+    CHART_OPTIONS.find(c => c.type === type);
     const defaultSource = type === 'target-bar' ? 'milestone'
       : type === 'title' ? 'tlog'
       : 'tlog';
@@ -172,7 +166,6 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
   const showDataSourceSwitch = draft.visType === 'line';
 
   const categories = getCategories();
-  const assets = getAssets();
   const followedSymbols = getFollowedSymbols();
   const milestones = getMilestones();
 

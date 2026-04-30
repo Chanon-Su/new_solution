@@ -3,7 +3,6 @@ import {
   Plus, 
   Upload, 
   Download, 
-  ChevronDown,
   Clock,
   CheckCircle2
 } from 'lucide-react';
@@ -248,7 +247,6 @@ const TLog_zone1_Form: React.FC = () => {
         ...prev,
         asset: '',
         amount: '',
-        price: '',
         price: '',
         fee: '',
         fee_vat: '',

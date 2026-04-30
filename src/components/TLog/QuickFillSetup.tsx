@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Save, Trash2, Info } from 'lucide-react';
+import { X, Save, Trash2 } from 'lucide-react';
 import ZenField from '../UI/ZenField';
 import ZenDropdown, { type ZenDropdownOption } from '../UI/ZenDropdown';
 import { useQuickFill } from '../../hooks/QuickFillManager';

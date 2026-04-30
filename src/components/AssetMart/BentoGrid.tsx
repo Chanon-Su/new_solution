@@ -33,7 +33,7 @@ const BentoGrid: React.FC<{ onSelect: (id: string) => void }> = ({ onSelect }) =
           onClick={() => onSelect(cat.id)}
         >
           <div className="bento-icon-wrapper">
-            {React.cloneElement(cat.icon as React.ReactElement, { size: 28 })}
+            {React.cloneElement(cat.icon as React.ReactElement<any>, { size: 28 })}
           </div>
           <div className="bento-info">
             <h3>{cat.name} <span className="text-xs text-gray-500 font-normal uppercase tracking-wider ml-1">[{cat.nameSub}]</span></h3>

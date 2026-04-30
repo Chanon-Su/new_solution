@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PricingCard from './PricingCard';
 import ZenField from '../UI/ZenField';
-import type { SubscriptionPlan } from '../../types';
 import { Sparkles, Users } from 'lucide-react';
 
 import { STATIC_PLANS, GROUP_PLANS, VIP_PLAN, ALL_PLANS } from './planData';
