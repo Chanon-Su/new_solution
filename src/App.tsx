@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { TLogProvider } from './hooks/TLogManager';
+import { QuickFillProvider } from './hooks/QuickFillManager';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import AssetMart from './components/AssetMart/AssetMart';
 import TLog from './components/TLog/TLog';
 import SubscriptionJourney from './components/Subscription/SubscriptionJourney';
 import MilestonesPage from './components/Milestones/MilestonesPage';
+import QuickFillSetup from './components/TLog/QuickFillSetup';
 import type { Transaction } from './types';
 import './App.css';
 
@@ -76,17 +78,22 @@ function App() {
 
   return (
     <TLogProvider>
-      <div className="app-shell">
-        <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-        
-        <main className="main-content">
-          {renderContent()}
-        </main>
+      <QuickFillProvider>
+        <div className="app-shell">
+          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+          
+          <main className="main-content">
+            {renderContent()}
+          </main>
 
-        {/* Zen Background Elements */}
-        <div className="zen-glow top-left"></div>
-        <div className="zen-glow bottom-right"></div>
-      </div>
+          {/* Zen Background Elements */}
+          <div className="zen-glow top-left"></div>
+          <div className="zen-glow bottom-right"></div>
+
+          {/* Global Modals */}
+          <QuickFillSetup />
+        </div>
+      </QuickFillProvider>
     </TLogProvider>
   );
 }

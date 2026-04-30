@@ -89,13 +89,15 @@
 }
 
 .nav-item {
-  padding: 10px 18px;
+  height: 72px; /* Match header height for full hit area */
+  padding: 0 18px;
   cursor: pointer;
   position: relative;
   transition: var(--transition-fast);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .nav-label {
@@ -115,13 +117,12 @@
 
 .nav-underline {
   position: absolute;
-  bottom: 0;
+  bottom: 18px;
   width: 100%;
   height: 2px;
   background: var(--neon-emerald);
   box-shadow: 0 0 12px var(--neon-emerald);
   border-radius: 2px;
-  transform: translateY(12px);
 }
 
 .plan-sparkle-icon {
@@ -158,4 +159,184 @@
 .util-btn:hover {
   color: var(--snow-white);
   transform: translateY(-2px);
+}
+
+/* Quick Fill Dropdown */
+.nav-item-quickfill {
+  position: relative;
+}
+
+.quickfill-dropdown {
+  position: absolute;
+  top: 100%; /* Align exactly with bottom of nav-item */
+  left: 0;
+  width: 100%;
+  background: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(16, 185, 129, 0.4); /* Highlight top border */
+  border-radius: 0 0 14px 14px; /* Only bottom rounded to attach to top */
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(16, 185, 129, 0.1);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  animation: qf-dropdown-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover Bridge to prevent gap */
+.quickfill-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+}
+
+@keyframes qf-dropdown-in {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.quickfill-list {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+}
+
+.quickfill-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.quickfill-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.quickfill-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.qf-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.qf-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.1));
+}
+
+.qf-logo-circle {
+  width: 28px;
+  height: 28px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--neon-emerald);
+  flex-shrink: 0;
+}
+
+.qf-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.2;
+}
+
+.qf-asset-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #ef4444; /* Red color as requested in drawing */
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.qf-settings-btn {
+  padding: 6px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qf-settings-btn:hover {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--neon-emerald);
+  transform: rotate(45deg);
+}
+
+.quickfill-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  gap: 8px;
+}
+
+.qf-empty-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 4px;
+}
+
+.qf-empty-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.qf-empty-sub {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  line-height: 1.4;
+  max-width: 140px;
+}
+
+.quickfill-add-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(16, 185, 129, 0.08);
+  border-top: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--neon-emerald);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quickfill-add-new:hover {
+  background: rgba(16, 185, 129, 0.15);
+  letter-spacing: 0.02em;
 }

@@ -138,6 +138,19 @@
             | 8 | currency | THB / USD | สกุลเงิน |
             | 9 | fee | Number | ค่าธรรมเนียม |
             | 10 | notes | String | บันทึกเพิ่มเติม |
+        - **Zone 4: Quick Fill (Fast-Entry Feature): [NEW]**
+            - **Quickfill Feature:** ระบบทางลัดสำหรับการกรอกข้อมูลธุรกรรมที่ทำเป็นประจำ เพื่อลดเวลาในการกรอกฟอร์มซ้ำๆ
+            - **Access Point:** เข้าถึงผ่านการ Hover ที่ปุ่ม "Transaction-Log" บน Global Header ซึ่งจะแสดง Dropdown กว้างเท่าขนาดปุ่ม (Zen Emerald Aesthetic)
+            - **Empty State:** หากยังไม่มีรายการด่วน ระบบจะแสดง Placeholder (Icon + Text) เพื่อแนะนำการใช้งาน พร้อมปุ่ม "+ เพิ่มรายการด่วนใหม่"
+            - **Quickfill Config (Setup Modal):**
+                - **Fields Management:** จัดการชื่อเรียกรายการ, Icon (Emoji หรือ Asset Logo), ประเภทธุรกรรม, สินทรัพย์, หมวดหมู่, จำนวน, ราคา, สกุลเงิน และบันทึกช่วยจำ
+                - **Smart Asset Suggestion:** ในช่องกรอกสินทรัพย์ ระบบจะแนะนำรายการจาก `planto_followed_assets` (Asset Mart) เมื่อมีการพิมพ์
+                - **Auto-Sync Logic:** เมื่อเลือกสินทรัพย์จากคำแนะนำ ระบบจะ Auto-fill หมวดหมู่ และเปลี่ยน Icon เป็น Logo ของสินทรัพย์นั้นให้ทันที (ใช้ตัวอักษรแรกในวงกลมสี Emerald)
+                - **Override Capability:** ผู้ใช้สามารถกดเลือก Emoji อื่นจาก Emoji Picker ทับ Logo อัตโนมัติได้เสมอ เพื่อความเป็นส่วนตัว
+            - **Communication & Logic:** 
+                - **Persistence:** ข้อมูลถูกเก็บใน `localStorage` ภายใต้ Key `planto_quick_fills` (Array of QuickFillItems)
+                - **Event-Driven:** ใช้ `CustomEvent` (`planto_apply_quick_fill`, `planto_open_quickfill_setup`) เพื่อส่งข้อมูลระหว่าง Header, Setup Modal และ Zone 1 Form (Main Entry) โดยไม่มีการ Prop-drilling
+                - **Workflow:** เมื่อเลือกรายการจาก Dropdown ระบบจะเปลี่ยน Tab มาที่ T-Log อัตโนมัติ และกรอกข้อมูลลงฟอร์ม Zone 1 ทันทีเพื่อให้ผู้ใช้ตรวจสอบ/แก้ไขก่อนกดบันทึกจริง
     - Profile & setting - จัดการข้อมูลส่วนตัว และตั้งค่าต่างๆ
         - **Plans & Subscription:** หน้ารายละเอียดแผนการใช้งาน (Subscription Journey)
             - **Multi-step Journey:** แบ่งเป็น 3 ขั้นตอน (1. ค้นหา/เลือกแผน, 2. ตรวจสอบและชำระเงิน, 3. สำเร็จ)

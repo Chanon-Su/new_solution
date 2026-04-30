@@ -1,5 +1,6 @@
-import React from 'react';
-import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, User, Settings } from 'lucide-react';
+import React, { useState } from 'react';
+import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, User, Settings, Plus } from 'lucide-react';
+import { useQuickFill } from '../hooks/QuickFillManager';
 import './Header.css';
 
 interface HeaderProps {
@@ -8,6 +9,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
+  const { quickFills, applyQuickFill } = useQuickFill();
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'asset-mart', label: 'Asset-Mart', icon: ShoppingBag },
@@ -37,7 +41,9 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
               {navItems.map((item) => (
                 <li 
                   key={item.id} 
-                  className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+                  className={`nav-item ${activeTab === item.id ? 'active' : ''} ${item.id === 't-log' ? 'nav-item-quickfill' : ''}`}
+                  onMouseEnter={() => setHoveredItem(item.id)}
+                  onMouseLeave={() => setHoveredItem(null)}
                   onClick={() => {
                     setActiveTab(item.id);
                     if (item.id === 'asset-mart') {
@@ -59,6 +65,67 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                     )}
                   </div>
                   {activeTab === item.id && !item.isIconOnly && <div className="nav-underline"></div>}
+
+                  {item.id === 't-log' && hoveredItem === 't-log' && (
+                    <div className="quickfill-dropdown glass-panel">
+                      <div className="quickfill-list">
+                        {quickFills.length === 0 ? (
+                          <div className="quickfill-empty-state">
+                            <div className="qf-empty-icon">
+                              <Plus size={24} />
+                            </div>
+                            <span className="qf-empty-text">ยังไม่มีรายการด่วน</span>
+                            <span className="qf-empty-sub">บันทึกรายการประจำเพื่อการกรอกที่รวดเร็วขึ้น</span>
+                          </div>
+                        ) : (
+                          quickFills.map((qf) => (
+                            <div 
+                              key={qf.id} 
+                              className="quickfill-item"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveTab('t-log');
+                                applyQuickFill(qf);
+                              }}
+                            >
+                              <div className="quickfill-item-content">
+                                {qf.icon && qf.icon.length > 2 ? (
+                                 <div className="qf-logo-circle">
+                                   {qf.icon.substring(0, 1).toUpperCase()}
+                                 </div>
+                                ) : (
+                                  <span className="qf-icon">{qf.icon || '📝'}</span>
+                                )}
+                                <div className="qf-info">
+                                  <span className="qf-name">{qf.name}</span>
+                                  {qf.asset && <span className="qf-asset-tag">{qf.asset}</span>}
+                                </div>
+                              </div>
+                              <button 
+                                className="qf-settings-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.dispatchEvent(new CustomEvent('planto_open_quickfill_setup', { detail: qf }));
+                                }}
+                              >
+                                <Settings size={14} />
+                              </button>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                      <div 
+                        className="quickfill-add-new"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.dispatchEvent(new Event('planto_open_quickfill_setup'));
+                        }}
+                      >
+                        <Plus size={14} />
+                        <span>เพิ่มรายการด่วนใหม่</span>
+                      </div>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>

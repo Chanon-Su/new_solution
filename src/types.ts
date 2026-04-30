@@ -40,6 +40,23 @@ export type Transaction = {
   notes: string;
 };
 
+export interface QuickFillItem {
+  id: string;
+  name: string;
+  icon?: string;
+  type?: 'BUY' | 'SELL' | 'DIVIDEND';
+  frequency?: '1m' | '3m' | '6m' | '1y' | 'OTHER';
+  asset?: string;
+  category?: string;
+  amount?: number;
+  price?: number;
+  currency?: 'THB' | 'USD';
+  fee?: number;
+  fee_vat?: number;
+  fee_discount?: number;
+  notes?: string;
+}
+
 // ─── Vis Type System ──────────────────────────────────────────────────────────
 
 export type VisType =

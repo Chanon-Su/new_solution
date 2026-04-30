@@ -11,7 +11,7 @@ import ZenField from '../UI/ZenField';
 import ZenDropdown, { type ZenDropdownOption } from '../UI/ZenDropdown';
 import { useTLog } from '../../hooks/TLogManager';
 import { exportToCSV, parseCSV } from '../../utils/csvUtils';
-import type { Transaction } from '../../types';
+import type { Transaction, QuickFillItem } from '../../types';
 
 const TLog_zone1_Form: React.FC = () => {
   const { addTransaction, transactions, importTransactions } = useTLog();
@@ -53,6 +53,36 @@ const TLog_zone1_Form: React.FC = () => {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Listen for Quick Fill event
+  React.useEffect(() => {
+    const handleQuickFill = (event: Event) => {
+      const qf = (event as CustomEvent).detail as QuickFillItem;
+      if (!qf) return;
+
+      setFormData(prev => {
+        const next = { ...prev };
+        if (qf.type) next.type = qf.type;
+        if (qf.frequency) next.frequency = qf.frequency;
+        if (qf.asset) next.asset = qf.asset;
+        if (qf.category) next.category = qf.category;
+        if (qf.amount !== undefined) next.amount = qf.amount.toString();
+        if (qf.price !== undefined) next.price = qf.price.toString();
+        if (qf.currency) next.currency = qf.currency;
+        if (qf.fee !== undefined) {
+          next.fee = qf.fee.toString();
+          setIsTotalOverridden(true);
+        }
+        if (qf.fee_vat !== undefined) next.fee_vat = qf.fee_vat.toString();
+        if (qf.fee_discount !== undefined) next.fee_discount = qf.fee_discount.toString();
+        if (qf.notes !== undefined) next.notes = qf.notes;
+        return next;
+      });
+    };
+
+    window.addEventListener('planto_apply_quick_fill', handleQuickFill);
+    return () => window.removeEventListener('planto_apply_quick_fill', handleQuickFill);
   }, []);
 
   // Load followed assets and last category
@@ -513,6 +543,7 @@ const TLog_zone1_Form: React.FC = () => {
                 value={formatWithCommas(formData.amount)}
                 onChange={handleNumericInputChange}
                 required
+                autoComplete="off"
                 placeholder="0.00" 
                 className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
               />
@@ -533,6 +564,7 @@ const TLog_zone1_Form: React.FC = () => {
                 name="price"
                 value={formatWithCommas(formData.price)}
                 onChange={handleNumericInputChange}
+                autoComplete="off"
                 required
                 placeholder="0.00" 
                 className="flex-1 bg-transparent border-none px-3 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
