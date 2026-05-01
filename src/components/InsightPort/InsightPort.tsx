@@ -7,7 +7,6 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
-  X,
   TrendingUp,
   Activity,
   PieChart as PieIcon
