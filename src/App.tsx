@@ -10,6 +10,7 @@ import SubscriptionJourney from './components/Subscription/SubscriptionJourney';
 import MilestonesPage from './components/Milestones/MilestonesPage';
 import QuickFillSetup from './components/TLog/QuickFillSetup';
 import SettingsPage from './components/Settings/SettingsPage';
+import InsightPort from './components/InsightPort/InsightPort';
 import './App.css';
 
 function App() {
@@ -74,6 +75,8 @@ function App() {
         );
       case 'settings':
         return <SettingsPage />;
+      case 'insight-port':
+        return <InsightPort />;
       default:
         return <Dashboard />;
     }

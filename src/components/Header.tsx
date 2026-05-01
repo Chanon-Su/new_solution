@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, User, Settings, Plus } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, User, Settings, Plus, BarChart3 } from 'lucide-react';
 import { useQuickFill } from '../hooks/QuickFillManager';
 import './Header.css';
 
@@ -16,6 +16,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'asset-mart', label: 'Asset-Mart', icon: ShoppingBag },
     { id: 't-log', label: 'Transaction-Log', icon: ScrollText },
+    { id: 'insight-port', label: 'Insight', icon: BarChart3 },
     { id: 'goal', label: 'เป้าหมาย', icon: Flag },
     { id: 'plans', label: '', icon: Sparkles, isIconOnly: true },
   ];
