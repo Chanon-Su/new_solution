@@ -145,7 +145,7 @@ const QuickFillSetup: React.FC = () => {
 
   return (
     <div className="qf-setup-overlay fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="qf-setup-modal w-full max-w-lg bg-[#121214] border border-white/10 rounded-2xl shadow-[0_40px_80px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+      <div className="qf-setup-modal w-full max-w-lg bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded-2xl shadow-[0_40px_80px_rgba(0,0,0,0.4)] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/5">
           <div className="flex items-center gap-3">
@@ -153,11 +153,11 @@ const QuickFillSetup: React.FC = () => {
               <Save size={20} />
             </div>
             <div>
-              <h3 className="text-white font-bold text-lg">{editingItem ? 'แก้ไขรายการด่วน' : 'เพิ่มรายการด่วนใหม่'}</h3>
+              <h3 className="text-[var(--text-primary)] font-bold text-lg">{editingItem ? 'แก้ไขรายการด่วน' : 'เพิ่มรายการด่วนใหม่'}</h3>
               <p className="text-[#9CA3AF] text-xs">ตั้งค่ารายการที่คุณใช้งานเป็นประจำ</p>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/5 text-[#9CA3AF] hover:text-white transition-colors">
+          <button onClick={() => setIsOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[var(--glass-bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             <X size={18} />
           </button>
         </div>
@@ -180,7 +180,7 @@ const QuickFillSetup: React.FC = () => {
               </div>
               
               {showEmojiPicker && (
-                <div className="absolute top-full left-0 mt-2 z-[2100] w-[180px] bg-[#1a1a1c] border border-white/10 rounded-xl p-3 shadow-2xl grid grid-cols-4 gap-2 animate-in fade-in zoom-in-95 duration-200">
+                <div className="absolute top-full left-0 mt-2 z-[2100] w-[180px] bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl p-3 shadow-2xl grid grid-cols-4 gap-2 animate-in fade-in zoom-in-95 duration-200">
                   {emojis.map(emoji => (
                     <button 
                       key={emoji}
@@ -204,7 +204,7 @@ const QuickFillSetup: React.FC = () => {
                 onChange={handleInputChange}
                 autoComplete="off"
                 placeholder="เช่น เติมพอร์ตประจำเดือน"
-                className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/40" 
+                className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/40" 
               />
             </ZenField>
           </div>
@@ -219,7 +219,7 @@ const QuickFillSetup: React.FC = () => {
                 onFocus={() => formData.asset && setShowSuggestions(true)}
                 placeholder="เช่น BTC, AAPL"
                 autoComplete="off"
-                className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none" 
+                className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none" 
               />
               {showSuggestions && followedAssets.length > 0 && (
                 <div className="absolute top-full left-0 w-full mt-1 bg-[#1a1a1c] border border-white/10 rounded-xl overflow-hidden z-[2100] shadow-2xl">
@@ -236,10 +236,10 @@ const QuickFillSetup: React.FC = () => {
                         onClick={() => handleSuggestionSelect(asset)}
                       >
                         <div className="flex flex-col">
-                          <span className="text-[13px] font-bold text-white group-hover:text-emerald-400">{asset.symbol}</span>
-                          <span className="text-[10px] text-gray-500">{asset.name}</span>
+                          <span className="text-[13px] font-bold text-[var(--text-primary)] group-hover:text-emerald-400">{asset.symbol}</span>
+                          <span className="text-[10px] text-[var(--text-secondary)]">{asset.name}</span>
                         </div>
-                        <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-[9px] font-bold">
+                        <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center text-[9px] font-bold text-[var(--text-primary)]">
                           {asset.symbol[0]}
                         </div>
                       </div>
@@ -255,7 +255,7 @@ const QuickFillSetup: React.FC = () => {
                 className="w-full bg-transparent border-none text-[13px] font-medium text-white outline-none cursor-pointer px-4"
               >
                 {categories.map(cat => (
-                  <option key={cat.id} value={cat.id} className="bg-[#121214]">{cat.label}</option>
+                  <option key={cat.id} value={cat.id} className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">{cat.label}</option>
                 ))}
               </select>
             </ZenField>
@@ -278,8 +278,8 @@ const QuickFillSetup: React.FC = () => {
                 onChange={handleInputChange}
                 className="w-full bg-transparent border-none text-[13px] font-medium text-white outline-none cursor-pointer px-4"
               >
-                <option value="USD" className="bg-[#121214]">USD</option>
-                <option value="THB" className="bg-[#121214]">THB</option>
+                <option value="USD" className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">USD</option>
+                <option value="THB" className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">THB</option>
               </select>
             </ZenField>
           </div>
@@ -293,7 +293,7 @@ const QuickFillSetup: React.FC = () => {
                 onChange={handleInputChange}
                 autoComplete="off"
                 placeholder="เว้นว่างได้"
-                className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none" 
+                className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none" 
               />
             </ZenField>
             <ZenField label="ราคา (ถ้ามี)">
@@ -304,7 +304,7 @@ const QuickFillSetup: React.FC = () => {
                 onChange={handleInputChange}
                 autoComplete="off"
                 placeholder="เว้นว่างได้"
-                className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none" 
+                className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none" 
               />
             </ZenField>
           </div>
@@ -315,7 +315,7 @@ const QuickFillSetup: React.FC = () => {
               value={formData.notes || ''}
               onChange={handleInputChange}
               placeholder="ข้อความที่จะถูกกรอกในบันทึก..."
-              className="w-full h-20 bg-transparent border-none px-4 py-3 text-white text-[13px] resize-none outline-none"
+              className="w-full h-20 bg-transparent border-none px-4 py-3 text-[var(--text-primary)] text-[13px] resize-none outline-none"
             ></textarea>
           </ZenField>
 
@@ -337,14 +337,14 @@ const QuickFillSetup: React.FC = () => {
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setIsOpen(false)}
-              className="px-5 py-2.5 rounded-xl text-white text-sm font-bold hover:bg-white/5 transition-colors"
+              className="px-5 py-2.5 rounded-xl text-[var(--text-secondary)] text-sm font-bold hover:bg-[var(--glass-bg-subtle)] transition-colors"
             >
               ยกเลิก
             </button>
             <button 
               onClick={handleSave}
               disabled={!formData.name}
-              className="px-6 py-2.5 bg-emerald-500 text-black rounded-xl text-sm font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-emerald-500 text-[var(--obsidian-void)] rounded-xl text-sm font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {editingItem ? 'บันทึกการเปลี่ยนแปลง' : 'บันทึกรายการด่วน'}
             </button>

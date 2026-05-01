@@ -87,8 +87,8 @@ const AssetInventory: React.FC<AssetInventoryProps> = ({ category, onBack, onSel
             <span>←</span> {t.inventory.back}
           </button>
           <span className="text-emerald-500 text-xs font-bold uppercase tracking-widest block mb-1">{t.inventory.directory}</span>
-          <h2 className="text-5xl font-bold text-white tracking-tight">
-            {categoryInfo.name} <span className="text-xl text-gray-500 font-normal">({categoryInfo.label})</span>
+          <h2 className="text-5xl font-bold text-[var(--text-primary)] tracking-tight">
+            {categoryInfo.name} <span className="text-xl text-[var(--text-secondary)] font-normal">({categoryInfo.label})</span>
           </h2>
         </div>
         <div className="text-right">
@@ -115,12 +115,12 @@ const AssetInventory: React.FC<AssetInventoryProps> = ({ category, onBack, onSel
             <div className="asset-identity">
               <div className="asset-logo-placeholder group-hover:border-emerald-500/50 transition-colors">{asset.symbol[0]}</div>
               <div className="flex flex-col">
-                <span className="text-white font-bold group-hover:text-emerald-400 transition-colors">{asset.name}</span>
-                <span className="text-gray-500 text-xs">{asset.symbol}</span>
+                <span className="text-[var(--text-primary)] font-bold group-hover:text-emerald-400 transition-colors">{asset.name}</span>
+                <span className="text-[var(--text-secondary)] text-xs">{asset.symbol}</span>
               </div>
             </div>
             
-            <div className="text-white font-medium">{asset.price}</div>
+            <div className="text-[var(--text-primary)] font-medium">{asset.price}</div>
             
             <div className={`flex items-center gap-1 ${asset.isUp ? 'text-emerald-400' : 'text-red-400'}`}>
               {asset.isUp ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
@@ -134,7 +134,7 @@ const AssetInventory: React.FC<AssetInventoryProps> = ({ category, onBack, onSel
             </div>
             
             <div className="flex justify-end">
-              <button className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-500 transition-all">
+              <button className="w-8 h-8 rounded-full bg-[var(--glass-bg-subtle)] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-secondary)] group-hover:bg-emerald-500 group-hover:text-white group-hover:border-emerald-500 transition-all">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>

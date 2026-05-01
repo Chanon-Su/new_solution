@@ -5,6 +5,7 @@
   --color-obsidian-void: #050505;
   --color-dark-slate: #121214;
   --color-neon-emerald: #10B981;
+  --color-accent-blue: #3B82F6;
   --color-snow-white: #FFFFFF;
   --color-muted-grey: #9CA3AF;
   --font-sans: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -15,18 +16,37 @@
 
 @layer base {
   :root {
-    /* Colors */
-    --obsidian-void: #050505;
+    /* Base Color Tokens (Internal) */
+    --clr-obsidian: #050505;
+    --clr-slate-950: #020617;
+    --clr-slate-900: #0f172a;
+    --clr-slate-500: #64748b;
+    --clr-slate-50: #f8fafc;
+    --clr-emerald-500: #10b981;
+    --clr-blue-500: #3b82f6;
+    --clr-white: #ffffff;
+
+    /* Theme Variables - Default (Dark) */
+    --obsidian-void: var(--clr-obsidian);
     --dark-slate: #121214;
-    --neon-emerald: #10B981;
+    --neon-emerald: var(--clr-emerald-500);
+    --accent-blue: var(--clr-blue-500);
     --emerald-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-    --snow-white: #FFFFFF;
+    --snow-white: var(--clr-white);
     --muted-grey: #9CA3AF;
     
-    /* Glassmorphism */
+    /* Glassmorphism & Overlays */
     --glass-bg: rgba(18, 18, 20, 0.8);
+    --glass-bg-deep: rgba(13, 13, 13, 0.95);
+    --glass-bg-subtle: rgba(255, 255, 255, 0.03);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-blur: blur(12px);
+    --overlay-bg: rgba(0, 0, 0, 0.75);
+
+    /* Text on Glass/Surfaces */
+    --glass-text-muted: rgba(255, 255, 255, 0.6);
+    --glass-text-semi: rgba(255, 255, 255, 0.7);
+    --glass-text-primary: rgba(255, 255, 255, 0.95);
 
     /* Layout */
     --header-height: 72px;
@@ -44,7 +64,7 @@
     font-weight: 400;
 
     color-scheme: dark;
-    color: var(--snow-white);
+    color: var(--text-primary);
     background-color: var(--obsidian-void);
 
     font-synthesis: none;
@@ -52,8 +72,33 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* Prevent layout shift when scrollbar appears */
     scrollbar-gutter: stable;
+  }
+
+  /* Light Theme Override */
+  [data-theme='light'] {
+    color-scheme: light;
+    
+    --obsidian-void: var(--clr-slate-50);
+    --dark-slate: #ffffff;
+    --snow-white: var(--clr-slate-900);
+    --muted-grey: var(--clr-slate-500);
+    
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-bg-deep: rgba(255, 255, 255, 0.95);
+    --glass-bg-subtle: rgba(15, 23, 42, 0.03);
+    --glass-border: rgba(15, 23, 42, 0.08);
+    --overlay-bg: rgba(15, 23, 42, 0.4);
+
+    --glass-text-muted: rgba(15, 23, 42, 0.6);
+    --glass-text-semi: rgba(15, 23, 42, 0.7);
+    --glass-text-primary: rgba(15, 23, 42, 0.95);
+
+    --text-primary: var(--clr-slate-900);
+    --text-secondary: var(--clr-slate-500);
+
+    color: var(--text-primary);
+    background-color: var(--obsidian-void);
   }
 
   * {
@@ -96,17 +141,18 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--obsidian-void);
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--dark-slate);
+    background: var(--muted-grey);
     border-radius: 10px;
-    border: 2px solid var(--obsidian-void);
+    border: 2px solid transparent;
+    background-clip: content-box;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--muted-grey);
+    background: var(--neon-emerald);
   }
 }
 

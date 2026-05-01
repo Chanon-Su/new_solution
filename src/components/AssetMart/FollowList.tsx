@@ -47,7 +47,7 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
         <div className="section-header flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-1 h-6 bg-emerald-500 rounded-full"></div>
-            <h2 className="text-xl font-bold">{t.title}</h2>
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">{t.title}</h2>
           </div>
           <Bookmark className="w-5 h-5 text-emerald-500" />
         </div>
@@ -57,7 +57,7 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
 
         <div className="follow-items-wrapper flex flex-col gap-3 overflow-y-auto pr-1 flex-1">
           {followedAssets.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 px-4 text-center border border-dashed border-white/10 rounded-2xl bg-white/[0.02]">
+            <div className="flex flex-col items-center justify-center py-10 px-4 text-center border border-dashed border-[var(--glass-border)] rounded-2xl bg-[var(--glass-bg-subtle)]">
               <Heart className="w-8 h-8 text-gray-600 mb-3 opacity-20" />
               <p className="text-sm text-gray-500">
                 {t.empty}
@@ -78,12 +78,12 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
                     {item.symbol[0]}
                   </div>
                   <div className="follow-item-info">
-                    <span className="text-white group-hover:text-emerald-400 transition-colors">{item.name}</span>
-                    <span className="text-gray-500">{item.symbol}</span>
+                    <span className="text-[var(--text-primary)] group-hover:text-emerald-400 transition-colors">{item.name}</span>
+                    <span className="text-[var(--text-secondary)]">{item.symbol}</span>
                   </div>
                 </div>
                 <div className="follow-item-right">
-                  <span className="follow-item-price text-white font-medium">{item.displayPrice || item.price}</span>
+                  <span className="follow-item-price text-[var(--text-primary)] font-medium">{item.displayPrice || item.price}</span>
                   <div className={`follow-item-change flex items-center justify-end gap-1 ${item.isUp ? 'text-emerald-400' : 'text-red-400'}`}>
                     {item.isUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                     <span className="text-xs font-semibold">{item.roi}</span>

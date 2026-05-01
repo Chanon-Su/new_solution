@@ -64,16 +64,16 @@ const ZenDropdown: React.FC<ZenDropdownProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between bg-transparent border-none px-4 text-white text-[14px] outline-none cursor-pointer h-full"
+        className="w-full flex items-center justify-between bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none cursor-pointer h-full"
       >
-        <span className={!value ? "text-[#9CA3AF]/50" : ""}>
+        <span className={!value ? "text-[var(--text-secondary)]/50" : ""}>
           {selectedOption ? (
             <span className="flex items-center gap-2">
               {selectedOption.label}
               {selectedSubOption && (
                 <>
-                  <span className="text-[#9CA3AF]/40 text-xs">/</span>
-                  <span className="text-emerald-400 font-bold text-xs bg-emerald-500/10 px-1.5 py-0.5 rounded-md">
+                  <span className="text-[var(--text-secondary)]/40 text-xs">/</span>
+                  <span className="text-[var(--neon-emerald)] font-bold text-xs bg-[var(--neon-emerald)]/10 px-1.5 py-0.5 rounded-md">
                     {selectedSubOption.label}
                   </span>
                 </>
@@ -81,11 +81,11 @@ const ZenDropdown: React.FC<ZenDropdownProps> = ({
             </span>
           ) : placeholder}
         </span>
-        <ChevronDown size={14} className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-emerald-400' : 'text-[#9CA3AF]'}`} />
+        <ChevronDown size={14} className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-[var(--neon-emerald)]' : 'text-[var(--text-secondary)]'}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-full min-w-[180px] bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-visible backdrop-blur-md animate-[fadeIn_0.2s_ease-out]">
+        <div className="absolute top-full left-0 mt-2 w-full min-w-[180px] bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-visible backdrop-blur-md animate-[fadeIn_0.2s_ease-out]">
           <div className="py-1">
             {options.map((option) => (
               <div 
@@ -98,8 +98,8 @@ const ZenDropdown: React.FC<ZenDropdownProps> = ({
                   onClick={() => handleMainClick(option)}
                   className={`w-full flex items-center justify-between px-4 py-2.5 text-[13px] transition-all ${
                     value === option.value 
-                      ? 'text-emerald-400 bg-white/[0.03]' 
-                      : 'text-[#E5E7EB] hover:bg-white/[0.03]'
+                      ? 'text-[var(--neon-emerald)] bg-white/[0.03]' 
+                      : 'text-[var(--text-primary)] hover:bg-white/[0.03]'
                   }`}
                 >
                   <span className="font-medium">{option.label}</span>
@@ -108,7 +108,7 @@ const ZenDropdown: React.FC<ZenDropdownProps> = ({
 
                 {/* Sub Menu */}
                 {option.children && activeSubMenu === option.value && (
-                  <div className="absolute top-0 left-full ml-1 w-[160px] bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[110] py-1 animate-[slideIn_0.2s_ease-out]">
+                  <div className="absolute top-0 left-full ml-1 w-[160px] bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[110] py-1 animate-[slideIn_0.2s_ease-out]">
                     {option.children.map((sub) => (
                       <button
                         key={sub.value}
@@ -116,8 +116,8 @@ const ZenDropdown: React.FC<ZenDropdownProps> = ({
                         onClick={() => handleSubClick(option, sub)}
                         className={`w-full text-left px-4 py-2 text-[12px] transition-all ${
                           subValue === sub.value 
-                            ? 'text-emerald-400 bg-white/[0.03] font-bold' 
-                            : 'text-[#9CA3AF] hover:text-white hover:bg-white/[0.03]'
+                            ? 'text-[var(--neon-emerald)] bg-white/[0.03] font-bold' 
+                            : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/[0.03]'
                         }`}
                       >
                         {sub.label}

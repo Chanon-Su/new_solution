@@ -166,8 +166,8 @@
 
 /* Milestone Card */
 .milestone-card {
-  background: rgba(13, 13, 13, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg-deep);
+  border: 1px solid var(--glass-border);
   border-radius: 1.5rem;
   padding: 1.5rem;
   position: relative;
@@ -180,9 +180,9 @@
 
 .milestone-card:hover {
   border-color: rgba(16, 185, 129, 0.3);
-  background: rgba(20, 20, 20, 1);
+  background: var(--glass-bg-subtle);
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .card-icon-container {
@@ -201,13 +201,13 @@
   font-family: 'Manrope', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .milestone-desc {
   font-size: 0.875rem;
-  color: #9CA3AF;
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
   line-height: 1.6;
   min-height: 2.8rem;
@@ -241,7 +241,7 @@
 
 .progress-bar-bg {
   height: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg-subtle);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -261,11 +261,11 @@
 }
 
 .tag-chip {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg-subtle);
   padding: 0.25rem 0.75rem;
   border-radius: 0.5rem;
   font-size: 0.7rem;
-  color: #9CA3AF;
+  color: var(--text-secondary);
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -273,9 +273,9 @@
 
 .view-details-btn {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: white;
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
   padding: 0.75rem;
   border-radius: 1rem;
   font-weight: 600;
@@ -296,7 +296,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(5, 5, 5, 0.96);
+  background: var(--overlay-bg);
+  backdrop-filter: blur(25px);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -307,9 +308,9 @@
   position: absolute;
   top: 2rem;
   right: 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--glass-bg-deep);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -330,8 +331,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #0D0D0D; /* Solid background for performance */
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--dark-slate); /* Solid background for performance */
+  border-top: 1px solid var(--glass-border);
   padding: 1.5rem 4rem 3rem 4rem;
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 100; /* Higher than summary-card (50) */
@@ -352,12 +353,12 @@
   top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  background: #0D0D0D;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--dark-slate);
+  border: 1px solid var(--glass-border);
   border-bottom: none;
   padding: 0.75rem 2rem;
   border-radius: 1rem 1rem 0 0;
-  color: white;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -383,8 +384,8 @@
 }
 
 .summary-card {
-  background: rgba(20, 20, 20, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg-deep);
+  border: 1px solid var(--glass-border);
   border-radius: 2rem;
   padding: 2.5rem;
   margin-bottom: 2rem;
@@ -433,8 +434,8 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
   padding: 0.5rem 1rem;
   border-radius: 1rem;
   transition: all 0.3s ease;
@@ -514,9 +515,9 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--glass-bg-subtle);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
   border-radius: 1.25rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;

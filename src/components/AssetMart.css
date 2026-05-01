@@ -136,7 +136,7 @@
 }
 
 .inventory-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg-subtle);
   transform: scale(1.01);
 }
 
@@ -164,7 +164,7 @@
 
 .item-price { font-weight: 600; font-size: 1.1rem; }
 .item-roi { font-weight: 700; }
-.item-roi.neg { color: #F87171; }
+.item-roi.neg { color: #f43f5e; }
 
 .mini-chart-svg {
   width: 80px;
@@ -174,11 +174,12 @@
 }
 
 .trade-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.8rem;
+  color: var(--text-primary);
 }
 
 .trade-btn:hover {

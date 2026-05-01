@@ -67,9 +67,9 @@
   bottom: var(--dash-margin);
   
   /* ปรับให้สีเทากระจายสม่ำเสมอ ลบเงาดำด้านในออก */
-  background: rgba(18, 18, 20, 0.8);
+  background: var(--glass-bg);
   backdrop-filter: blur(8px);
-  border: var(--dash-border-width) solid rgba(255, 255, 255, 0.08);
+  border: var(--dash-border-width) solid var(--glass-border);
   border-radius: 32px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   
@@ -188,8 +188,8 @@
   width: 24px;
   height: 24px;
   /*สีกรอบ*/
-  background: rgba(0, 0, 0, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: var(--glass-bg-deep) !important;
+  border: 1px solid var(--glass-border) !important;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -279,9 +279,9 @@
 .dashboard-block {
   box-sizing: border-box;
   /* Ensure 0px alignment with Grid Vertices */
-  background: rgba(40, 40, 45, 0.85); /* สว่างขึ้น 1 ระดับ */
+  background: var(--glass-bg); /* สว่างขึ้น 1 ระดับ */
   backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255, 255, 255, 0.15); /* ขอบชัดเขนขึ้น */
+  border: 1px solid var(--glass-border); /* ขอบชัดเขนขึ้น */
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -320,7 +320,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .block-title {
@@ -336,9 +336,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
   font-size: 0.8rem;
-  border: 1px dashed rgba(255, 255, 255, 0.05);
+  border: 1px dashed var(--glass-border);
   border-radius: 8px;
 }
 
@@ -410,7 +410,7 @@
   bottom: 40px !important;
   /* Aligned with Help Circle */
   padding: 8px 20px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: var(--dark-slate) !important;
   backdrop-filter: blur(10px) !important;
   border-radius: 40px !important;
   z-index: 10001 !important;
@@ -418,7 +418,7 @@
   align-items: center !important;
   gap: 12px !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
-  color: #000 !important;
+  color: var(--text-primary) !important;
   animation: slideInUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -440,7 +440,7 @@
   gap: 12px !important;
   font-size: 0.75rem !important;
   font-weight: 700 !important;
-  color: #000 !important;
+  color: var(--text-primary) !important;
   white-space: nowrap;
 }
 
@@ -467,7 +467,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #000;
+  color: var(--text-primary);
   font-size: 0.6rem;
   opacity: 0.5;
 }

@@ -70,7 +70,7 @@ const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, 
       <div className={`report-zen-dropdown relative ${isOpen ? 'ring-1 ring-emerald-500/50' : ''}`}>
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full h-full flex items-center justify-between px-4 text-xs text-white/80"
+          className="w-full h-full flex items-center justify-between px-4 text-xs text-[var(--text-secondary)]"
         >
           <span className="truncate pr-4">
             {selected.length === 0 ? (placeholder || defaultPlaceholder) : (language === 'th' ? `เลือกแล้ว ${selected.length} รายการ` : `${selected.length} Selected`)}
@@ -79,17 +79,17 @@ const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, 
         </button>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-2 w-full min-w-[200px] bg-[#121214] border border-white/10 rounded-xl shadow-2xl z-[100] py-2 max-h-[300px] overflow-y-auto">
+          <div className="absolute top-full left-0 mt-2 w-full min-w-[200px] bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded-xl shadow-2xl z-[100] py-2 max-h-[300px] overflow-y-auto">
             {options.map(opt => (
               <button
                 key={opt}
                 onClick={() => toggleOption(opt)}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] hover:bg-white/5 transition-colors text-left"
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-[13px] hover:bg-[var(--glass-bg-subtle)] transition-colors text-left"
               >
-                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selected.includes(opt) ? 'bg-emerald-500 border-emerald-500' : 'border-white/20'}`}>
+                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selected.includes(opt) ? 'bg-[var(--neon-emerald)] border-[var(--neon-emerald)]' : 'border-[var(--glass-border)]'}`}>
                   {selected.includes(opt) && <Check size={10} className="text-black font-bold" />}
                 </div>
-                <span className={selected.includes(opt) ? 'text-emerald-400 font-bold' : 'text-gray-400'}>{opt}</span>
+                <span className={selected.includes(opt) ? 'text-[var(--neon-emerald)] font-bold' : 'text-[var(--text-secondary)]'}>{opt}</span>
               </button>
             ))}
             {options.length === 0 && <div className="px-4 py-2 text-[11px] text-gray-500 italic">{language === 'th' ? 'ไม่พบสินทรัพย์' : 'No assets found'}</div>}
@@ -206,7 +206,7 @@ const InsightPort: React.FC = () => {
             <div className="sidebar-widget animate-[fadeIn_0.4s]">
               <div className="sidebar-group">
                 <div className="flex items-center gap-2 mb-4">
-                  <PieIcon size={14} className="text-emerald-500" />
+                  <PieIcon size={14} className="text-[var(--neon-emerald)]" />
                   <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การจัดสรรสินทรัพย์' : 'Asset Allocation'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
@@ -224,7 +224,8 @@ const InsightPort: React.FC = () => {
                         ))}
                       </Pie>
                       <RechartsTooltip 
-                        contentStyle={{ background: '#0D0D0D', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '10px' }}
+                        contentStyle={{ background: 'var(--obsidian-void)', border: '1px solid var(--glass-border)', borderRadius: '8px', fontSize: '10px', color: 'var(--text-primary)' }}
+                        itemStyle={{ color: 'var(--text-primary)' }}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -237,7 +238,7 @@ const InsightPort: React.FC = () => {
                  </div>
                  <div className="stat-box">
                     <span className="label">{language === 'th' ? 'ปันผลเฉลี่ย' : 'Portfolio Yield'}</span>
-                    <span className="value text-emerald-400">{metrics.dividendYield.toFixed(2)}%</span>
+                    <span className="value text-[var(--neon-emerald)]">{metrics.dividendYield.toFixed(2)}%</span>
                  </div>
               </div>
             </div>
@@ -247,7 +248,7 @@ const InsightPort: React.FC = () => {
             <div className="sidebar-widget animate-[fadeIn_0.4s]">
               <div className="sidebar-group">
                  <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp size={14} className="text-emerald-500" />
+                  <TrendingUp size={14} className="text-[var(--neon-emerald)]" />
                   <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'ผลประกอบการ' : 'Growth Performance'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
@@ -255,14 +256,14 @@ const InsightPort: React.FC = () => {
                     <AreaChart data={trendData}>
                       <defs>
                         <linearGradient id="colorVal" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="var(--neon-emerald)" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="var(--neon-emerald)" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-                      <Area type="monotone" dataKey="value" stroke="#10b981" fillOpacity={1} fill="url(#colorVal)" />
+                      <Area type="monotone" dataKey="value" stroke="var(--neon-emerald)" fillOpacity={1} fill="url(#colorVal)" />
                       <RechartsTooltip 
-                        contentStyle={{ background: '#0D0D0D', border: 'none', borderRadius: '8px', fontSize: '10px' }}
-                        itemStyle={{ color: '#10b981' }}
+                        contentStyle={{ background: 'var(--obsidian-void)', border: 'none', borderRadius: '8px', fontSize: '10px', color: 'var(--text-primary)' }}
+                        itemStyle={{ color: 'var(--neon-emerald)' }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -275,7 +276,7 @@ const InsightPort: React.FC = () => {
                  </div>
                  <div className="stat-box">
                     <span className="label">{language === 'th' ? 'อัตราตอบแทน' : 'Return Rate'}</span>
-                    <span className="value text-emerald-400">{metrics.returnPercentage.toFixed(1)}%</span>
+                    <span className="value text-[var(--neon-emerald)]">{metrics.returnPercentage.toFixed(1)}%</span>
                  </div>
               </div>
             </div>
@@ -285,18 +286,18 @@ const InsightPort: React.FC = () => {
             <div className="sidebar-widget animate-[fadeIn_0.4s]">
               <div className="sidebar-group">
                 <div className="flex items-center gap-2 mb-4">
-                  <Activity size={14} className="text-emerald-500" />
+                  <Activity size={14} className="text-[var(--neon-emerald)]" />
                   <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การวิเคราะห์กระแสเงิน' : 'Flow Analysis'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={activityData}>
-                      <Bar dataKey="buy" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="buy" fill="var(--neon-emerald)" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="sell" fill="#f43f5e" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="dividend" fill="#fbbf24" radius={[4, 4, 0, 0]} />
                       <XAxis dataKey="month" hide />
                       <RechartsTooltip 
-                        contentStyle={{ background: '#0D0D0D', border: 'none', borderRadius: '8px', fontSize: '10px' }}
+                        contentStyle={{ background: 'var(--obsidian-void)', border: 'none', borderRadius: '8px', fontSize: '10px', color: 'var(--text-primary)' }}
                       />
                     </BarChart>
                   </ResponsiveContainer>
@@ -323,7 +324,7 @@ const InsightPort: React.FC = () => {
         <div className="sidebar-pagination-container mt-auto pb-4">
            <div className="flex gap-2 justify-center">
               {[0,1,2].map(i => (
-                <div key={i} className={`h-1 rounded-full transition-all ${i === activeVisIndex ? 'w-6 bg-emerald-500' : 'w-1 bg-white/10'}`}></div>
+                <div key={i} className={`h-1 rounded-full transition-all ${i === activeVisIndex ? 'w-6 bg-[var(--neon-emerald)]' : 'w-1 bg-[var(--glass-bg-subtle)]'}`}></div>
               ))}
            </div>
         </div>

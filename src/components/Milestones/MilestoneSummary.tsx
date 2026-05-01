@@ -121,7 +121,7 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
                 <div className={`flex items-center h-[48px] rounded-xl px-3 -ml-3 transition-all border ${isEditing ? 'bg-white/5 border-white/10' : 'bg-transparent border-transparent'}`}>
                   {isEditing ? (
                     <input
-                      className="text-3xl font-bold text-white font-['Manrope'] bg-transparent border-none outline-none focus:ring-0 p-0 w-80 h-full"
+                      className="text-3xl font-bold text-[var(--text-primary)] font-['Manrope'] bg-transparent border-none outline-none focus:ring-0 p-0 w-80 h-full"
                       value={milestone.title}
                       onChange={(e) => onUpdate({ title: e.target.value })}
                       placeholder="Untitled Goal"
@@ -129,7 +129,7 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
                     />
                   ) : (
                     <div className="flex items-center gap-3 h-full">
-                      <h2 className="text-3xl font-bold text-white font-['Manrope'] leading-tight max-w-md truncate">{milestone.title}</h2>
+                      <h2 className="text-3xl font-bold text-[var(--text-primary)] font-['Manrope'] leading-tight max-w-md truncate">{milestone.title}</h2>
                       {rawPercentage !== null && rawPercentage >= 100 && (
                         <span className="text-[10px] bg-emerald-500/10 text-emerald-500 px-2 py-1 rounded-full font-bold uppercase tracking-wider animate-pulse flex-shrink-0">
                           Complete
@@ -216,7 +216,7 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
           <div className="text-right">
             <span className="text-[10px] text-gray-500 uppercase font-bold tracking-widest block mb-1">Target Achievement</span>
             <div className="flex items-center justify-end gap-3">
-              <span className="text-4xl font-bold text-white leading-none">
+              <span className="text-4xl font-bold text-[var(--text-primary)] leading-none">
                 {hasAssets && !isNaN(currentValue) ? currentValue.toLocaleString(undefined, { minimumFractionDigits: precision, maximumFractionDigits: precision }) : '?'}
               </span>
               <span className="text-gray-600 text-3xl leading-none">/</span>
@@ -247,7 +247,7 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
                 <span className="text-emerald-500 font-bold">{symbol[0]}</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-bold text-white leading-tight">{symbol}</span>
+                <span className="text-sm font-bold text-[var(--text-primary)] leading-tight">{symbol}</span>
                 <span className="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">Strategic Asset</span>
               </div>
               {isEditing && (
@@ -282,7 +282,7 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
               </div>
               <div className="flex flex-col items-start">
                 <span className="text-[9px] text-gray-500 uppercase font-bold tracking-tighter">Tracking Mode</span>
-                <span className="text-xs font-bold text-white capitalize">
+                <span className="text-xs font-bold text-[var(--text-primary)] capitalize">
                   {getDimensionLabel(milestone.trackingDimension, milestone.dividendPeriod)}
                 </span>
               </div>
@@ -435,7 +435,7 @@ const MilestoneSummary: React.FC<MilestoneSummaryProps> = ({
                     />
                   )
                 ) : (
-                  <span className="text-xs font-bold text-white uppercase truncate w-full select-none cursor-default">{hasAssets ? (milestone.unit || '---') : '---'}</span>
+                  <span className="text-xs font-bold text-[var(--text-primary)] uppercase truncate w-full select-none cursor-default">{hasAssets ? (milestone.unit || '---') : '---'}</span>
                 )}
               </div>
             </div>

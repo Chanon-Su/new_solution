@@ -41,8 +41,8 @@ const TLog_zone2_Summary: React.FC = () => {
     return (
       <section className="flex flex-col gap-5">
         <div className="flex items-center gap-4 mb-2">
-          <div className="w-1 h-6 bg-[#10B981] rounded-sm animate-pulse"></div>
-          <h2 className="text-2xl font-semibold text-white tracking-tight opacity-50 font-inter">{t.common.loading}</h2>
+          <div className="w-1 h-6 bg-[var(--neon-emerald)] rounded-sm animate-pulse"></div>
+          <h2 className="text-2xl font-semibold text-[var(--text-primary)] tracking-tight opacity-50 font-inter">{t.common.loading}</h2>
         </div>
       </section>
     );
@@ -51,8 +51,8 @@ const TLog_zone2_Summary: React.FC = () => {
   return (
     <section className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
       <div className="flex items-center gap-3 px-1">
-        <div className="w-1 h-5 bg-[#10B981] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
-        <h2 className="text-xl font-bold text-white tracking-tight font-inter">{t.tlog.summary.title}</h2>
+        <div className="w-1 h-5 bg-[var(--neon-emerald)] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
+        <h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight font-inter">{t.tlog.summary.title}</h2>
       </div>
 
       <div className="flex gap-4 overflow-x-auto pb-4 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -60,17 +60,17 @@ const TLog_zone2_Summary: React.FC = () => {
           assetSummaries.map((asset) => (
             <div 
               key={asset.symbol} 
-              className="min-w-[220px] bg-[#121214] border border-white/[0.04] rounded-2xl p-5 transition-all duration-300 hover:border-[#10B981]/30 hover:bg-[#161618] group"
+              className="min-w-[220px] bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-2xl p-5 transition-all duration-300 hover:border-[var(--neon-emerald)]/30 hover:bg-[var(--glass-bg-deep)] group"
             >
               <div className="flex justify-between items-start mb-4">
-                <span className="font-bold text-[15px] text-white group-hover:text-[#10B981] transition-colors">
+                <span className="font-bold text-[15px] text-[var(--text-primary)] group-hover:text-[var(--neon-emerald)] transition-colors">
                   {privacyHideText ? '********' : asset.symbol}
                 </span>
-                <span className="text-[10px] text-[#9CA3AF] opacity-40 font-medium">{formatRelativeTime(asset.lastUpdate)}</span>
+                <span className="text-[10px] text-[var(--text-secondary)] opacity-40 font-medium">{formatRelativeTime(asset.lastUpdate)}</span>
               </div>
 
               <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="text-2xl font-bold text-white tracking-tighter">
+                <span className="text-2xl font-bold text-[var(--text-primary)] tracking-tighter">
                   {privacyHideNumbers 
                     ? '********'
                     : (asset.amount > 0 
@@ -79,15 +79,15 @@ const TLog_zone2_Summary: React.FC = () => {
                       )
                   }
                 </span>
-                <span className="text-[11px] text-[#9CA3AF] font-bold opacity-30 uppercase tracking-widest">
+                <span className="text-[11px] text-[var(--text-secondary)] font-bold opacity-30 uppercase tracking-widest">
                   {asset.amount > 0 ? t.tlog.summary.units : t.tlog.summary.divPerShare}
                 </span>
               </div>
 
               {asset.hasDividends && asset.amount > 0 && (
-                <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/[0.03]">
-                  <span className="text-[9px] text-[#9CA3AF] font-bold uppercase opacity-30 tracking-tighter">{t.tlog.summary.avgDiv}</span>
-                  <span className="text-[10px] text-[#10B981] font-mono font-bold">
+                <div className="flex items-center gap-2 mt-2 pt-2 border-t border-[var(--glass-border)]">
+                  <span className="text-[9px] text-[var(--text-secondary)] font-bold uppercase opacity-30 tracking-tighter">{t.tlog.summary.avgDiv}</span>
+                  <span className="text-[10px] text-[var(--neon-emerald)] font-mono font-bold">
                     {privacyHideNumbers ? '********' : asset.avgDividend.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                   </span>
                 </div>
@@ -95,9 +95,9 @@ const TLog_zone2_Summary: React.FC = () => {
             </div>
           ))
         ) : (
-          <div className="min-w-[220px] h-[100px] border border-dashed border-white/5 rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-[#10B981]/20 transition-all duration-500">
-            <Plus size={16} className="text-[#9CA3AF] opacity-20 group-hover:text-[#10B981] group-hover:opacity-100 transition-all duration-500" />
-            <span className="text-[11px] text-[#9CA3AF] font-medium opacity-20">{t.common.noData}</span>
+          <div className="min-w-[220px] h-[100px] border border-dashed border-[var(--glass-border)] rounded-2xl flex flex-col items-center justify-center gap-2 group hover:border-[var(--neon-emerald)]/20 transition-all duration-500">
+            <Plus size={16} className="text-[var(--text-secondary)] opacity-20 group-hover:text-[var(--neon-emerald)] group-hover:opacity-100 transition-all duration-500" />
+            <span className="text-[11px] text-[var(--text-secondary)] font-medium opacity-20">{t.common.noData}</span>
           </div>
         )}
       </div>

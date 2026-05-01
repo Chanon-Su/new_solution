@@ -91,21 +91,21 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
     <div className="w-full overflow-x-auto [scrollbar-width:thin] scrollbar-color-[#10B981_transparent]">
       <table className="w-full border-collapse">
         <thead>
-          <tr className="border-b border-white/5">
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.date}</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.type}</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.asset}</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.category}</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.amount}</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.price}</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.fee}</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.total}</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.currency}</th>
-            <th className="text-center px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.notes}</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.actions}</th>
+          <tr className="border-b border-[var(--glass-border)]">
+            <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.date}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.type}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.asset}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.category}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.amount}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.price}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.fee}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.total}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.currency}</th>
+            <th className="text-center px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.notes}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.actions}</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/[0.04]">
+        <tbody className="divide-y divide-[var(--glass-border)]">
           {transactions.map((tx) => {
             const isEditing = editingId === tx.id;
             const displayTx = isEditing && editValues ? editValues : tx;
@@ -118,13 +118,13 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
             const isConfirming = confirmDeleteId === tx.id;
             
             return (
-              <tr key={tx.id || Math.random()} className={`group hover:bg-white/[0.02] transition-colors duration-150 ${isEditing ? 'bg-[#10B981]/5' : ''}`}>
+              <tr key={tx.id || Math.random()} className={`group hover:bg-white/[0.02] transition-colors duration-150 ${isEditing ? 'bg-[var(--neon-emerald)]/5' : ''}`}>
                 {/* Date Cell */}
-                <td className="px-3 py-5 text-[14px] text-white font-medium whitespace-nowrap">
+                <td className="px-3 py-5 text-[14px] text-[var(--text-primary)] font-medium whitespace-nowrap">
                   {isEditing ? (
                     <input 
                       type="text"
-                      className="bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-xs w-28 outline-none focus:border-[#10B981]"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-28 outline-none focus:border-[var(--neon-emerald)] text-[var(--text-primary)]"
                       value={displayTx.date}
                       onChange={(e) => handleEditChange('date', e.target.value)}
                     />
@@ -138,7 +138,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                   {isEditing ? (
                     <div className="flex flex-col gap-1">
                       <select 
-                        className="bg-black/40 border border-white/10 rounded px-1 py-1 text-[10px] outline-none text-white"
+                        className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1 py-1 text-[10px] outline-none text-[var(--text-primary)]"
                         value={displayTx.type}
                         onChange={(e) => handleEditChange('type', e.target.value)}
                       >
@@ -148,7 +148,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       </select>
                       {displayTx.type === 'DIVIDEND' && (
                         <select 
-                          className="bg-black/40 border border-white/10 rounded px-1 py-1 text-[9px] outline-none text-emerald-400"
+                          className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1 py-1 text-[9px] outline-none text-[var(--neon-emerald)]"
                           value={displayTx.frequency || ''}
                           onChange={(e) => handleEditChange('frequency', e.target.value)}
                         >
@@ -164,7 +164,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                   ) : (
                     <span className={`inline-flex items-center justify-center px-2.5 py-1 rounded-md text-[10px] font-black tracking-tighter border shadow-[0_2px_10px_rgba(0,0,0,0.2)] transition-all ${
                       tx.type === 'BUY' 
-                        ? 'bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20' 
+                        ? 'bg-[var(--neon-emerald)]/10 text-[var(--neon-emerald)] border-[var(--neon-emerald)]/20' 
                         : tx.type === 'SELL' 
                           ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20'
                           : 'bg-[#6366F1]/10 text-[#6366F1] border-[#6366F1]/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
@@ -179,18 +179,18 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 {/* Asset Cell */}
                 <td className="px-3 py-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-[#10B981]/30 transition-all">
-                      {privacyHideText ? <Shield size={12} className="text-gray-600" /> : <metadata.icon size={14} color={metadata.color} strokeWidth={2.5} />}
+                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-[var(--neon-emerald)]/30 transition-all">
+                      {privacyHideText ? <Shield size={12} className="text-[var(--text-secondary)]" /> : <metadata.icon size={14} color={metadata.color} strokeWidth={2.5} />}
                     </div>
                     {isEditing ? (
                       <input 
                         type="text"
-                        className="bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-xs w-16 outline-none uppercase"
+                        className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-16 outline-none uppercase text-[var(--text-primary)]"
                         value={displayTx.asset}
                         onChange={(e) => handleEditChange('asset', e.target.value)}
                       />
                     ) : (
-                      <span className="font-bold text-white tracking-tight">{privacyHideText ? '********' : (tx.asset || 'N/A')}</span>
+                      <span className="font-bold text-[var(--text-primary)] tracking-tight">{privacyHideText ? '********' : (tx.asset || 'N/A')}</span>
                     )}
                   </div>
                 </td>
@@ -199,7 +199,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 <td className="px-3 py-5 text-left">
                   {isEditing ? (
                     <select 
-                      className="bg-black/40 border border-white/10 rounded px-1 py-1 text-xs outline-none"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1 py-1 text-xs outline-none text-[var(--text-primary)]"
                       value={displayTx.category}
                       onChange={(e) => handleEditChange('category', e.target.value)}
                     >
@@ -208,18 +208,18 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       ))}
                     </select>
                   ) : (
-                    <span className="text-[13px] text-[#9CA3AF] font-medium">
+                    <span className="text-[13px] text-[var(--text-secondary)] font-medium">
                       {privacyHideText ? '********' : (categoryLabels[tx.category] || tx.category || '-')}
                     </span>
                   )}
                 </td>
 
                 {/* Amount Cell */}
-                <td className="px-3 py-5 text-right font-mono text-[14px] text-white">
+                <td className="px-3 py-5 text-right font-mono text-[14px] text-[var(--text-primary)]">
                   {isEditing ? (
                     <input 
                       type="number"
-                      className="bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-xs w-20 text-right outline-none"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-20 text-right outline-none text-[var(--text-primary)]"
                       value={displayTx.amount}
                       onChange={(e) => handleEditChange('amount', e.target.value)}
                     />
@@ -229,11 +229,11 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 </td>
 
                 {/* Price Cell */}
-                <td className="px-3 py-5 text-right font-mono text-[14px] text-white/80">
+                <td className="px-3 py-5 text-right font-mono text-[14px] text-[var(--text-primary)]/80">
                   {isEditing ? (
                     <input 
                       type="number"
-                      className="bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-xs w-20 text-right outline-none"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-20 text-right outline-none text-[var(--text-primary)]"
                       value={displayTx.price}
                       onChange={(e) => handleEditChange('price', e.target.value)}
                     />
@@ -243,14 +243,14 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 </td>
 
                 {/* Fee Cell */}
-                <td className="px-3 py-5 text-right font-mono text-[13px] text-[#9CA3AF]">
+                <td className="px-3 py-5 text-right font-mono text-[13px] text-[var(--text-secondary)]">
                   {isEditing ? (
                     <div className="flex flex-col gap-1 items-end min-w-[80px]">
                       <div className="flex items-center gap-1">
                         <span className="text-[8px] opacity-40">VAT</span>
                         <input 
                           type="number"
-                          className="bg-black/40 border border-white/10 rounded px-1 py-0.5 text-[10px] w-14 text-right outline-none"
+                          className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1 py-0.5 text-[10px] w-14 text-right outline-none text-[var(--text-primary)]"
                           value={displayTx.fee_vat || ''}
                           placeholder="VAT"
                           onChange={(e) => handleEditChange('fee_vat', e.target.value)}
@@ -260,17 +260,17 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                         <span className="text-[8px] opacity-40">DSC</span>
                         <input 
                           type="number"
-                          className="bg-black/40 border border-white/10 rounded px-1 py-0.5 text-[10px] w-14 text-right outline-none"
+                          className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1 py-0.5 text-[10px] w-14 text-right outline-none text-[var(--text-primary)]"
                           value={displayTx.fee_discount || ''}
                           placeholder="Disc"
                           onChange={(e) => handleEditChange('fee_discount', e.target.value)}
                         />
                       </div>
                       <div className="flex items-center gap-1 border-t border-white/5 pt-1 mt-0.5">
-                        <span className="text-[8px] font-bold text-[#10B981]">TTL</span>
+                        <span className="text-[8px] font-bold text-[var(--neon-emerald)]">TTL</span>
                         <input 
                           type="number"
-                          className="bg-black/40 border border-[#10B981]/30 rounded px-1 py-0.5 text-[11px] w-16 text-right outline-none font-bold text-[#10B981]"
+                          className="bg-[var(--obsidian-void)] border border-[var(--neon-emerald)]/30 rounded px-1 py-0.5 text-[11px] w-16 text-right outline-none font-bold text-[var(--neon-emerald)]"
                           value={displayTx.fee}
                           onChange={(e) => handleEditChange('fee', e.target.value)}
                         />
@@ -278,7 +278,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                     </div>
                   ) : (
                     <div className="flex flex-col items-end">
-                      <span className="text-white/80 font-bold">
+                      <span className="text-[var(--text-primary)]/80 font-bold">
                         {privacyHideNumbers ? '********' : (fee > 0 ? fee.toLocaleString(undefined, { minimumFractionDigits: 2 }) : '-')}
                       </span>
                       {(displayTx.fee_vat || displayTx.fee_discount) && !privacyHideNumbers ? (
@@ -292,7 +292,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 </td>
 
                 {/* Total Cell */}
-                <td className="px-3 py-5 text-right font-mono text-[15px] font-bold text-[#10B981]">
+                <td className="px-3 py-5 text-right font-mono text-[15px] font-bold text-[var(--neon-emerald)]">
                   {privacyHideNumbers ? '********' : total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
 
@@ -300,7 +300,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 <td className="px-3 py-5 text-left">
                   {isEditing ? (
                     <select 
-                      className="bg-black/40 border border-white/10 rounded px-1 py-1 text-[10px] outline-none"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1 py-1 text-[10px] outline-none text-[var(--text-primary)]"
                       value={displayTx.currency}
                       onChange={(e) => handleEditChange('currency', e.target.value)}
                     >
@@ -323,15 +323,15 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                   {isEditing ? (
                     <input 
                       type="text"
-                      className="bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-xs w-24 outline-none"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-24 outline-none text-[var(--text-primary)]"
                       value={displayTx.notes}
                       onChange={(e) => handleEditChange('notes', e.target.value)}
                     />
                   ) : (
                     tx.notes ? (
                       <div className="relative group/note inline-block">
-                        <MessageSquare size={16} className="text-[#9CA3AF] opacity-40 group-hover/note:opacity-100 cursor-help" />
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#1C1C1E] border border-white/10 rounded-lg text-xs text-white opacity-0 group-hover/note:opacity-100 pointer-events-none transition-all shadow-2xl z-50">
+                        <MessageSquare size={16} className="text-[var(--text-secondary)] opacity-40 group-hover/note:opacity-100 cursor-help" />
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-lg text-xs text-[var(--text-primary)] opacity-0 group-hover/note:opacity-100 pointer-events-none transition-all shadow-2xl z-50">
                           {privacyHideText ? '********' : tx.notes}
                         </div>
                       </div>
@@ -348,12 +348,12 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       <div className="flex items-center gap-2">
                         <Check 
                           size={18} 
-                          className="text-[#10B981] cursor-pointer hover:scale-110 transition-transform" 
+                          className="text-[var(--neon-emerald)] cursor-pointer hover:scale-110 transition-transform" 
                           onClick={saveEditing}
                         />
                         <X 
                           size={18} 
-                          className="text-white/40 cursor-pointer hover:text-white transition-colors" 
+                          className="text-[var(--text-secondary)] opacity-40 cursor-pointer hover:opacity-100 hover:text-[var(--text-primary)] transition-colors" 
                           onClick={cancelEditing}
                         />
                       </div>
@@ -361,7 +361,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       <>
                         <Pencil 
                           size={16} 
-                          className="opacity-20 cursor-pointer hover:opacity-100 hover:text-white transition-all transform hover:scale-110" 
+                          className="opacity-20 cursor-pointer hover:opacity-100 hover:text-[var(--text-primary)] transition-all transform hover:scale-110" 
                           onClick={() => startEditing(tx)}
                         />
                         <Trash2 
@@ -380,7 +380,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                         />
                         <X 
                           size={18} 
-                          className="text-white/40 cursor-pointer hover:text-white transition-colors" 
+                          className="text-[var(--text-secondary)] opacity-40 cursor-pointer hover:opacity-100 hover:text-[var(--text-primary)] transition-colors" 
                           onClick={() => setConfirmDeleteId(null)}
                         />
                       </div>

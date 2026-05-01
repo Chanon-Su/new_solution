@@ -62,7 +62,7 @@ const MilestonesPage: React.FC = () => {
     <div className="milestones-container">
       <div className="milestones-header">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2 font-['Manrope']">{t.goals.title}</h1>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2 font-['Manrope']">{t.goals.title}</h1>
           <p className="text-gray-500 text-sm">
             {language === 'th' ? 'ติดตามความก้าวหน้าของเป้าหมายทางการเงินของคุณ' : 'Tracking the evolution of your financial goals.'}
           </p>
@@ -111,10 +111,10 @@ const MilestonesPage: React.FC = () => {
               <Plus size={40} strokeWidth={1} />
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-bold text-white font-['Manrope']">
+              <h3 className="text-xl font-bold text-[var(--text-primary)] font-['Manrope']">
                 {language === 'th' ? 'ยังไม่มีเป้าหมาย' : 'No Milestones Yet'}
               </h3>
-              <p className="text-gray-500 max-w-xs mx-auto text-sm leading-relaxed">
+              <p className="text-[var(--text-secondary)] max-w-xs mx-auto text-sm leading-relaxed">
                 {language === 'th' 
                   ? 'เปลี่ยนความคาดหวังทางการเงินของคุณให้เป็นเป้าหมายที่วัดผลได้ เริ่มต้นด้วยการเพิ่มก้าวแรกของคุณ' 
                   : 'Transform your financial aspirations into trackable goals. Start by adding your first strategic milestone.'}

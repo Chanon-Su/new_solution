@@ -129,7 +129,7 @@
 .bento-info h3 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--snow-white);
+    color: var(--text-primary);
     margin-bottom: 8px;
     letter-spacing: -0.01em;
 }
@@ -149,9 +149,10 @@
 .search-zone-main input {
     height: 48px;
     padding-left: 48px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--glass-bg-subtle);
     border: 1px solid var(--glass-border);
     transition: var(--transition-smooth);
+    color: var(--text-primary);
 }
 
 .search-zone-main input:focus {
@@ -186,7 +187,7 @@
     justify-content: space-between;
     padding: 12px;
     border-radius: var(--border-radius-md);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--glass-bg-subtle);
     border: 1px solid transparent;
     transition: var(--transition-fast);
 }
@@ -271,10 +272,11 @@
     grid-template-columns: 2fr 1fr 1fr 1fr 100px;
     padding: 20px 24px;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--glass-bg-subtle);
     transition: var(--transition-fast);
     cursor: pointer;
     border-radius: var(--border-radius-md);
+    color: var(--text-primary);
 }
 
 .inventory-row:hover {
@@ -339,7 +341,7 @@
 .metric-card {
     padding: 24px;
     border-radius: var(--border-radius-lg);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--glass-bg-subtle);
     border: 1px solid var(--glass-border);
 }
 
@@ -353,7 +355,7 @@
 .metric-card .value {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--snow-white);
+    color: var(--text-primary);
 }
 
 .visualizer-card {

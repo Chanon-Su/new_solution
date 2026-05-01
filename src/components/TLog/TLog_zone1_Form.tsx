@@ -340,27 +340,27 @@ const TLog_zone1_Form: React.FC = () => {
         className="hidden" 
       />
       
-      <div className="tlog-form-container bg-[#121214] border border-[rgba(255,255,255,0.08)] rounded-xl p-8 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+      <div className="tlog-form-container bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl p-8 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
         <div className="tlog-header flex justify-between items-center mb-8">
           <div className="tlog-header-title flex items-center gap-4">
-            <div className="w-1 h-6 bg-[#10B981] rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.4)]"></div>
-            <h2 className="text-2xl font-semibold text-white tracking-tight">{t.tlog.form.title}</h2>
+            <div className="w-1 h-6 bg-[var(--neon-emerald)] rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.4)]"></div>
+            <h2 className="text-2xl font-semibold text-[var(--text-primary)] tracking-tight">{t.tlog.form.title}</h2>
           </div>
           <div className="tlog-header-actions flex gap-4">
             <button 
               type="button"
               onClick={handleImportClick}
-              className="flex items-center gap-1.5 text-white text-[13px] font-medium hover:text-[#10B981] transition-colors"
+              className="flex items-center gap-1.5 text-[var(--text-primary)] text-[13px] font-medium hover:text-[var(--neon-emerald)] transition-colors"
             >
-              <Upload size={14} className="text-[#10B981]" />
+              <Upload size={14} className="text-[var(--neon-emerald)]" />
               <span>{language === 'th' ? 'นำเข้า (Import)' : 'Import'}</span>
             </button>
             <button 
               type="button"
               onClick={handleExport}
-              className="flex items-center gap-1.5 text-white text-[13px] font-medium hover:text-[#10B981] transition-colors"
+              className="flex items-center gap-1.5 text-[var(--text-primary)] text-[13px] font-medium hover:text-[var(--neon-emerald)] transition-colors"
             >
-              <Download size={14} className="text-[#10B981]" />
+              <Download size={14} className="text-[var(--neon-emerald)]" />
               <span>{language === 'th' ? 'ส่งออก (Export)' : 'Export'}</span>
             </button>
           </div>
@@ -375,10 +375,10 @@ const TLog_zone1_Form: React.FC = () => {
                   name="date"
                   value={formData.date}
                   onChange={handleInputChange}
-                  className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none cursor-pointer" 
+                  className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none cursor-pointer" 
                 />
               </div>
-              <div className="w-px h-5 bg-white/10 shrink-0"></div>
+              <div className="w-px h-5 bg-[var(--glass-border)] shrink-0"></div>
               <div className="flex-1 flex items-center min-w-[90px] relative">
                 <input 
                   type="text" 
@@ -388,23 +388,23 @@ const TLog_zone1_Form: React.FC = () => {
                   placeholder="HH:mm:ss" 
                   readOnly
                   onClick={() => setIsTimePickerOpen(true)}
-                  className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none cursor-pointer" 
+                  className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none cursor-pointer" 
                 />
                 <div 
                   onClick={() => setIsTimePickerOpen(!isTimePickerOpen)}
                   className="pr-4 py-3 cursor-pointer group/clock shrink-0"
                 >
-                  <Clock size={14} className={`${isTimePickerOpen ? 'text-[#10B981]' : 'text-[#9CA3AF]'} group-hover/clock:text-[#10B981] transition-colors`} />
+                  <Clock size={14} className={`${isTimePickerOpen ? 'text-[var(--neon-emerald)]' : 'text-[var(--text-secondary)]'} group-hover/clock:text-[var(--neon-emerald)] transition-colors`} />
                 </div>
 
                 {isTimePickerOpen && (
                   <div 
                     ref={timePickerRef}
-                    className="absolute top-full left-0 mt-2 w-64 h-64 bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden flex"
+                    className="absolute top-full left-0 mt-2 w-64 h-64 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden flex"
                   >
                     {/* Hours Column */}
                     <div className="flex-1 overflow-y-auto [scrollbar-width:none] border-r border-white/5 py-2">
-                      <div className="text-[10px] text-center font-bold text-[#9CA3AF] mb-2 opacity-40 uppercase tracking-tighter">Hour</div>
+                      <div className="text-[10px] text-center font-bold text-[var(--text-secondary)] mb-2 opacity-40 uppercase tracking-tighter">Hour</div>
                       {Array.from({ length: 24 }).map((_, i) => {
                         const h = i.toString().padStart(2, '0');
                         const isSelected = formData.time.split(':')[0] === h;
@@ -413,7 +413,7 @@ const TLog_zone1_Form: React.FC = () => {
                             key={`h-${i}`}
                             onClick={() => handleTimeSelect('hour', h)}
                             className={`py-1.5 text-center text-[13px] font-mono cursor-pointer transition-colors ${
-                              isSelected ? 'bg-[#10B981] text-black font-bold' : 'text-white hover:bg-white/5'
+                              isSelected ? 'bg-[var(--neon-emerald)] text-black font-bold' : 'text-[var(--text-primary)] hover:bg-white/5'
                             }`}
                           >
                             {h}
@@ -432,7 +432,7 @@ const TLog_zone1_Form: React.FC = () => {
                             key={`m-${i}`}
                             onClick={() => handleTimeSelect('minute', m)}
                             className={`py-1.5 text-center text-[13px] font-mono cursor-pointer transition-colors ${
-                              isSelected ? 'bg-[#10B981] text-black font-bold' : 'text-white hover:bg-white/5'
+                              isSelected ? 'bg-[var(--neon-emerald)] text-black font-bold' : 'text-[var(--text-primary)] hover:bg-white/5'
                             }`}
                           >
                             {m}
@@ -451,7 +451,7 @@ const TLog_zone1_Form: React.FC = () => {
                             key={`s-${i}`}
                             onClick={() => handleTimeSelect('second', s)}
                             className={`py-1.5 text-center text-[13px] font-mono cursor-pointer transition-colors ${
-                              isSelected ? 'bg-[#10B981] text-black font-bold' : 'text-white hover:bg-white/5'
+                              isSelected ? 'bg-[var(--neon-emerald)] text-black font-bold' : 'text-[var(--text-primary)] hover:bg-white/5'
                             }`}
                           >
                             {s}
@@ -485,13 +485,13 @@ const TLog_zone1_Form: React.FC = () => {
                   required
                   autoComplete="off"
                   placeholder="เช่น BTC, AAPL" 
-                  className="w-full bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50 h-full" 
+                  className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50 h-full" 
                 />
                 
                 {showSuggestions && (
                   <div 
                     ref={suggestionsRef}
-                    className="absolute top-full left-0 w-full mt-2 bg-[#121214] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden backdrop-blur-md"
+                    className="absolute top-full left-0 w-full mt-2 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden backdrop-blur-md"
                   >
                     {followedAssets
                       .filter(item => 
@@ -506,8 +506,8 @@ const TLog_zone1_Form: React.FC = () => {
                           className="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/[0.03] transition-colors border-b border-white/[0.03] last:border-none"
                         >
                           <div className="flex flex-col">
-                            <span className="text-[13px] font-bold text-white group-hover:text-emerald-400">{item.symbol}</span>
-                            <span className="text-[10px] text-[#9CA3AF]">{item.name}</span>
+                            <span className="text-[13px] font-bold text-[var(--text-primary)] group-hover:text-[var(--neon-emerald)]">{item.symbol}</span>
+                            <span className="text-[10px] text-[var(--text-secondary)]">{item.name}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
@@ -518,7 +518,7 @@ const TLog_zone1_Form: React.FC = () => {
                         item.symbol.toLowerCase().includes(formData.asset.toLowerCase()) || 
                         item.name.toLowerCase().includes(formData.asset.toLowerCase())
                       ).length === 0 && (
-                      <div className="px-4 py-4 text-center text-xs text-[#9CA3AF] opacity-50">
+                      <div className="px-4 py-4 text-center text-xs text-[var(--text-secondary)] opacity-50">
                         {t.common.noData}
                       </div>
                     )}
@@ -530,10 +530,10 @@ const TLog_zone1_Form: React.FC = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="tlog-asset-type-select w-[42%] bg-transparent border-none text-[13px] font-medium text-white opacity-80 outline-none cursor-pointer px-1"
+                className="tlog-asset-type-select w-[42%] bg-transparent border-none text-[13px] font-medium text-[var(--text-primary)] opacity-80 outline-none cursor-pointer px-1"
               >
                 {sortedCategories.map(cat => (
-                  <option key={cat.id} value={cat.id} className="bg-[#121214]">{cat.label}</option>
+                  <option key={cat.id} value={cat.id} className="bg-[var(--dark-slate)]">{cat.label}</option>
                 ))}
               </select>
             </ZenField>
@@ -547,7 +547,7 @@ const TLog_zone1_Form: React.FC = () => {
                 required
                 autoComplete="off"
                 placeholder="0.00" 
-                className="flex-1 bg-transparent border-none px-4 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
+                className="flex-1 bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50" 
               />
             </ZenField>
 
@@ -556,10 +556,10 @@ const TLog_zone1_Form: React.FC = () => {
                 name="currency"
                 value={formData.currency}
                 onChange={handleInputChange}
-                className="tlog-currency-select bg-transparent border-none pl-4 text-[13px] font-medium text-white opacity-80 outline-none cursor-pointer"
+                className="tlog-currency-select bg-transparent border-none pl-4 text-[13px] font-medium text-[var(--text-primary)] opacity-80 outline-none cursor-pointer"
               >
-                <option value="USD" className="bg-[#121214]">USD</option>
-                <option value="THB" className="bg-[#121214]">THB</option>
+                <option value="USD" className="bg-[var(--dark-slate)]">USD</option>
+                <option value="THB" className="bg-[var(--dark-slate)]">THB</option>
               </select>
               <input 
                 type="text" 
@@ -569,50 +569,50 @@ const TLog_zone1_Form: React.FC = () => {
                 autoComplete="off"
                 required
                 placeholder="0.00" 
-                className="flex-1 bg-transparent border-none px-3 text-white text-[14px] outline-none placeholder:text-[#9CA3AF]/50" 
+                className="flex-1 bg-transparent border-none px-3 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50" 
               />
             </ZenField>
 
             <div className="tlog-fee-group col-span-1 md:col-span-3 lg:col-span-1">
               <div className="flex flex-col gap-2.5">
-                <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase px-1">{t.tlog.form.fee}</label>
-                <div className="flex items-stretch h-[52px] bg-[#0a0a0a] border border-[rgba(255,255,255,0.05)] rounded-xl overflow-hidden focus-within:border-[#10B981] transition-all duration-200">
+                <label className="text-xs font-semibold text-[var(--text-secondary)] tracking-wide uppercase px-1">{t.tlog.form.fee}</label>
+                <div className="flex items-stretch h-[52px] bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded-xl overflow-hidden focus-within:border-[var(--neon-emerald)] transition-all duration-200">
                   {/* VAT 7% */}
                   <div className="flex-1 flex flex-col justify-center border-r border-white/5 px-3">
-                    <span className="text-[9px] font-bold text-[#9CA3AF] opacity-40 uppercase tracking-tighter mb-0.5">VAT 7%</span>
+                    <span className="text-[9px] font-bold text-[var(--text-secondary)] opacity-40 uppercase tracking-tighter mb-0.5">VAT 7%</span>
                     <input 
                       type="text" 
                       name="fee_vat"
                       value={formatWithCommas(formData.fee_vat)}
                       onChange={handleNumericInputChange}
                       placeholder="0.00" 
-                      className="w-full bg-transparent border-none text-white text-[13px] outline-none placeholder:text-[#9CA3AF]/30" 
+                      className="w-full bg-transparent border-none text-[var(--text-primary)] text-[13px] outline-none placeholder:text-[var(--text-secondary)]/30" 
                     />
                   </div>
                   {/* Discount */}
                   <div className="flex-1 flex flex-col justify-center border-r border-white/5 px-3 bg-white/[0.01]">
-                    <span className="text-[10px] font-bold text-[#9CA3AF] opacity-40 uppercase tracking-tighter mb-0.5">{language === 'th' ? 'ส่วนลด' : 'Discount'}</span>
+                    <span className="text-[10px] font-bold text-[var(--text-secondary)] opacity-40 uppercase tracking-tighter mb-0.5">{language === 'th' ? 'ส่วนลด' : 'Discount'}</span>
                     <input 
                       type="text" 
                       name="fee_discount"
                       value={formatWithCommas(formData.fee_discount)}
                       onChange={handleNumericInputChange}
                       placeholder="0.00" 
-                      className="w-full bg-transparent border-none text-white text-[13px] outline-none placeholder:text-[#9CA3AF]/30" 
+                      className="w-full bg-transparent border-none text-[var(--text-primary)] text-[13px] outline-none placeholder:text-[var(--text-secondary)]/30" 
                     />
                   </div>
                   {/* Total Fee */}
-                  <div className="flex-[1.2] flex flex-col justify-center px-4 bg-[#10B981]/[0.03]">
-                    <span className="text-[10px] font-bold text-[#10B981] opacity-60 uppercase tracking-tighter mb-0.5">{language === 'th' ? 'รวมสุทธิ' : 'Total'}</span>
+                  <div className="flex-[1.2] flex flex-col justify-center px-4 bg-[var(--neon-emerald)]/[0.03]">
+                    <span className="text-[10px] font-bold text-[var(--neon-emerald)] opacity-60 uppercase tracking-tighter mb-0.5">{language === 'th' ? 'รวมสุทธิ' : 'Total'}</span>
                     <div className="flex items-center gap-1">
-                      <span className="text-[10px] font-medium text-[#10B981] opacity-40">{formData.currency}</span>
+                      <span className="text-[10px] font-medium text-[var(--neon-emerald)] opacity-40">{formData.currency}</span>
                       <input 
                         type="text" 
                         name="fee"
                         value={formatWithCommas(formData.fee)}
                         onChange={handleNumericInputChange}
                         placeholder="0.00" 
-                        className="w-full bg-transparent border-none text-[#10B981] text-[14px] font-bold outline-none placeholder:text-[#10B981]/20" 
+                        className="w-full bg-transparent border-none text-[var(--neon-emerald)] text-[14px] font-bold outline-none placeholder:text-[var(--neon-emerald)]/20" 
                       />
                     </div>
                   </div>
@@ -623,14 +623,14 @@ const TLog_zone1_Form: React.FC = () => {
 
           <div className="tlog-form-footer flex flex-col md:flex-row gap-6 items-stretch md:items-end">
             <div className="tlog-memo-wrapper flex flex-col gap-2.5 flex-1">
-              <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase">{t.tlog.form.notes}</label>
-              <div className="tlog-memo-input-box bg-[#0a0a0a] border border-[rgba(255,255,255,0.05)] rounded-xl overflow-hidden focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981] transition-all duration-200">
+              <label className="text-xs font-semibold text-[var(--text-secondary)] tracking-wide uppercase">{t.tlog.form.notes}</label>
+              <div className="tlog-memo-input-box bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded-xl overflow-hidden focus-within:border-[var(--neon-emerald)] focus-within:shadow-[0_0_0_1px_var(--neon-emerald)] transition-all duration-200">
                 <textarea 
                   name="notes"
                   value={formData.notes}
                   onChange={handleInputChange}
                   placeholder="เหตุผล, แพลตฟอร์ม, ฯลฯ" 
-                  className="w-full h-[52px] bg-transparent border-none px-4 py-3 text-white text-[14px] resize-none outline-none placeholder:text-[#9CA3AF]/50"
+                  className="w-full h-[52px] bg-transparent border-none px-4 py-3 text-[var(--text-primary)] text-[14px] resize-none outline-none placeholder:text-[var(--text-secondary)]/50"
                 ></textarea>
               </div>
             </div>
@@ -640,8 +640,8 @@ const TLog_zone1_Form: React.FC = () => {
               disabled={isSubmitting}
               className={`tlog-submit-button h-[52px] min-w-[180px] px-6 rounded-xl font-bold flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 ${
                 isSuccess 
-                  ? 'bg-[#10B981] text-black shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
-                  : 'bg-[#10B981] text-black hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(16,185,129,0.25)]'
+                  ? 'bg-[var(--neon-emerald)] text-black shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+                  : 'bg-[var(--neon-emerald)] text-black hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(16,185,129,0.25)]'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {isSubmitting ? (

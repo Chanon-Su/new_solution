@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, User, Settings, Plus, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, Sun, User, Settings, Plus, BarChart3 } from 'lucide-react';
 import { useQuickFill } from '../hooks/QuickFillManager';
 import { useSettings } from '../hooks/SettingsManager';
 import { translations } from '../utils/translations';
@@ -12,7 +12,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const { quickFills, applyQuickFill } = useQuickFill();
-  const { language } = useSettings();
+  const { language, theme, setTheme } = useSettings();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const t = translations[language] || translations.th;
@@ -140,8 +140,12 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
           <div className="nav-vertical-divider"></div>
 
           <div className="system-utilities">
-            <button className="util-btn theme-btn" title="Toggle Theme">
-              <Moon size={18} />
+            <button 
+              className="util-btn theme-btn" 
+              title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {theme === 'dark' ? <Moon size={18} /> : <Sun size={18} />}
             </button>
             <button 
               className="util-btn profile-btn" 

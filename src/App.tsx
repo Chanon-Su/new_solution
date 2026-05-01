@@ -49,13 +49,13 @@ function AppInner() {
                   <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix" alt="Avatar" />
                 </div>
               </div>
-              <h2 className="text-white text-3xl font-bold mb-2">{t.profile.title}</h2>
+              <h2 className="text-[var(--text-primary)] text-3xl font-bold mb-2">{t.profile.title}</h2>
               <p className="text-emerald-400 font-medium mb-8">{t.profile.subtitle}</p>
               
               <div className="grid grid-cols-2 gap-4 text-left">
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5 group relative">
                   <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t.profile.plan}</div>
-                  <div className="text-sm text-white">{currentPlanId ? currentPlanId.replace('plan-', '').replace('-', ' ').toUpperCase() : 'Free Account'}</div>
+                  <div className="text-sm text-[var(--text-primary)]">{currentPlanId ? currentPlanId.replace('plan-', '').replace('-', ' ').toUpperCase() : 'Free Account'}</div>
                   
                   {currentPlanId && (
                     <button 

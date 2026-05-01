@@ -72,15 +72,15 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
           </div>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-5xl font-extrabold text-white tracking-tighter">{asset.name}</h1>
-              <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-400 font-mono">
+              <h1 className="text-5xl font-extrabold text-[var(--text-primary)] tracking-tighter">{asset.name}</h1>
+              <span className="px-3 py-1 bg-[var(--glass-bg-subtle)] border border-[var(--glass-border)] rounded-lg text-sm text-[var(--text-secondary)] font-mono">
                 {asset.symbol}
               </span>
             </div>
-            <p className="text-gray-500 mt-2 font-medium">{t.tags}</p>
+            <p className="text-[var(--text-secondary)] mt-2 font-medium">{t.tags}</p>
           </div>
           <div className="ml-auto flex gap-3">
-            <button className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all">
+            <button className="p-3 rounded-xl bg-[var(--glass-bg-subtle)] border border-[var(--glass-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all">
               <ExternalLink className="w-5 h-5" />
             </button>
             <button 
@@ -88,7 +88,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
               className={`submit-btn-emerald px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-all duration-300 ${
                 isFollowed 
                   ? 'bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
-                  : 'bg-white/5 text-gray-400 border border-white/10 hover:border-emerald-500/50 hover:text-emerald-400'
+                  : 'bg-[var(--glass-bg-subtle)] text-[var(--text-secondary)] border border-[var(--glass-border)] hover:border-emerald-500/50 hover:text-emerald-400'
               }`}
             >
               <Heart className={`w-5 h-5 ${isFollowed ? 'fill-current' : ''}`} />
@@ -147,7 +147,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <Calendar className="w-5 h-5 text-emerald-500" />
-            <h3 className="text-xl font-bold">{t.visualizer.title}</h3>
+            <h3 className="text-xl font-bold text-[var(--text-primary)]">{t.visualizer.title}</h3>
           </div>
           <div className="time-range-selector">
             <button className="range-btn">1D</button>
@@ -162,15 +162,15 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
           <div className="chart-path"></div>
           {/* Mock Grid Lines */}
           <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5">
-            {[1, 2, 3, 4, 5].map(i => <div key={i} className="w-full h-px bg-white"></div>)}
+            {[1, 2, 3, 4, 5].map(i => <div key={i} className="w-full h-px bg-[var(--text-primary)]"></div>)}
           </div>
         </div>
 
         <div className="mt-8 grid grid-cols-2 gap-8">
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
+          <div className="p-6 rounded-2xl bg-[var(--glass-bg-subtle)] border border-[var(--glass-border)]">
             <div className="flex items-center gap-2 mb-4">
               <FileText className="w-4 h-4 text-emerald-500" />
-              <h4 className="font-bold">{t.visualizer.analysis}</h4>
+              <h4 className="font-bold text-[var(--text-primary)]">{t.visualizer.analysis}</h4>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
               {asset.category === 'FOREX' 
@@ -178,8 +178,8 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
                 : t.visualizer.defaultDesc}
             </p>
           </div>
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
-            <h4 className="font-bold mb-4">{t.visualizer.sentiment}</h4>
+          <div className="p-6 rounded-2xl bg-[var(--glass-bg-subtle)] border border-[var(--glass-border)]">
+            <h4 className="font-bold mb-4 text-[var(--text-primary)]">{t.visualizer.sentiment}</h4>
             <div className="flex items-center gap-12 text-center">
               <div>
                 <p className="text-xs text-gray-500 mb-1 uppercase">{t.visualizer.fearGreed}</p>

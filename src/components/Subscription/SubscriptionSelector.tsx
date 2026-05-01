@@ -36,13 +36,13 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
   };
 
   return (
-    <div className="min-h-screen text-white py-20 px-6 sm:px-12 lg:px-20 overflow-y-auto page-container">
+    <div className="min-h-screen text-[var(--text-primary)] py-20 px-6 sm:px-12 lg:px-20 overflow-y-auto page-container">
       <div className="max-w-7xl mx-auto">
         
         {/* Header Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Step 1: Subscription Plans</h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-[var(--text-primary)]">Step 1: Subscription Plans</h1>
+          <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto">
             Choose the perfect plan for your digital second brain. Unlock advanced sync and collaboration features.
           </p>
         </div>
@@ -55,11 +55,11 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
               value={activationCode}
               onChange={(e) => setActivationCode(e.target.value)}
               placeholder="Enter VIP code to reveal hidden plans..."
-              className="flex-grow bg-transparent px-4 py-2 text-sm text-white focus:outline-none placeholder:text-gray-600"
+              className="flex-grow bg-transparent px-4 py-2 text-sm text-[var(--text-primary)] focus:outline-none placeholder:text-[var(--text-secondary)]/40"
             />
             <button 
               onClick={handleApplyActivation}
-              className="px-6 py-2 mr-1 bg-white/10 hover:bg-white/15 text-white text-xs font-semibold rounded-lg transition-colors"
+              className="px-6 py-2 mr-1 bg-white/10 hover:bg-white/15 text-[var(--text-primary)] text-xs font-semibold rounded-lg transition-colors"
             >
               Apply
             </button>
@@ -104,10 +104,10 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
         </div>
 
         {/* Group Packs Section */}
-        <div className="pt-10 border-t border-white/[0.05]">
+        <div className="pt-10 border-t border-[var(--glass-border)]">
           <div className="flex items-center gap-3 mb-10">
-            <Users className="text-[#10B981] w-6 h-6" />
-            <h2 className="text-2xl font-bold text-white">Groups & Friends Pack</h2>
+            <Users className="text-[var(--neon-emerald)] w-6 h-6" />
+            <h2 className="text-2xl font-bold text-[var(--text-primary)]">Groups & Friends Pack</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

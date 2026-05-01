@@ -5,10 +5,12 @@ interface SettingsContextType {
   privacyHideText: boolean;
   timezoneOffset: number;
   language: 'th' | 'en';
+  theme: 'dark' | 'light';
   setPrivacyHideNumbers: (val: boolean) => void;
   setPrivacyHideText: (val: boolean) => void;
   setTimezoneOffset: (val: number) => void;
   setLanguage: (lang: 'th' | 'en') => void;
+  setTheme: (theme: 'dark' | 'light') => void;
   resetAllData: () => void;
 }
 
@@ -38,12 +40,20 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       privacyHideNumbers: false,
       privacyHideText: false,
       timezoneOffset: 7, // Default BKK
-      language: 'th' as const
+      language: 'th' as const,
+      theme: 'dark' as const
     };
   });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+    
+    // Apply theme to document
+    if (settings.theme) {
+      document.documentElement.setAttribute('data-theme', settings.theme);
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
   }, [settings]);
 
   const setPrivacyHideNumbers = (val: boolean) => 
@@ -57,6 +67,9 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const setLanguage = (lang: 'th' | 'en') =>
     setSettings((prev: any) => ({ ...prev, language: lang }));
+
+  const setTheme = (theme: 'dark' | 'light') =>
+    setSettings((prev: any) => ({ ...prev, theme: theme }));
 
   const resetAllData = () => {
     // ล้างข้อมูลทั้งหมดใน localStorage ที่เกี่ยวข้องกับแอป
@@ -72,10 +85,12 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     privacyHideText: settings.privacyHideText,
     timezoneOffset: settings.timezoneOffset,
     language: settings.language || 'th',
+    theme: settings.theme || 'dark',
     setPrivacyHideNumbers,
     setPrivacyHideText,
     setTimezoneOffset,
     setLanguage,
+    setTheme,
     resetAllData
   };
 

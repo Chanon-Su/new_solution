@@ -18,15 +18,15 @@
 }
 
 .settings-section:hover {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--glass-border);
 }
 
 /* Zen Toggle Switch */
 .zen-toggle {
     width: 44px;
     height: 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
     border-radius: 100px;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -40,7 +40,7 @@
 .toggle-knob {
     width: 18px;
     height: 18px;
-    background: #444;
+    background: var(--muted-grey);
     border-radius: 50%;
     position: absolute;
     top: 2px;

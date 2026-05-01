@@ -65,7 +65,7 @@
 .zen-glow.bottom-right {
   bottom: -15vw;
   right: -15vw;
-  background: #3B82F6; /* Subtle Blue accent to complement Emerald */
+  background: var(--accent-blue); /* Subtle Blue accent to complement Emerald */
 }
 
 /* Global Transitions for tabs */
