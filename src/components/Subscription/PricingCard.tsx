@@ -6,7 +6,6 @@ interface PricingCardProps {
   plan: SubscriptionPlan;
   isCurrent?: boolean;
   isSelected?: boolean;
-  hasAnySelected?: boolean;
   onSelect: (planId: string, billingCycle: 'monthly' | 'yearly') => void;
   onCardClick: (planId: string) => void;
   currentPlanRank?: number;
@@ -87,7 +86,6 @@ const PricingCard: React.FC<PricingCardProps> = ({
   plan,
   isCurrent,
   isSelected,
-  hasAnySelected,
   onSelect,
   onCardClick,
   currentPlanRank

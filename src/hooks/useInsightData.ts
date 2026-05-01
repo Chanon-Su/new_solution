@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useTLog } from './TLogManager';
-import type { Transaction } from '../types';
 
 export type InsightTimeDimension = 'all' | 'year' | 'month';
 export type InsightAssetFocus = 'all' | 'global' | 'custom';
@@ -37,7 +36,7 @@ export const useInsightData = (
   selectedYear?: number,
   selectedMonth?: number
 ) => {
-  const { transactions, assetSummaries } = useTLog();
+  const { transactions } = useTLog();
 
   const filteredTransactions = useMemo(() => {
     return transactions.filter(tx => {

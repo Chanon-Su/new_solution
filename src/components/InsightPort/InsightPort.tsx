@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer,
+  Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer,
   PieChart, Pie, Cell, Tooltip
 } from 'recharts';
 import { 

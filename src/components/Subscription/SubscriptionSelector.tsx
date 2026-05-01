@@ -21,7 +21,6 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
   // If there's a current plan, it overrides any selection and hover
   // The selection is only allowed/shown if there's no current plan
   const effectiveSelectedId = currentPlanId ? null : selectedCardId;
-  const hasSelectionLock = !!currentPlanId || !!selectedCardId;
 
   const handleSelect = (planId: string, billingCycle: 'monthly' | 'yearly') => {
     onSelect(planId, billingCycle);
@@ -82,7 +81,6 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
                 onSelect={handleSelect} 
                 isCurrent={currentPlanId === VIP_PLAN.id}
                 isSelected={effectiveSelectedId === VIP_PLAN.id}
-                hasAnySelected={hasSelectionLock}
                 onCardClick={(id) => setSelectedCardId(id)}
                 currentPlanRank={currentPlanRank}
               />
@@ -99,7 +97,6 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
               onSelect={handleSelect} 
               isCurrent={currentPlanId === plan.id}
               isSelected={effectiveSelectedId === plan.id}
-              hasAnySelected={hasSelectionLock}
               onCardClick={(id) => setSelectedCardId(id)}
               currentPlanRank={currentPlanRank}
             />
@@ -121,7 +118,6 @@ const SubscriptionSelector: React.FC<SubscriptionSelectorProps> = ({ currentPlan
                 onSelect={handleSelect} 
                 isCurrent={currentPlanId === plan.id}
                 isSelected={effectiveSelectedId === plan.id}
-                hasAnySelected={hasSelectionLock}
                 onCardClick={(id) => setSelectedCardId(id)}
                 currentPlanRank={currentPlanRank}
               />
