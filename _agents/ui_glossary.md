@@ -29,7 +29,7 @@
 | **SecondaryAction** | Ghost/Ghost-like Button | ปุ่มทางเลือกเสริม (เช่น *Learn more*) |
 | **FeatureList** | List Wrapper | กลุ่มของรายการฟีเจอร์ที่อยู่ในแผนนั้นๆ |
 | **FeatureItem** | Icon + Text | ตัวฟีเจอร์แต่ละบรรทัด (Checkmark + Description) |
-
+| **InlineConfirmation** | Confirmation Dialog | กล่องโต้ตอบที่ปรากฏขึ้นเพื่อยืนยันการกระทำ ในตรงนั้นเลย|
 ---
 
 ## 📊 Dashboard Modules (หน้าแดชบอร์ด)
