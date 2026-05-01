@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { LayoutDashboard, ShoppingBag, ScrollText, Flag, Sparkles, Moon, User, Settings, Plus, BarChart3 } from 'lucide-react';
 import { useQuickFill } from '../hooks/QuickFillManager';
+import { useSettings } from '../hooks/SettingsManager';
+import { translations } from '../utils/translations';
 import './Header.css';
 
 interface HeaderProps {
@@ -10,14 +12,17 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
   const { quickFills, applyQuickFill } = useQuickFill();
+  const { language } = useSettings();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
+  const t = translations[language] || translations.th;
+
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'asset-mart', label: 'Asset-Mart', icon: ShoppingBag },
-    { id: 't-log', label: 'Transaction-Log', icon: ScrollText },
-    { id: 'insight-port', label: 'Insight', icon: BarChart3 },
-    { id: 'goal', label: 'เป้าหมาย', icon: Flag },
+    { id: 'dashboard', label: t.nav.dashboard, icon: LayoutDashboard },
+    { id: 'asset-mart', label: t.nav.assetMart, icon: ShoppingBag },
+    { id: 't-log', label: t.nav.tlog, icon: ScrollText },
+    { id: 'insight-port', label: t.nav.insight, icon: BarChart3 },
+    { id: 'goal', label: t.nav.goal, icon: Flag },
     { id: 'plans', label: '', icon: Sparkles, isIconOnly: true },
   ];
 

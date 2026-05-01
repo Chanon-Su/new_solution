@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import BentoGrid from './BentoGrid';
 import FollowList from './FollowList';
 import AssetInventory from './AssetInventory';
@@ -20,6 +22,9 @@ interface Asset {
 }
 
 const AssetMart: React.FC = () => {
+  const { language } = useSettings();
+  const t = translations[language] || translations.th;
+  
   const [viewMode, setViewMode] = useState<ViewMode>('main');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
@@ -82,7 +87,7 @@ const AssetMart: React.FC = () => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                   <input 
                     type="text" 
-                    placeholder="ค้นหาสินทรัพย์..." 
+                    placeholder={t.assetMart.search} 
                     className="bg-white/5 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-emerald-500/50 w-full transition-all"
                   />
                 </div>

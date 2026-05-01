@@ -8,6 +8,7 @@ import {
   Shield
 } from 'lucide-react';
 import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import type { Transaction } from '../../types';
 import { getAssetMetadata } from '../../utils/assetMapping';
 
@@ -18,7 +19,8 @@ interface HistoryTableProps {
 }
 
 const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onUpdate }) => {
-  const { privacyHideNumbers, privacyHideText, timezoneOffset } = useSettings();
+  const { privacyHideNumbers, privacyHideText, timezoneOffset, language } = useSettings();
+  const t = translations[language] || translations.th;
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const formatWithTimezone = (dateStr: string) => {
@@ -27,11 +29,10 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
     if (isNaN(date.getTime())) return dateStr;
 
     // Adjust for timezone offset
-    // Calculate UTC time first
     const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
     const adjustedDate = new Date(utc + (3600000 * timezoneOffset));
 
-    return adjustedDate.toLocaleString('en-GB', { 
+    return adjustedDate.toLocaleString(language === 'th' ? 'th-TH' : 'en-GB', { 
       day: '2-digit', 
       month: '2-digit', 
       year: 'numeric',
@@ -77,13 +78,13 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
   };
 
   const categoryLabels: Record<string, string> = {
-    STOCK: 'หุ้น',
-    BOND: 'ตราสารหนี้',
-    FUND: 'กองทุนรวม',
+    STOCK: language === 'th' ? 'หุ้น' : 'Stock',
+    BOND: language === 'th' ? 'ตราสารหนี้' : 'Bond',
+    FUND: language === 'th' ? 'กองทุนรวม' : 'Mutual Fund',
     CRYPTO: 'Cryptocurrency',
-    COMMODITY: 'สินค้าโภคภัณฑ์',
-    REALESTATE: 'อสังหาริมทรัพย์',
-    OTHER: 'อื่น ๆ'
+    COMMODITY: language === 'th' ? 'สินค้าโภคภัณฑ์' : 'Commodity',
+    REALESTATE: language === 'th' ? 'อสังหาริมทรัพย์' : 'Real Estate',
+    OTHER: language === 'th' ? 'อื่น ๆ' : 'Other'
   };
 
   return (
@@ -91,17 +92,17 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
       <table className="w-full border-collapse">
         <thead>
           <tr className="border-b border-white/5">
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">วันที่</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">ประเภท</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">สินทรัพย์</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">ประเภทสินทรัพย์</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">จำนวน</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">ราคาหน่วย</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">ค่าธรรมเนียม</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">รวม</th>
-            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">สกุลเงิน</th>
-            <th className="text-center px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">โน้ต</th>
-            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">จัดการ</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.date}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.type}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.asset}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.category}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.amount}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.price}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.fee}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.total}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.currency}</th>
+            <th className="text-center px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.notes}</th>
+            <th className="text-right px-3 py-4 text-xs font-bold text-[#9CA3AF] uppercase tracking-widest opacity-60">{t.tlog.history.table.actions}</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-white/[0.04]">
@@ -371,7 +372,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       </>
                     ) : (
                       <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-300">
-                        <span className="text-[10px] font-bold text-red-500 uppercase tracking-tighter mr-1">Confirm?</span>
+                        <span className="text-[10px] font-bold text-red-500 uppercase tracking-tighter mr-1">{language === 'th' ? 'ยืนยัน?' : 'Confirm?'}</span>
                         <Check 
                           size={18} 
                           className="text-red-500 cursor-pointer hover:scale-110 transition-transform" 
@@ -394,7 +395,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
       {transactions.length === 0 && (
         <div className="py-20 flex flex-col items-center justify-center opacity-20">
           <div className="w-12 h-12 rounded-full border-2 border-dashed border-white mb-4"></div>
-          <p className="text-sm font-medium">ยังไม่มีรายการบันทึก</p>
+          <p className="text-sm font-medium">{t.common.noData}</p>
         </div>
       )}
     </div>

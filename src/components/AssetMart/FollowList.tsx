@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import { Bookmark, TrendingUp, TrendingDown, Heart } from 'lucide-react';
 
 interface FollowItem {
@@ -18,6 +20,8 @@ interface FollowListProps {
 }
 
 const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => {
+  const { language } = useSettings();
+  const t = translations[language].assetMart.followList;
   const [followedAssets, setFollowedAssets] = React.useState<FollowItem[]>([]);
 
   const loadFollowedAssets = () => {
@@ -43,18 +47,24 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
         <div className="section-header flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <div className="w-1 h-6 bg-emerald-500 rounded-full"></div>
-            <h2 className="text-xl font-bold">Follow List</h2>
+            <h2 className="text-xl font-bold">{t.title}</h2>
           </div>
           <Bookmark className="w-5 h-5 text-emerald-500" />
         </div>
-        <p className="text-xs text-gray-400 mb-4">สินทรัพย์ที่คุณกำลังติดตามความเคลื่อนไหว</p>
+        <p className="text-xs text-gray-400 mb-4">
+          {t.desc}
+        </p>
 
         <div className="follow-items-wrapper flex flex-col gap-3 overflow-y-auto pr-1 flex-1">
           {followedAssets.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 px-4 text-center border border-dashed border-white/10 rounded-2xl bg-white/[0.02]">
               <Heart className="w-8 h-8 text-gray-600 mb-3 opacity-20" />
-              <p className="text-sm text-gray-500">ยังไม่มีสินทรัพย์ที่ติดตาม</p>
-              <p className="text-xs text-gray-600 mt-1">กดหัวใจที่หน้ารายละเอียดเพื่อติดตาม</p>
+              <p className="text-sm text-gray-500">
+                {t.empty}
+              </p>
+              <p className="text-xs text-gray-600 mt-1">
+                {t.emptySub}
+              </p>
             </div>
           ) : (
             followedAssets.map((item) => (
@@ -89,7 +99,7 @@ const FollowList: React.FC<FollowListProps> = ({ onSelectAsset, onExplore }) => 
             onClick={onExplore}
             className="w-full py-3 rounded-xl bg-emerald-500/10 text-emerald-400 text-sm font-medium hover:bg-emerald-500/20 transition-all border border-emerald-500/20 active:scale-95"
           >
-            + ค้นหาสินทรัพย์เพิ่มเติม
+            + {t.explore}
           </button>
         </div>
       </div>

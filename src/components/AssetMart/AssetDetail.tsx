@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import { ArrowLeft, ExternalLink, Calendar, Info, TrendingUp, DollarSign, Activity, FileText, Heart } from 'lucide-react';
 
 interface AssetDetailProps {
@@ -16,6 +18,8 @@ interface AssetDetailProps {
 }
 
 const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
+  const { language } = useSettings();
+  const t = translations[language].assetMart.detail;
   const [isFollowed, setIsFollowed] = useState(false);
 
   // Check if followed on mount
@@ -59,7 +63,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
       {/* Navigation & Header */}
       <div className="mb-8">
         <button onClick={onBack} className="flex items-center gap-2 text-gray-500 hover:text-emerald-500 transition-colors mb-6 text-sm">
-          <ArrowLeft className="w-4 h-4" /> ย้อนกลับไปรายการ
+          <ArrowLeft className="w-4 h-4" /> {t.back}
         </button>
         
         <div className="detail-identity-section">
@@ -73,7 +77,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
                 {asset.symbol}
               </span>
             </div>
-            <p className="text-gray-500 mt-2 font-medium">Digital Asset • Global Market • Trusted Data Source</p>
+            <p className="text-gray-500 mt-2 font-medium">{t.tags}</p>
           </div>
           <div className="ml-auto flex gap-3">
             <button className="p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-all">
@@ -88,7 +92,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
               }`}
             >
               <Heart className={`w-5 h-5 ${isFollowed ? 'fill-current' : ''}`} />
-              {isFollowed ? 'Following' : 'Follow'}
+              {isFollowed ? t.following : t.follow}
             </button>
           </div>
         </div>
@@ -98,7 +102,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
       <div className="metrics-grid">
         <div className="metric-card">
           <div className="flex justify-between items-start">
-            <span className="label">Current Price</span>
+            <span className="label">{t.metrics.price}</span>
             {asset.category === 'FOREX' ? <Activity className="w-4 h-4 text-emerald-500" /> : <DollarSign className="w-4 h-4 text-emerald-500" />}
           </div>
           <p className="value">{asset.price}</p>
@@ -111,30 +115,30 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
         
         <div className="metric-card">
           <div className="flex justify-between items-start">
-            <span className="label">{asset.category === 'FOREX' ? '24h High' : 'Market Cap'}</span>
+            <span className="label">{asset.category === 'FOREX' ? t.metrics.high24h : t.metrics.marketCap}</span>
             <Activity className="w-4 h-4 text-purple-500" />
           </div>
           <p className="value">{asset.category === 'FOREX' ? '36.52' : '$1.24T'}</p>
-          <p className="text-xs text-gray-500 mt-2">{asset.category === 'FOREX' ? 'Daily Peak' : 'Rank #1 in Market'}</p>
+          <p className="text-xs text-gray-500 mt-2">{asset.category === 'FOREX' ? t.metrics.peak : t.metrics.rank}</p>
         </div>
 
         <div className="metric-card">
           <div className="flex justify-between items-start">
-            <span className="label">{asset.category === 'FOREX' ? '24h Low' : 'Cost Basis (Adj)'}</span>
+            <span className="label">{asset.category === 'FOREX' ? t.metrics.low24h : t.metrics.costBasis}</span>
             <Info className="w-4 h-4 text-blue-500" />
           </div>
           <p className="value">{asset.category === 'FOREX' ? '36.38' : '$58,400.00'}</p>
-          <p className="text-xs text-emerald-400 mt-2">{asset.category === 'FOREX' ? 'Daily Floor' : 'Dividend Adjusted'}</p>
+          <p className="text-xs text-emerald-400 mt-2">{asset.category === 'FOREX' ? t.metrics.floor : t.metrics.divAdj}</p>
         </div>
 
         <div className="metric-card overflow-hidden relative">
           <div className="flex justify-between items-start relative z-10">
-            <span className="label">Total ROI</span>
+            <span className="label">{t.metrics.totalRoi}</span>
             <TrendingUp className="w-4 h-4 text-emerald-500" />
           </div>
           <p className="value relative z-10">{asset.roi}</p>
           <div className="absolute inset-x-0 bottom-0 h-1 bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
-          <p className="text-xs text-gray-500 mt-2 relative z-10">Historical Performance</p>
+          <p className="text-xs text-gray-500 mt-2 relative z-10">{t.metrics.historical}</p>
         </div>
       </div>
 
@@ -143,7 +147,7 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <Calendar className="w-5 h-5 text-emerald-500" />
-            <h3 className="text-xl font-bold">Price Visualizer</h3>
+            <h3 className="text-xl font-bold">{t.visualizer.title}</h3>
           </div>
           <div className="time-range-selector">
             <button className="range-btn">1D</button>
@@ -166,25 +170,25 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
           <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
             <div className="flex items-center gap-2 mb-4">
               <FileText className="w-4 h-4 text-emerald-500" />
-              <h4 className="font-bold">Fundamental Analysis</h4>
+              <h4 className="font-bold">{t.visualizer.analysis}</h4>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
               {asset.category === 'FOREX' 
-                ? 'อัตราแลกเปลี่ยนดอลลาร์สหรัฐต่อบาทไทย ได้รับอิทธิพลโดยตรงจากนโยบายทางการเงินของ Fed และ ธปท. รวมถึงทิศทางของ Fund Flow ในตลาดเกิดใหม่ (Emerging Markets)'
-                : 'สินทรัพย์นี้มีแนวโน้มเชิงบวกเนื่องจากการรับรองในระดับสถาบันและความต้องการใช้งานในอุตสาหกรรมเทรดดิ้งที่เพิ่มสูงขึ้น ข้อมูลพื้นฐานยังคงแข็งแกร่งด้วยอัตราการเติบโตของ Network Hashrate'}
+                ? t.visualizer.forexDesc
+                : t.visualizer.defaultDesc}
             </p>
           </div>
           <div className="p-6 rounded-2xl bg-white/5 border border-white/5">
-            <h4 className="font-bold mb-4">Market Sentiment</h4>
+            <h4 className="font-bold mb-4">{t.visualizer.sentiment}</h4>
             <div className="flex items-center gap-12 text-center">
               <div>
-                <p className="text-xs text-gray-500 mb-1 uppercase">Fear & Greed</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase">{t.visualizer.fearGreed}</p>
                 <p className="text-2xl font-bold text-emerald-400">74 (Greed)</p>
               </div>
               <div className="w-px h-10 bg-white/10"></div>
               <div>
-                <p className="text-xs text-gray-500 mb-1 uppercase">Volatility</p>
-                <p className="text-2xl font-bold text-blue-400">Medium</p>
+                <p className="text-xs text-gray-500 mb-1 uppercase">{t.visualizer.volatility}</p>
+                <p className="text-2xl font-bold text-blue-400">{t.visualizer.volMedium}</p>
               </div>
             </div>
           </div>

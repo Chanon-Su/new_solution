@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import { TrendingUp, Landmark, Landmark as Funds, Coins, Waves, Home, LayoutGrid } from 'lucide-react';
 
 interface BentoCategory {
@@ -11,17 +13,20 @@ interface BentoCategory {
 }
 
 const BentoGrid: React.FC<{ onSelect: (id: string) => void }> = ({ onSelect }) => {
+  const { language } = useSettings();
+  const t = translations[language].assetMart.categories;
+
   const categories: BentoCategory[] = [
     // Row 1
-    { id: 'stocks', name: 'หุ้น', nameSub: 'Stocks', icon: <TrendingUp />, desc: 'หุ้นไทย และตลาดโลก' },
-    { id: 'fixedincome', name: 'ตราสารหนี้', nameSub: 'Fixed Income', icon: <Landmark />, desc: 'พันธบัตรและหุ้นกู้' },
-    { id: 'funds', name: 'กองทุนรวม', nameSub: 'Mutual Funds', icon: <Funds />, desc: 'การออมผ่านผู้เชี่ยวชาญ' },
+    { id: 'stocks', name: t.stocks.name, nameSub: 'Stocks', icon: <TrendingUp />, desc: t.stocks.desc },
+    { id: 'fixedincome', name: t.fixedincome.name, nameSub: 'Fixed Income', icon: <Landmark />, desc: t.fixedincome.desc },
+    { id: 'funds', name: t.funds.name, nameSub: 'Mutual Funds', icon: <Funds />, desc: t.funds.desc },
     // Row 2
-    { id: 'crypto', name: 'Cryptocurrency', nameSub: 'Digital Assets', icon: <Coins />, desc: 'Bitcoin และเหรียญทางเลือก' },
-    { id: 'commodities', name: 'สินค้าโภคภัณฑ์', nameSub: 'Commodities', icon: <Waves />, desc: 'ทองคำ, น้ำมัน, แร่ธาตุ' },
-    { id: 'realestate', name: 'อสังหาริมทรัพย์', nameSub: 'Real Estate', icon: <Home />, desc: 'ที่ดิน, อาคาร, REITs' },
+    { id: 'crypto', name: t.crypto.name, nameSub: 'Digital Assets', icon: <Coins />, desc: t.crypto.desc },
+    { id: 'commodities', name: t.commodities.name, nameSub: 'Commodities', icon: <Waves />, desc: t.commodities.desc },
+    { id: 'realestate', name: t.realestate.name, nameSub: 'Real Estate', icon: <Home />, desc: t.realestate.desc },
     // Row 3
-    { id: 'others', name: 'อื่นๆ', nameSub: 'Others', icon: <LayoutGrid />, desc: 'ทรัพย์สินทางเลือกและหมวดหมู่เพิ่มเติม', isLarge: true },
+    { id: 'others', name: t.others.name, nameSub: 'Others', icon: <LayoutGrid />, desc: t.others.desc, isLarge: true },
   ];
 
   return (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSettings } from '../../hooks/SettingsManager';
 
 interface DashboardControlsProps {
   editMode: boolean;
@@ -15,16 +16,18 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
   onToggleLayout,
   onAddBlock
 }) => {
+  const { language } = useSettings();
+
   return (
     <div className="dashboard-controls">
       {/* Help Circle - The Anchor Point at the Bottom */}
-      <div className="control-btn help circle" title="Need help?">?</div>
+      <div className="control-btn help circle" title={language === 'th' ? 'ต้องการความช่วยเหลือ?' : 'Need help?'}>?</div>
 
       {/* Edit Button - Directly above Help */}
       <div 
         className={`control-btn edit ${editMode ? 'active' : ''}`} 
         onClick={onToggleEdit}
-        title="Toggle Edit Mode"
+        title={language === 'th' ? 'เปิด/ปิด โหมดแก้ไข' : 'Toggle Edit Mode'}
       >
         ✏️
       </div>
@@ -35,7 +38,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
           <div 
             className={`control-btn layout ${layoutMode ? 'active' : ''}`} 
             onClick={onToggleLayout}
-            title="Toggle Layout Grid"
+            title={language === 'th' ? 'เปิด/ปิด ตาราง Layout' : 'Toggle Layout Grid'}
             style={{ animation: 'bounceIn 0.3s ease-out' }}
           >
             🔲
@@ -43,7 +46,7 @@ const DashboardControls: React.FC<DashboardControlsProps> = ({
           <div 
             className="control-btn add" 
             onClick={onAddBlock}
-            title="Add New Block"
+            title={language === 'th' ? 'เพิ่ม Block ใหม่' : 'Add New Block'}
             style={{ animation: 'bounceIn 0.4s ease-out' }}
           >
             +

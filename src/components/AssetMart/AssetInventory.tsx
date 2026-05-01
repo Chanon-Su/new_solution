@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import { ChevronRight, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
 interface AssetListItem {
@@ -18,19 +20,7 @@ interface AssetInventoryProps {
   onSelectAsset: (asset: AssetListItem) => void;
 }
 
-const categoryMap: Record<string, { name: string; label: string }> = {
-  all: { name: 'สำรวจสินทรัพย์ทั้งหมด', label: 'Global Asset Directory' },
-  stocks: { name: 'หุ้น', label: 'Stocks' },
-  fixedincome: { name: 'ตราสารหนี้', label: 'Fixed Income' },
-  funds: { name: 'กองทุนรวม', label: 'Mutual Funds' },
-  crypto: { name: 'Cryptocurrency', label: 'Digital Assets' },
-  commodities: { name: 'สินค้าโภคภัณฑ์', label: 'Commodities' },
-  realestate: { name: 'อสังหาริมทรัพย์', label: 'Real Estate' },
-  others: { name: 'อื่นๆ', label: 'Others' },
-};
-
 const mockData: Record<string, AssetListItem[]> = {
-  // ... (keep existing categories)
   stocks: [
     { id: 's1', name: 'Apple Inc.', symbol: 'AAPL', price: '$172.62', change: '+$1.45', roi: '+0.85%', isUp: true, category: 'STOCK' },
     { id: 's2', name: 'Nvidia Corp.', symbol: 'NVDA', price: '$894.52', change: '+$12.30', roi: '+1.40%', isUp: true, category: 'STOCK' },
@@ -74,36 +64,45 @@ const mockData: Record<string, AssetListItem[]> = {
 };
 
 const AssetInventory: React.FC<AssetInventoryProps> = ({ category, onBack, onSelectAsset }) => {
+  const { language } = useSettings();
+  const t = translations[language].assetMart;
+
   const assets = category === 'all' 
     ? Object.values(mockData).flat() 
     : (mockData[category] || mockData.others);
     
-  const categoryInfo = categoryMap[category] || { name: category, label: 'Asset Category' };
+  const getCategoryInfo = () => {
+    if (category === 'all') return { name: t.inventory.allAssets, label: 'Global Asset Directory' };
+    const catData = t.categories[category as keyof typeof t.categories];
+    return catData ? { name: catData.name, label: category.toUpperCase() } : { name: category, label: 'Asset Category' };
+  };
+
+  const categoryInfo = getCategoryInfo();
 
   return (
     <div className="inventory-container glass-panel p-8 rounded-[24px]">
       <div className="inventory-header">
         <div>
           <button onClick={onBack} className="text-emerald-500 text-sm font-medium mb-4 hover:underline flex items-center gap-2">
-            <span>←</span> ย้อนกลับ
+            <span>←</span> {t.inventory.back}
           </button>
-          <span className="text-emerald-500 text-xs font-bold uppercase tracking-widest block mb-1">Asset Directory</span>
+          <span className="text-emerald-500 text-xs font-bold uppercase tracking-widest block mb-1">{t.inventory.directory}</span>
           <h2 className="text-5xl font-bold text-white tracking-tight">
             {categoryInfo.name} <span className="text-xl text-gray-500 font-normal">({categoryInfo.label})</span>
           </h2>
         </div>
         <div className="text-right">
-          <p className="text-sm text-gray-500">สถานะตลาด: เปิดทำการ</p>
-          <p className="text-xs text-emerald-400 font-medium italic">Synced with Real-time Feeds</p>
+          <p className="text-sm text-gray-500">{t.inventory.marketStatus}</p>
+          <p className="text-xs text-emerald-400 font-medium italic">{t.inventory.synced}</p>
         </div>
       </div>
 
       <div className="inventory-table-header mt-8">
-        <span>ชื่อสินทรัพย์ / สัญลักษณ์</span>
-        <span>ราคาปัจจุบัน</span>
-        <span>เปลี่ยนแปลง (24H)</span>
-        <span>ผลตอบแทน (ROI)</span>
-        <span className="text-right">จัดการ</span>
+        <span>{t.inventory.table.asset}</span>
+        <span>{t.inventory.table.price}</span>
+        <span>{t.inventory.table.change}</span>
+        <span>{t.inventory.table.roi}</span>
+        <span className="text-right">{t.inventory.table.actions}</span>
       </div>
 
       <div className="inventory-list mt-2 flex flex-col gap-1">

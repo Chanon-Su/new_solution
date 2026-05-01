@@ -14,6 +14,8 @@ import {
 import { useInsightData } from '../../hooks/useInsightData';
 import type { InsightTimeDimension, InsightAssetFocus } from '../../hooks/useInsightData';
 import ZenDropdown from '../UI/ZenDropdown';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import './InsightPort.css';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -37,9 +39,10 @@ interface MultiSelectProps {
   selected: string[];
   onChange: (values: string[]) => void;
   placeholder?: string;
+  language: string;
 }
 
-const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, onChange, placeholder = "Select assets" }) => {
+const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, onChange, placeholder, language }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -59,6 +62,8 @@ const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, 
     }
   };
 
+  const defaultPlaceholder = language === 'th' ? 'เลือกสินทรัพย์' : 'Select assets';
+
   return (
     <div className="report-dropdown-wrapper" ref={containerRef}>
       <label className="dropdown-label">{label}</label>
@@ -68,7 +73,7 @@ const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, 
           className="w-full h-full flex items-center justify-between px-4 text-xs text-white/80"
         >
           <span className="truncate pr-4">
-            {selected.length === 0 ? placeholder : `${selected.length} Selected`}
+            {selected.length === 0 ? (placeholder || defaultPlaceholder) : (language === 'th' ? `เลือกแล้ว ${selected.length} รายการ` : `${selected.length} Selected`)}
           </span>
           <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </button>
@@ -87,7 +92,7 @@ const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, 
                 <span className={selected.includes(opt) ? 'text-emerald-400 font-bold' : 'text-gray-400'}>{opt}</span>
               </button>
             ))}
-            {options.length === 0 && <div className="px-4 py-2 text-[11px] text-gray-500 italic">No assets found</div>}
+            {options.length === 0 && <div className="px-4 py-2 text-[11px] text-gray-500 italic">{language === 'th' ? 'ไม่พบสินทรัพย์' : 'No assets found'}</div>}
           </div>
         )}
       </div>
@@ -98,6 +103,7 @@ const ZenMultiSelect: React.FC<MultiSelectProps> = ({ label, options, selected, 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 const InsightPort: React.FC = () => {
+  const { language } = useSettings();
   const [timeDimension, setTimeDimension] = useState<InsightTimeDimension>('all');
   const [assetFocus, setAssetFocus] = useState<InsightAssetFocus>('all');
   const [selectedYear, setSelectedYear] = useState<number | undefined>(undefined);
@@ -124,14 +130,14 @@ const InsightPort: React.FC = () => {
   // ─── Time Options ─────────────────────────────────────────────────────────
 
   const yearlyOptions = useMemo(() => [
-    { value: 'yearly_avg', label: 'Average Yearly (All Years)' },
+    { value: 'yearly_avg', label: language === 'th' ? 'ค่าเฉลี่ยรายปี (ทุกปี)' : 'Average Yearly (All Years)' },
     ...dropdownLists.availableYears.map(y => ({ value: y.toString(), label: y.toString() }))
-  ], [dropdownLists.availableYears]);
+  ], [dropdownLists.availableYears, language]);
 
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const monthlyOptions = useMemo(() => {
     if (selectedYear) {
-      const baseOptions = [{ value: 'year_avg', label: `Average Monthly of ${selectedYear}` }];
+      const baseOptions = [{ value: 'year_avg', label: language === 'th' ? `เฉลี่ยรายเดือนของปี ${selectedYear}` : `Average Monthly of ${selectedYear}` }];
       const months = Array.from(dropdownLists.availableMonths[selectedYear] || []).sort((a, b) => a - b);
       return [
         ...baseOptions,
@@ -139,9 +145,9 @@ const InsightPort: React.FC = () => {
       ];
     }
     return [
-      { value: 'monthly_avg', label: 'Average Monthly (All Months)' }
+      { value: 'monthly_avg', label: language === 'th' ? 'ค่าเฉลี่ยรายเดือน (ทุกเดือน)' : 'Average Monthly (All Months)' }
     ];
-  }, [selectedYear, dropdownLists.availableMonths]);
+  }, [selectedYear, dropdownLists.availableMonths, language]);
 
   // ─── Handlers ───────────────────────────────────────────────────────────────
 
@@ -201,7 +207,7 @@ const InsightPort: React.FC = () => {
               <div className="sidebar-group">
                 <div className="flex items-center gap-2 mb-4">
                   <PieIcon size={14} className="text-emerald-500" />
-                  <h4 className="sidebar-section-title !mb-0">Asset Allocation</h4>
+                  <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การจัดสรรสินทรัพย์' : 'Asset Allocation'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -226,11 +232,11 @@ const InsightPort: React.FC = () => {
               </div>
               <div className="sidebar-stats-row">
                  <div className="stat-box">
-                    <span className="label">Assets Count</span>
+                    <span className="label">{language === 'th' ? 'จำนวนสินทรัพย์' : 'Assets Count'}</span>
                     <span className="value">{metrics.assetCount}</span>
                  </div>
                  <div className="stat-box">
-                    <span className="label">Portfolio Yield</span>
+                    <span className="label">{language === 'th' ? 'ปันผลเฉลี่ย' : 'Portfolio Yield'}</span>
                     <span className="value text-emerald-400">{metrics.dividendYield.toFixed(2)}%</span>
                  </div>
               </div>
@@ -242,7 +248,7 @@ const InsightPort: React.FC = () => {
               <div className="sidebar-group">
                  <div className="flex items-center gap-2 mb-4">
                   <TrendingUp size={14} className="text-emerald-500" />
-                  <h4 className="sidebar-section-title !mb-0">Growth Performance</h4>
+                  <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'ผลประกอบการ' : 'Growth Performance'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -264,11 +270,11 @@ const InsightPort: React.FC = () => {
               </div>
               <div className="sidebar-stats-row">
                  <div className="stat-box">
-                    <span className="label">Initial Value</span>
+                    <span className="label">{language === 'th' ? 'มูลค่าเริ่มต้น' : 'Initial Value'}</span>
                     <span className="value">{formatCurrency(trendData[0]?.value || 0)}</span>
                  </div>
                  <div className="stat-box">
-                    <span className="label">Return Rate</span>
+                    <span className="label">{language === 'th' ? 'อัตราตอบแทน' : 'Return Rate'}</span>
                     <span className="value text-emerald-400">{metrics.returnPercentage.toFixed(1)}%</span>
                  </div>
               </div>
@@ -280,7 +286,7 @@ const InsightPort: React.FC = () => {
               <div className="sidebar-group">
                 <div className="flex items-center gap-2 mb-4">
                   <Activity size={14} className="text-emerald-500" />
-                  <h4 className="sidebar-section-title !mb-0">Flow Analysis</h4>
+                  <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การวิเคราะห์กระแสเงิน' : 'Flow Analysis'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
                   <ResponsiveContainer width="100%" height="100%">
@@ -298,11 +304,11 @@ const InsightPort: React.FC = () => {
               </div>
               <div className="sidebar-stats-row">
                  <div className="stat-box">
-                    <span className="label">Avg Div / Mo</span>
+                    <span className="label">{language === 'th' ? 'ปันผลเฉลี่ย / เดือน' : 'Avg Div / Mo'}</span>
                     <span className="value text-amber-400">{formatCurrency(metrics.totalDividends / 12)}</span>
                  </div>
                  <div className="stat-box">
-                    <span className="label">Total Div</span>
+                    <span className="label">{language === 'th' ? 'รวมเงินปันผล' : 'Total Div'}</span>
                     <span className="value text-amber-500">{formatCurrency(metrics.totalDividends)}</span>
                  </div>
               </div>
@@ -331,28 +337,28 @@ const InsightPort: React.FC = () => {
               <button 
                 onClick={handleAllTime}
                 className={`all-toggle-btn ${timeDimension === 'all' ? 'active' : ''}`}
-                title="Total of all time"
+                title={language === 'th' ? 'รวมทั้งหมด' : 'Total of all time'}
               >
-                All Time
+                {language === 'th' ? 'ทุกช่วงเวลา' : 'All Time'}
               </button>
               <div className="flex gap-4 flex-1">
                  <div className="report-dropdown-wrapper flex-1">
-                    <label className="dropdown-label">Yearly Filter</label>
+                    <label className="dropdown-label">{language === 'th' ? 'ตัวกรองรายปี' : 'Yearly Filter'}</label>
                     <ZenDropdown 
                       options={yearlyOptions} 
                       value={timeDimension === 'yearly_avg' ? 'yearly_avg' : selectedYear?.toString() || ''} 
                       onChange={handleYearChange} 
-                      placeholder={timeDimension === 'monthly_avg' ? "" : "Select Yearly"}
+                      placeholder={timeDimension === 'monthly_avg' ? "" : (language === 'th' ? "เลือกปี" : "Select Yearly")}
                       className="report-zen-dropdown"
                     />
                  </div>
                  <div className="report-dropdown-wrapper flex-1">
-                    <label className="dropdown-label">Monthly Filter</label>
+                    <label className="dropdown-label">{language === 'th' ? 'ตัวกรองรายเดือน' : 'Monthly Filter'}</label>
                     <ZenDropdown 
                       options={monthlyOptions} 
                       value={timeDimension === 'monthly_avg' ? 'monthly_avg' : selectedMonth?.toString() || (selectedYear ? 'year_avg' : '')} 
                       onChange={handleMonthChange} 
-                      placeholder={timeDimension === 'yearly_avg' ? "" : (selectedYear ? "Average of Year" : "Select Monthly")}
+                      placeholder={timeDimension === 'yearly_avg' ? "" : (selectedYear ? (language === 'th' ? "ค่าเฉลี่ยรายปี" : "Average of Year") : (language === 'th' ? "เลือกเดือน" : "Select Monthly"))}
                       className="report-zen-dropdown"
                     />
                  </div>
@@ -365,11 +371,11 @@ const InsightPort: React.FC = () => {
                 onClick={handleAllAssets}
                 className={`all-toggle-btn ${assetFocus === 'all' && selectedAssets.length === 0 ? 'active' : ''}`}
               >
-                All Assets
+                {language === 'th' ? 'ทุกสินทรัพย์' : 'All Assets'}
               </button>
               <div className="flex gap-4 flex-1">
                  <ZenMultiSelect 
-                   label="Global List"
+                   label={language === 'th' ? 'รายการหลัก' : 'Global List'}
                    options={dropdownLists.globalAssets}
                    selected={selectedAssets.filter(a => isGlobalAsset(a))}
                    onChange={(vals) => {
@@ -377,9 +383,10 @@ const InsightPort: React.FC = () => {
                      const customs = selectedAssets.filter(a => !isGlobalAsset(a));
                      setSelectedAssets([...customs, ...vals]);
                    }}
+                   language={language}
                  />
                  <ZenMultiSelect 
-                   label="Custom List"
+                   label={language === 'th' ? 'รายการกำหนดเอง' : 'Custom List'}
                    options={dropdownLists.customAssets}
                    selected={selectedAssets.filter(a => !isGlobalAsset(a))}
                    onChange={(vals) => {
@@ -387,6 +394,7 @@ const InsightPort: React.FC = () => {
                      const globals = selectedAssets.filter(a => isGlobalAsset(a));
                      setSelectedAssets([...globals, ...vals]);
                    }}
+                   language={language}
                  />
               </div>
            </div>
@@ -394,56 +402,56 @@ const InsightPort: React.FC = () => {
 
         {/* Report Zone */}
         <section className="report-group">
-          <h2 className="report-group-title">Portfolio Performance Facts</h2>
+          <h2 className="report-group-title">{language === 'th' ? 'ข้อมูลสรุปพอร์ตโฟลิโอ' : 'Portfolio Performance Facts'}</h2>
           <div className="report-group-divider"></div>
-          <FactRow label="Portfolio Market Value" value={formatCurrency(metrics.totalNetWorth)} highlight="highlight-emerald" />
-          <FactRow label="Realized Capital Gain" value={formatCurrency(metrics.totalPnL)} />
-          <FactRow label="Total Dividends Earned" value={formatCurrency(metrics.totalDividends)} highlight="highlight-amber" />
-          <FactRow label="Combined Total Return" value={formatCurrency(metrics.totalReturn)} highlight="highlight-emerald" />
-          <FactRow label="Return Rate (ROI)" value={`${metrics.returnPercentage.toFixed(2)}%`} highlight="highlight-emerald" />
-          <FactRow label="Dividend Yield Rate" value={`${metrics.dividendYield.toFixed(2)}%`} highlight="highlight-amber" />
-          <FactRow label="Asset Diversity Count" value={metrics.assetCount} highlight="highlight-blue" />
+          <FactRow label={language === 'th' ? 'มูลค่าตลาดรวม' : 'Portfolio Market Value'} value={formatCurrency(metrics.totalNetWorth)} highlight="highlight-emerald" />
+          <FactRow label={language === 'th' ? 'กำไรที่รับรู้แล้ว' : 'Realized Capital Gain'} value={formatCurrency(metrics.totalPnL)} />
+          <FactRow label={language === 'th' ? 'เงินปันผลรวม' : 'Total Dividends Earned'} value={formatCurrency(metrics.totalDividends)} highlight="highlight-amber" />
+          <FactRow label={language === 'th' ? 'ผลตอบแทนรวมทั้งหมด' : 'Combined Total Return'} value={formatCurrency(metrics.totalReturn)} highlight="highlight-emerald" />
+          <FactRow label={language === 'th' ? 'อัตราผลตอบแทน (ROI)' : 'Return Rate (ROI)'} value={`${metrics.returnPercentage.toFixed(2)}%`} highlight="highlight-emerald" />
+          <FactRow label={language === 'th' ? 'อัตราเงินปันผล (Yield)' : 'Dividend Yield Rate'} value={`${metrics.dividendYield.toFixed(2)}%`} highlight="highlight-amber" />
+          <FactRow label={language === 'th' ? 'จำนวนสินทรัพย์ที่ถือ' : 'Asset Diversity Count'} value={metrics.assetCount} highlight="highlight-blue" />
         </section>
 
         <section className="report-group">
-          <h2 className="report-group-title">Flow & Activity Summary</h2>
+          <h2 className="report-group-title">{language === 'th' ? 'สรุปความเคลื่อนไหว' : 'Flow & Activity Summary'}</h2>
           <div className="report-group-divider"></div>
-          <FactRow label="Purchase Transactions" value={metrics.buyCount.toFixed(1)} />
-          <FactRow label="Sale Transactions" value={metrics.sellCount.toFixed(1)} />
-          <FactRow label="Dividend Events" value={metrics.dividendCount.toFixed(1)} />
-          <FactRow label="Avg Dividend / Period" value={formatCurrency(metrics.totalDividends / (timeDimension === 'all' ? 12 : 1))} />
-          <FactRow label="Total Capital Outlay" value={formatCurrency(metrics.buyVolume)} />
-          <FactRow label="Total Capital Realized" value={formatCurrency(metrics.sellVolume)} />
-          <FactRow label="Total Operational Fees" value={formatCurrency(metrics.totalFees)} highlight="highlight-rose" />
+          <FactRow label={language === 'th' ? 'รายการซื้อ' : 'Purchase Transactions'} value={metrics.buyCount.toFixed(1)} />
+          <FactRow label={language === 'th' ? 'รายการขาย' : 'Sale Transactions'} value={metrics.sellCount.toFixed(1)} />
+          <FactRow label={language === 'th' ? 'รายการปันผล' : 'Dividend Events'} value={metrics.dividendCount.toFixed(1)} />
+          <FactRow label={language === 'th' ? 'ปันผลเฉลี่ยต่อรอบ' : 'Avg Dividend / Period'} value={formatCurrency(metrics.totalDividends / (timeDimension === 'all' ? 12 : 1))} />
+          <FactRow label={language === 'th' ? 'เงินต้นรวม' : 'Total Capital Outlay'} value={formatCurrency(metrics.buyVolume)} />
+          <FactRow label={language === 'th' ? 'เงินที่ขายออกรวม' : 'Total Capital Realized'} value={formatCurrency(metrics.sellVolume)} />
+          <FactRow label={language === 'th' ? 'ค่าธรรมเนียมรวม' : 'Total Operational Fees'} value={formatCurrency(metrics.totalFees)} highlight="highlight-rose" />
         </section>
 
         <section className="report-group">
-          <h2 className="report-group-title">Asset Inventory Details</h2>
+          <h2 className="report-group-title">{language === 'th' ? 'รายละเอียดรายสินทรัพย์' : 'Asset Inventory Details'}</h2>
           <div className="report-group-divider"></div>
           {assetStats.length === 0 ? (
-            <p className="text-xs text-gray-500 italic">No asset data for the selected filter.</p>
+            <p className="text-xs text-gray-500 italic">{language === 'th' ? 'ไม่มีข้อมูลสินทรัพย์สำหรับเงื่อนไขนี้' : 'No asset data for the selected filter.'}</p>
           ) : (
             assetStats.map(stat => (
               <div key={stat.symbol} className="mb-6">
-                <FactRow label={`${stat.symbol} (Value)`} value={formatCurrency(stat.totalValue)} highlight="highlight-blue" />
+                <FactRow label={`${stat.symbol} (${language === 'th' ? 'มูลค่า' : 'Value'})`} value={formatCurrency(stat.totalValue)} highlight="highlight-blue" />
                 <div className="pl-8 opacity-70">
-                   <FactRow label="Quantity Held" value={stat.amount.toFixed(4)} />
-                   <FactRow label="Avg Purchase Price" value={formatCurrency(stat.avgPrice)} />
+                   <FactRow label={language === 'th' ? 'จำนวนที่ถือ' : 'Quantity Held'} value={stat.amount.toFixed(4)} />
+                   <FactRow label={language === 'th' ? 'ราคาซื้อเฉลี่ย' : 'Avg Purchase Price'} value={formatCurrency(stat.avgPrice)} />
                    
                    {/* Market Data for Global Assets Only */}
                    {stat.marketPrice !== null && (
                      <>
-                       <FactRow label="Live Market Price" value={formatCurrency(stat.marketPrice)} highlight="highlight-blue" />
+                       <FactRow label={language === 'th' ? 'ราคาตลาดปัจจุบัน' : 'Live Market Price'} value={formatCurrency(stat.marketPrice)} highlight="highlight-blue" />
                        <FactRow 
-                         label="Unrealized Gain/Loss" 
+                         label={language === 'th' ? 'กำไร/ขาดทุนที่ยังไม่รับรู้' : 'Unrealized Gain/Loss'} 
                          value={formatCurrency(stat.unrealizedPnL || 0)} 
                          highlight={(stat.unrealizedPnL || 0) >= 0 ? 'highlight-emerald' : 'highlight-rose'} 
                        />
                      </>
                    )}
 
-                   <FactRow label="Accumulated Dividends" value={formatCurrency(stat.dividends)} highlight="highlight-amber" />
-                   <FactRow label="Total Asset Return" value={formatCurrency(stat.totalReturn)} highlight={stat.totalReturn >= 0 ? 'highlight-emerald' : 'highlight-rose'} />
+                   <FactRow label={language === 'th' ? 'ปันผลสะสม' : 'Accumulated Dividends'} value={formatCurrency(stat.dividends)} highlight="highlight-amber" />
+                   <FactRow label={language === 'th' ? 'ผลตอบแทนรวม' : 'Total Asset Return'} value={formatCurrency(stat.totalReturn)} highlight={stat.totalReturn >= 0 ? 'highlight-emerald' : 'highlight-rose'} />
                 </div>
               </div>
             ))
@@ -451,7 +459,7 @@ const InsightPort: React.FC = () => {
         </section>
 
         <div className="mt-12 opacity-30 text-[10px] uppercase tracking-widest text-center">
-           Generated Intelligence Report — Data Integrity Verified
+           {language === 'th' ? 'รายงานอัจฉริยะ — ตรวจสอบความถูกต้องของข้อมูลแล้ว' : 'Generated Intelligence Report — Data Integrity Verified'}
         </div>
       </main>
     </div>

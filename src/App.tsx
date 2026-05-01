@@ -13,11 +13,15 @@ import SettingsPage from './components/Settings/SettingsPage';
 import InsightPort from './components/InsightPort/InsightPort';
 import './App.css';
 
-function App() {
+import { useSettings } from './hooks/SettingsManager';
+import { translations } from './utils/translations';
+
+function AppInner() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [currentPlanId, setCurrentPlanId] = useState<string | null>('plan-free');
+  const { language } = useSettings();
+  const t = translations[language] || translations.th;
   
-  // Mock Data สำหรับงาน UI
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -45,12 +49,12 @@ function App() {
                   <img src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix" alt="Avatar" />
                 </div>
               </div>
-              <h2 className="text-white text-3xl font-bold mb-2">User Profile</h2>
-              <p className="text-emerald-400 font-medium mb-8">Premium Alpha Member ✨</p>
+              <h2 className="text-white text-3xl font-bold mb-2">{t.profile.title}</h2>
+              <p className="text-emerald-400 font-medium mb-8">{t.profile.subtitle}</p>
               
               <div className="grid grid-cols-2 gap-4 text-left">
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5 group relative">
-                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Current Plan</div>
+                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t.profile.plan}</div>
                   <div className="text-sm text-white">{currentPlanId ? currentPlanId.replace('plan-', '').replace('-', ' ').toUpperCase() : 'Free Account'}</div>
                   
                   {currentPlanId && (
@@ -64,9 +68,9 @@ function App() {
                   )}
                 </div>
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Status</div>
+                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">{t.profile.status}</div>
                   <div className={`text-sm ${currentPlanId ? 'text-emerald-400' : 'text-gray-400'}`}>
-                    {currentPlanId ? 'Active' : 'Unsubscribed'}
+                    {currentPlanId ? t.profile.active : t.profile.inactive}
                   </div>
                 </div>
               </div>
@@ -83,23 +87,29 @@ function App() {
   };
 
   return (
+    <div className="app-shell">
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      
+      <main className="main-content">
+        {renderContent()}
+      </main>
+
+      {/* Zen Background Elements */}
+      <div className="zen-glow top-left"></div>
+      <div className="zen-glow bottom-right"></div>
+
+      {/* Global Modals */}
+      <QuickFillSetup />
+    </div>
+  );
+}
+
+function App() {
+  return (
     <SettingsProvider>
       <TLogProvider>
         <QuickFillProvider>
-          <div className="app-shell">
-            <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-            
-            <main className="main-content">
-              {renderContent()}
-            </main>
-
-            {/* Zen Background Elements */}
-            <div className="zen-glow top-left"></div>
-            <div className="zen-glow bottom-right"></div>
-
-            {/* Global Modals */}
-            <QuickFillSetup />
-          </div>
+          <AppInner />
         </QuickFillProvider>
       </TLogProvider>
     </SettingsProvider>

@@ -4,9 +4,11 @@ interface SettingsContextType {
   privacyHideNumbers: boolean;
   privacyHideText: boolean;
   timezoneOffset: number;
+  language: 'th' | 'en';
   setPrivacyHideNumbers: (val: boolean) => void;
   setPrivacyHideText: (val: boolean) => void;
   setTimezoneOffset: (val: number) => void;
+  setLanguage: (lang: 'th' | 'en') => void;
   resetAllData: () => void;
 }
 
@@ -35,7 +37,8 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return {
       privacyHideNumbers: false,
       privacyHideText: false,
-      timezoneOffset: 7 // Default BKK
+      timezoneOffset: 7, // Default BKK
+      language: 'th' as const
     };
   });
 
@@ -52,6 +55,9 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const setTimezoneOffset = (val: number) => 
     setSettings((prev: any) => ({ ...prev, timezoneOffset: val }));
 
+  const setLanguage = (lang: 'th' | 'en') =>
+    setSettings((prev: any) => ({ ...prev, language: lang }));
+
   const resetAllData = () => {
     // ล้างข้อมูลทั้งหมดใน localStorage ที่เกี่ยวข้องกับแอป
     Object.values(STORAGE_KEYS).forEach(key => {
@@ -65,9 +71,11 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     privacyHideNumbers: settings.privacyHideNumbers,
     privacyHideText: settings.privacyHideText,
     timezoneOffset: settings.timezoneOffset,
+    language: settings.language || 'th',
     setPrivacyHideNumbers,
     setPrivacyHideText,
     setTimezoneOffset,
+    setLanguage,
     resetAllData
   };
 

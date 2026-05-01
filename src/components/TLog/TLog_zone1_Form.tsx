@@ -9,11 +9,15 @@ import {
 import ZenField from '../UI/ZenField';
 import ZenDropdown, { type ZenDropdownOption } from '../UI/ZenDropdown';
 import { useTLog } from '../../hooks/TLogManager';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import { exportToCSV, parseCSV } from '../../utils/csvUtils';
 import type { Transaction, QuickFillItem } from '../../types';
 
 const TLog_zone1_Form: React.FC = () => {
   const { addTransaction, transactions, importTransactions } = useTLog();
+  const { language } = useSettings();
+  const t = translations[language] || translations.th;
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [formData, setFormData] = useState({
@@ -279,7 +283,7 @@ const TLog_zone1_Form: React.FC = () => {
         const importedTxs = parseCSV(content);
         if (importedTxs.length > 0) {
           importTransactions(importedTxs);
-          alert(`นำเข้าสำเร็จ ${importedTxs.length} รายการ`);
+          alert(language === 'th' ? `นำเข้าสำเร็จ ${importedTxs.length} รายการ` : `Imported ${importedTxs.length} transactions successfully`);
         }
       }
     };
@@ -288,14 +292,14 @@ const TLog_zone1_Form: React.FC = () => {
   };
 
   const defaultCategories = React.useMemo(() => [
-    { id: 'STOCK', label: 'หุ้น' },
-    { id: 'BOND', label: 'ตราสารหนี้' },
-    { id: 'FUND', label: 'กองทุนรวม' },
+    { id: 'STOCK', label: language === 'th' ? 'หุ้น' : 'Stock' },
+    { id: 'BOND', label: language === 'th' ? 'ตราสารหนี้' : 'Bond' },
+    { id: 'FUND', label: language === 'th' ? 'กองทุนรวม' : 'Mutual Fund' },
     { id: 'CRYPTO', label: 'Cryptocurrency' },
-    { id: 'COMMODITY', label: 'สินค้าโภคภัณฑ์' },
-    { id: 'REALESTATE', label: 'อสังหาริมทรัพย์' },
-    { id: 'OTHER', label: 'อื่น ๆ' },
-  ], []);
+    { id: 'COMMODITY', label: language === 'th' ? 'สินค้าโภคภัณฑ์' : 'Commodity' },
+    { id: 'REALESTATE', label: language === 'th' ? 'อสังหาริมทรัพย์' : 'Real Estate' },
+    { id: 'OTHER', label: language === 'th' ? 'อื่น ๆ' : 'Other' },
+  ], [language]);
 
   const sortedCategories = React.useMemo(() => {
     const counts = transactions.reduce((acc, tx) => {
@@ -340,7 +344,7 @@ const TLog_zone1_Form: React.FC = () => {
         <div className="tlog-header flex justify-between items-center mb-8">
           <div className="tlog-header-title flex items-center gap-4">
             <div className="w-1 h-6 bg-[#10B981] rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.4)]"></div>
-            <h2 className="text-2xl font-semibold text-white tracking-tight">เพิ่มเข้าบันทึก</h2>
+            <h2 className="text-2xl font-semibold text-white tracking-tight">{t.tlog.form.title}</h2>
           </div>
           <div className="tlog-header-actions flex gap-4">
             <button 
@@ -349,7 +353,7 @@ const TLog_zone1_Form: React.FC = () => {
               className="flex items-center gap-1.5 text-white text-[13px] font-medium hover:text-[#10B981] transition-colors"
             >
               <Upload size={14} className="text-[#10B981]" />
-              <span>นำเข้า (Import)</span>
+              <span>{language === 'th' ? 'นำเข้า (Import)' : 'Import'}</span>
             </button>
             <button 
               type="button"
@@ -357,14 +361,14 @@ const TLog_zone1_Form: React.FC = () => {
               className="flex items-center gap-1.5 text-white text-[13px] font-medium hover:text-[#10B981] transition-colors"
             >
               <Download size={14} className="text-[#10B981]" />
-              <span>ส่งออก (Export)</span>
+              <span>{language === 'th' ? 'ส่งออก (Export)' : 'Export'}</span>
             </button>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="tlog-form-content">
           <div className="tlog-form-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <ZenField label="วันที่ & เวลา" className="tlog-field-datetime">
+            <ZenField label={language === 'th' ? 'วันที่ & เวลา' : 'Date & Time'} className="tlog-field-datetime">
               <div className="flex-[1.2] flex items-center min-w-[110px]">
                 <input 
                   type="date" 
@@ -460,7 +464,7 @@ const TLog_zone1_Form: React.FC = () => {
               </div>
             </ZenField>
 
-            <ZenField label="ประเภทรายการ" className="tlog-field-type">
+            <ZenField label={t.tlog.form.type} className="tlog-field-type">
               <ZenDropdown 
                 options={typeOptions}
                 value={formData.type}
@@ -470,7 +474,7 @@ const TLog_zone1_Form: React.FC = () => {
               />
             </ZenField>
 
-            <ZenField label="สินทรัพย์" className="tlog-field-asset">
+            <ZenField label={t.tlog.form.asset} className="tlog-field-asset">
               <div className="flex-1 flex flex-col relative">
                 <input 
                   type="text" 
@@ -515,7 +519,7 @@ const TLog_zone1_Form: React.FC = () => {
                         item.name.toLowerCase().includes(formData.asset.toLowerCase())
                       ).length === 0 && (
                       <div className="px-4 py-4 text-center text-xs text-[#9CA3AF] opacity-50">
-                        ไม่พบข้อมูลในรายการที่ติดตาม
+                        {t.common.noData}
                       </div>
                     )}
                   </div>
@@ -534,7 +538,7 @@ const TLog_zone1_Form: React.FC = () => {
               </select>
             </ZenField>
 
-            <ZenField label="จำนวน" className="tlog-field-amount col-span-1">
+            <ZenField label={t.tlog.form.amount} className="tlog-field-amount col-span-1">
               <input 
                 type="text" 
                 name="amount"
@@ -547,7 +551,7 @@ const TLog_zone1_Form: React.FC = () => {
               />
             </ZenField>
 
-            <ZenField label="ราคาต่อหน่วย" className="tlog-field-price col-span-1">
+            <ZenField label={t.tlog.form.price} className="tlog-field-price col-span-1">
               <select 
                 name="currency"
                 value={formData.currency}
@@ -571,7 +575,7 @@ const TLog_zone1_Form: React.FC = () => {
 
             <div className="tlog-fee-group col-span-1 md:col-span-3 lg:col-span-1">
               <div className="flex flex-col gap-2.5">
-                <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase px-1">ค่าธรรมเนียม (VAT / ส่วนลด / รวม)</label>
+                <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase px-1">{t.tlog.form.fee}</label>
                 <div className="flex items-stretch h-[52px] bg-[#0a0a0a] border border-[rgba(255,255,255,0.05)] rounded-xl overflow-hidden focus-within:border-[#10B981] transition-all duration-200">
                   {/* VAT 7% */}
                   <div className="flex-1 flex flex-col justify-center border-r border-white/5 px-3">
@@ -587,7 +591,7 @@ const TLog_zone1_Form: React.FC = () => {
                   </div>
                   {/* Discount */}
                   <div className="flex-1 flex flex-col justify-center border-r border-white/5 px-3 bg-white/[0.01]">
-                    <span className="text-[9px] font-bold text-[#9CA3AF] opacity-40 uppercase tracking-tighter mb-0.5">ส่วนลด</span>
+                    <span className="text-[10px] font-bold text-[#9CA3AF] opacity-40 uppercase tracking-tighter mb-0.5">{language === 'th' ? 'ส่วนลด' : 'Discount'}</span>
                     <input 
                       type="text" 
                       name="fee_discount"
@@ -599,7 +603,7 @@ const TLog_zone1_Form: React.FC = () => {
                   </div>
                   {/* Total Fee */}
                   <div className="flex-[1.2] flex flex-col justify-center px-4 bg-[#10B981]/[0.03]">
-                    <span className="text-[9px] font-bold text-[#10B981] opacity-60 uppercase tracking-tighter mb-0.5">รวมสุทธิ</span>
+                    <span className="text-[10px] font-bold text-[#10B981] opacity-60 uppercase tracking-tighter mb-0.5">{language === 'th' ? 'รวมสุทธิ' : 'Total'}</span>
                     <div className="flex items-center gap-1">
                       <span className="text-[10px] font-medium text-[#10B981] opacity-40">{formData.currency}</span>
                       <input 
@@ -619,7 +623,7 @@ const TLog_zone1_Form: React.FC = () => {
 
           <div className="tlog-form-footer flex flex-col md:flex-row gap-6 items-stretch md:items-end">
             <div className="tlog-memo-wrapper flex flex-col gap-2.5 flex-1">
-              <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase">บันทึกช่วยจำ</label>
+              <label className="text-xs font-semibold text-[#9CA3AF] tracking-wide uppercase">{t.tlog.form.notes}</label>
               <div className="tlog-memo-input-box bg-[#0a0a0a] border border-[rgba(255,255,255,0.05)] rounded-xl overflow-hidden focus-within:border-[#10B981] focus-within:shadow-[0_0_0_1px_#10B981] transition-all duration-200">
                 <textarea 
                   name="notes"
@@ -650,7 +654,7 @@ const TLog_zone1_Form: React.FC = () => {
               ) : (
                 <>
                   <Plus size={18} strokeWidth={2.5} />
-                  <span className="text-[14px]">เพิ่มเข้าบันทึก</span>
+                  <span className="text-[14px]">{t.tlog.form.submit}</span>
                 </>
               )}
             </button>

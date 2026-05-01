@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, ChevronDown } from 'lucide-react';
+import { useSettings } from '../../../hooks/SettingsManager';
 import type { VisConfig, VisType, VisDataSource, VisDimension, VisValue, VisCurrency } from '../../../types';
 import VisRenderer from './VisRenderer';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const CHART_OPTIONS: { type: VisType; label: string; emoji: string; sources: VisDataSource[] }[] = [
-  { type: 'pie',        label: 'Pie Chart',       emoji: '🥧', sources: ['tlog'] },
-  { type: 'bar',        label: 'Bar Chart',        emoji: '📊', sources: ['tlog'] },
-  { type: 'target-bar', label: 'Target Bar',       emoji: '🎯', sources: ['milestone'] },
-  { type: 'line',       label: 'Line Chart',       emoji: '📈', sources: ['tlog', 'assetmart'] },
-  { type: 'treemap',    label: 'Treemap',          emoji: '🗺️', sources: ['tlog'] },
-  { type: 'histogram',  label: 'Histogram',        emoji: '📉', sources: ['tlog'] },
-  { type: 'table',      label: 'รายการ (Table)',   emoji: '📋', sources: ['tlog'] },
-  { type: 'title',      label: 'ชื่อหัวข้อ',       emoji: '🏷️', sources: [] },
+const CHART_OPTIONS: { type: VisType; label: Record<string, string>; emoji: string; sources: VisDataSource[] }[] = [
+  { type: 'pie',        label: { th: 'กราฟวงกลม (Pie)', en: 'Pie Chart' },       emoji: '🥧', sources: ['tlog'] },
+  { type: 'bar',        label: { th: 'กราฟแท่ง (Bar)', en: 'Bar Chart' },        emoji: '📊', sources: ['tlog'] },
+  { type: 'target-bar', label: { th: 'แถบเป้าหมาย (Target)', en: 'Target Bar' },       emoji: '🎯', sources: ['milestone'] },
+  { type: 'line',       label: { th: 'กราฟเส้น (Line)', en: 'Line Chart' },       emoji: '📈', sources: ['tlog', 'assetmart'] },
+  { type: 'treemap',    label: { th: 'Treemap', en: 'Treemap' },          emoji: '🗺️', sources: ['tlog'] },
+  { type: 'histogram',  label: { th: 'ฮิสโตแกรม', en: 'Histogram' },        emoji: '📉', sources: ['tlog'] },
+  { type: 'table',      label: { th: 'รายการ (Table)', en: 'Table List' },   emoji: '📋', sources: ['tlog'] },
+  { type: 'title',      label: { th: 'ชื่อหัวข้อ', en: 'Title Block' },       emoji: '🏷️', sources: [] },
 ];
 
-const DATE_PRESETS = [
-  { value: 'all',  label: 'ทั้งหมด' },
-  { value: '7d',   label: '7 วันล่าสุด' },
-  { value: '30d',  label: '30 วันล่าสุด' },
-  { value: '90d',  label: '3 เดือนล่าสุด' },
-  { value: '1y',   label: '1 ปีล่าสุด' },
-  { value: 'ytd',  label: 'ปีนี้ (YTD)' },
+const DATE_PRESETS = (lang: string) => [
+  { value: 'all',  label: lang === 'th' ? 'ทั้งหมด' : 'All' },
+  { value: '7d',   label: lang === 'th' ? '7 วันล่าสุด' : 'Last 7 Days' },
+  { value: '30d',  label: lang === 'th' ? '30 วันล่าสุด' : 'Last 30 Days' },
+  { value: '90d',  label: lang === 'th' ? '3 เดือนล่าสุด' : 'Last 3 Months' },
+  { value: '1y',   label: lang === 'th' ? '1 ปีล่าสุด' : 'Last 1 Year' },
+  { value: 'ytd',  label: lang === 'th' ? 'ปีนี้ (YTD)' : 'Year to Date (YTD)' },
 ];
 
 const TX_TYPES = ['BUY', 'SELL', 'DIVIDEND'] as const;
@@ -122,6 +123,7 @@ const defaultConfig = (type: VisType = 'empty'): VisConfig => ({
 const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
   initialConfig, onSave, onCancel,
 }) => {
+  const { language } = useSettings();
   const [draft, setDraft] = useState<VisConfig>(() => initialConfig ?? defaultConfig());
 
   useEffect(() => {
@@ -135,7 +137,6 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
 
   // Auto-set dataSource when chart type changes
   const handleChartTypeChange = (type: VisType) => {
-    CHART_OPTIONS.find(c => c.type === type);
     const defaultSource = type === 'target-bar' ? 'milestone'
       : type === 'title' ? 'tlog'
       : 'tlog';
@@ -175,7 +176,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
 
         {/* ── Header ── */}
         <div className="vis-config-header">
-          <h2 className="vis-config-title">⚙️ ตั้งค่า Visualization</h2>
+          <h2 className="vis-config-title">⚙️ {language === 'th' ? 'ตั้งค่า Visualization' : 'Visualization Settings'}</h2>
           <button className="vis-config-close" onClick={onCancel}><X size={18} /></button>
         </div>
 
@@ -185,18 +186,18 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
 
             {/* Block Title */}
             <div className="vis-config-field">
-              <Label>ชื่อ Block</Label>
+              <Label>{language === 'th' ? 'ชื่อ Block' : 'Block Title'}</Label>
               <input
                 className="vis-config-input"
                 value={draft.title}
                 onChange={e => patch({ title: e.target.value })}
-                placeholder="เช่น Portfolio Allocation"
+                placeholder={language === 'th' ? 'เช่น Portfolio Allocation' : 'e.g. Portfolio Allocation'}
               />
             </div>
 
             {/* Chart Type */}
             <div className="vis-config-field">
-              <Label>ประเภท Chart</Label>
+              <Label>{language === 'th' ? 'ประเภท Chart' : 'Chart Type'}</Label>
               <div className="vis-config-chart-grid">
                 {CHART_OPTIONS.map(opt => (
                   <button
@@ -206,7 +207,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
                     onClick={() => handleChartTypeChange(opt.type)}
                   >
                     <span className="vis-config-chart-emoji">{opt.emoji}</span>
-                    <span className="vis-config-chart-label">{opt.label}</span>
+                    <span className="vis-config-chart-label">{opt.label[language] || opt.label.en}</span>
                   </button>
                 ))}
               </div>
@@ -215,7 +216,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Data Source Switch (only for Line) */}
             {showDataSourceSwitch && (
               <div className="vis-config-field">
-                <Label>แหล่งข้อมูล</Label>
+                <Label>{language === 'th' ? 'แหล่งข้อมูล' : 'Data Source'}</Label>
                 <MultiToggle
                   options={['tlog', 'assetmart']}
                   selected={[draft.dataSource]}
@@ -227,14 +228,14 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Dimension */}
             {showDimension && (
               <div className="vis-config-field">
-                <Label>แกนหลัก (Dimension)</Label>
+                <Label>{language === 'th' ? 'แกนหลัก (Dimension)' : 'Primary Dimension'}</Label>
                 <Select
                   value={draft.dimension ?? 'category'}
                   onChange={v => patch({ dimension: v as VisDimension })}
                   options={[
-                    { value: 'category', label: 'หมวดหมู่ (Crypto, Stock ...)' },
-                    { value: 'asset', label: 'Asset (BTC, AAPL ...)' },
-                    { value: 'type', label: 'ประเภทธุรกรรม (BUY/SELL/DIVIDEND)' },
+                    { value: 'category', label: language === 'th' ? 'หมวดหมู่ (Crypto, Stock ...)' : 'Category (Crypto, Stock ...)' },
+                    { value: 'asset', label: language === 'th' ? 'สินทรัพย์ (BTC, AAPL ...)' : 'Asset (BTC, AAPL ...)' },
+                    { value: 'type', label: language === 'th' ? 'ประเภทธุรกรรม (BUY/SELL/DIVIDEND)' : 'Transaction Type (BUY/SELL/DIVIDEND)' },
                   ]}
                 />
               </div>
@@ -243,14 +244,14 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Value */}
             {showValue && (
               <div className="vis-config-field">
-                <Label>ค่าที่แสดง</Label>
+                <Label>{language === 'th' ? 'ค่าที่แสดง' : 'Displayed Value'}</Label>
                 <Select
                   value={draft.value ?? 'cash'}
                   onChange={v => patch({ value: v as VisValue })}
                   options={[
-                    { value: 'cash', label: 'มูลค่า (Cash)' },
-                    { value: 'unit', label: 'จำนวนหน่วย (Unit)' },
-                    { value: 'count', label: 'จำนวนธุรกรรม (Count)' },
+                    { value: 'cash', label: language === 'th' ? 'มูลค่า (Cash)' : 'Value (Cash)' },
+                    { value: 'unit', label: language === 'th' ? 'จำนวนหน่วย (Unit)' : 'Units (Quantity)' },
+                    { value: 'count', label: language === 'th' ? 'จำนวนธุรกรรม (Count)' : 'Transaction Count' },
                   ]}
                 />
               </div>
@@ -259,7 +260,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Currency */}
             {showCurrency && (
               <div className="vis-config-field">
-                <Label>สกุลเงินที่แสดง</Label>
+                <Label>{language === 'th' ? 'สกุลเงินที่แสดง' : 'Display Currency'}</Label>
                 <MultiToggle
                   options={['THB', 'USD']}
                   selected={[draft.currency ?? 'THB']}
@@ -273,7 +274,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
               <>
                 {categories.length > 0 && (
                   <div className="vis-config-field">
-                    <Label>กรองหมวดหมู่</Label>
+                    <Label>{language === 'th' ? 'กรองหมวดหมู่' : 'Filter Categories'}</Label>
                     <MultiToggle
                       options={categories}
                       selected={draft.filter?.categories ?? []}
@@ -283,7 +284,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
                 )}
 
                 <div className="vis-config-field">
-                  <Label>กรองประเภทธุรกรรม</Label>
+                  <Label>{language === 'th' ? 'กรองประเภทธุรกรรม' : 'Filter Tx Types'}</Label>
                   <MultiToggle
                     options={[...TX_TYPES]}
                     selected={draft.filter?.txTypes ?? []}
@@ -298,11 +299,11 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Date Range */}
             {showDateRange && (
               <div className="vis-config-field">
-                <Label>ช่วงเวลา</Label>
+                <Label>{language === 'th' ? 'ช่วงเวลา' : 'Time Period'}</Label>
                 <Select
                   value={draft.dateRange?.preset ?? 'all'}
                   onChange={v => patch({ dateRange: { preset: v as any } })}
-                  options={DATE_PRESETS}
+                  options={DATE_PRESETS(language)}
                 />
               </div>
             )}
@@ -310,7 +311,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Milestone Filter */}
             {showMilestoneFilter && milestones.length > 0 && (
               <div className="vis-config-field">
-                <Label>เลือก Milestone ที่จะแสดง</Label>
+                <Label>{language === 'th' ? 'เลือก Milestone ที่จะแสดง' : 'Select Milestones to Display'}</Label>
                 <MultiToggle
                   options={milestones.map(m => m.title)}
                   selected={
@@ -325,7 +326,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
                     }
                   })}
                 />
-                <p className="vis-config-hint">ไม่เลือก = แสดงทั้งหมด</p>
+                <p className="vis-config-hint">{language === 'th' ? 'ไม่เลือก = แสดงทั้งหมด' : 'None selected = Show all'}</p>
               </div>
             )}
 
@@ -333,20 +334,22 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {showAssetmartConfig && (
               <>
                 <div className="vis-config-field">
-                  <Label>Asset จาก Follow List</Label>
+                  <Label>{language === 'th' ? 'Asset จาก Follow List' : 'Asset from Follow List'}</Label>
                   {followedSymbols.length > 0 ? (
                     <Select
                       value={draft.assetmartSymbol ?? ''}
                       onChange={v => patch({ assetmartSymbol: v })}
-                      placeholder="-- เลือก Asset --"
+                      placeholder={language === 'th' ? '-- เลือก Asset --' : '-- Select Asset --'}
                       options={followedSymbols.map(s => ({ value: s, label: s }))}
                     />
                   ) : (
-                    <p className="vis-config-hint">ยังไม่มี Asset ใน Follow List — ไปกด Follow ที่ Asset-Mart ก่อน</p>
+                    <p className="vis-config-hint">
+                      {language === 'th' ? 'ยังไม่มี Asset ใน Follow List — ไปกด Follow ที่ Asset-Mart ก่อน' : 'No assets in Follow List — Go follow them in Asset-Mart first'}
+                    </p>
                   )}
                 </div>
                 <div className="vis-config-field">
-                  <Label>ช่วงเวลา</Label>
+                  <Label>{language === 'th' ? 'ช่วงเวลา' : 'Time Period'}</Label>
                   <MultiToggle
                     options={[...ASSET_PRESETS]}
                     selected={[draft.assetmartPreset ?? '1M']}
@@ -359,7 +362,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {/* Max Rows */}
             {showMaxRows && (
               <div className="vis-config-field">
-                <Label>จำนวนรายการสูงสุด (N)</Label>
+                <Label>{language === 'th' ? 'จำนวนรายการสูงสุด (N)' : 'Max Rows (N)'}</Label>
                 <input
                   className="vis-config-input"
                   type="number"
@@ -375,21 +378,21 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
             {showTitleConfig && (
               <>
                 <div className="vis-config-field">
-                  <Label>ข้อความหัวข้อ</Label>
+                  <Label>{language === 'th' ? 'ข้อความหัวข้อ' : 'Title Text'}</Label>
                   <input
                     className="vis-config-input"
                     value={draft.titleText ?? ''}
                     onChange={e => patch({ titleText: e.target.value })}
-                    placeholder="เช่น My Portfolio"
+                    placeholder={language === 'th' ? 'เช่น My Portfolio' : 'e.g. My Portfolio'}
                   />
                 </div>
                 <div className="vis-config-field">
-                  <Label>ข้อความรอง (ไม่บังคับ)</Label>
+                  <Label>{language === 'th' ? 'ข้อความรอง (ไม่บังคับ)' : 'Subtitle (Optional)'}</Label>
                   <input
                     className="vis-config-input"
                     value={draft.titleSubtext ?? ''}
                     onChange={e => patch({ titleSubtext: e.target.value })}
-                    placeholder="เช่น อัปเดต 2026"
+                    placeholder={language === 'th' ? 'เช่น อัปเดต 2026' : 'e.g. Updated 2026'}
                   />
                 </div>
               </>
@@ -397,7 +400,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
 
             {/* Actions */}
             <div className="vis-config-actions">
-              <button className="vis-config-btn-cancel" onClick={onCancel}>ยกเลิก</button>
+              <button className="vis-config-btn-cancel" onClick={onCancel}>{language === 'th' ? 'ยกเลิก' : 'Cancel'}</button>
               <button className="vis-config-btn-apply" onClick={handleSave}>✓ Apply</button>
             </div>
           </div>
@@ -406,7 +409,7 @@ const VisConfigPopup: React.FC<VisConfigPopupProps> = ({
           <div className="vis-config-preview">
             <div className="vis-config-preview-label">
               <span>Preview</span>
-              <span className="vis-config-preview-badge">{selectedChart?.emoji} {selectedChart?.label}</span>
+              <span className="vis-config-preview-badge">{selectedChart?.emoji} {selectedChart?.label[language] || selectedChart?.label.en}</span>
             </div>
             <div className="vis-config-preview-canvas">
               <VisRenderer config={draft} editMode={false} />

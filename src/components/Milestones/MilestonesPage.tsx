@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useMilestones } from '../../hooks/useMilestones';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 import MilestoneCard from './MilestoneCard';
 import MilestoneDetailView from './MilestoneDetailView';
 import { LayoutGrid, List as ListIcon, Plus } from 'lucide-react';
@@ -7,6 +9,9 @@ import './Milestones.css';
 
 const MilestonesPage: React.FC = () => {
   const { milestones, addMilestone, updateMilestone, removeMilestone, toggleSubItem, updateSubChecklist, reorderSubItem, calculateProgress } = useMilestones();
+  const { language } = useSettings();
+  const t = translations[language] || translations.th;
+  
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [selectedMilestoneId, setSelectedMilestoneId] = useState<string | null>(null);
 
@@ -30,9 +35,10 @@ const MilestonesPage: React.FC = () => {
       currentProgress: calculateProgress(m.linkedAssets ?? [], m.trackingDimension, m.dividendPeriod, m.unit)
     }));
   }, [milestones, calculateProgress]);
+
   const handleAddBlank = () => {
     const newMilestone = addMilestone({
-      title: 'Untitled Goal',
+      title: language === 'th' ? 'เป้าหมายใหม่' : 'Untitled Goal',
       description: '',
       icon: 'trending-up',
       category: 'money',
@@ -56,8 +62,10 @@ const MilestonesPage: React.FC = () => {
     <div className="milestones-container">
       <div className="milestones-header">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2 font-['Manrope']">Project Milestones</h1>
-          <p className="text-gray-500 text-sm">Tracking the evolution of your financial goals.</p>
+          <h1 className="text-3xl font-bold text-white mb-2 font-['Manrope']">{t.goals.title}</h1>
+          <p className="text-gray-500 text-sm">
+            {language === 'th' ? 'ติดตามความก้าวหน้าของเป้าหมายทางการเงินของคุณ' : 'Tracking the evolution of your financial goals.'}
+          </p>
         </div>
         
         <div className="milestones-controls">
@@ -78,7 +86,7 @@ const MilestonesPage: React.FC = () => {
           <div className="flex gap-4">
             <button className="add-milestone-btn" onClick={handleAddBlank}>
               <Plus size={18} />
-              <span>New Milestone</span>
+              <span>{t.goals.addBtn}</span>
             </button>
           </div>
         </div>
@@ -103,14 +111,18 @@ const MilestonesPage: React.FC = () => {
               <Plus size={40} strokeWidth={1} />
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-bold text-white font-['Manrope']">No Milestones Yet</h3>
+              <h3 className="text-xl font-bold text-white font-['Manrope']">
+                {language === 'th' ? 'ยังไม่มีเป้าหมาย' : 'No Milestones Yet'}
+              </h3>
               <p className="text-gray-500 max-w-xs mx-auto text-sm leading-relaxed">
-                Transform your financial aspirations into trackable goals. Start by adding your first strategic milestone.
+                {language === 'th' 
+                  ? 'เปลี่ยนความคาดหวังทางการเงินของคุณให้เป็นเป้าหมายที่วัดผลได้ เริ่มต้นด้วยการเพิ่มก้าวแรกของคุณ' 
+                  : 'Transform your financial aspirations into trackable goals. Start by adding your first strategic milestone.'}
               </p>
             </div>
             <button className="add-milestone-btn mt-2" onClick={handleAddBlank}>
               <Plus size={18} />
-              <span>Create Your First Goal</span>
+              <span>{language === 'th' ? 'สร้างเป้าหมายแรกของคุณ' : 'Create Your First Goal'}</span>
             </button>
           </div>
         )}

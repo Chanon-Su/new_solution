@@ -4,6 +4,7 @@ import { Settings, Trash2 } from 'lucide-react';
 import { useBlockInteraction } from '../../hooks/useBlockInteraction';
 import VisRenderer from './Vis/VisRenderer';
 import VisConfigPopup from './Vis/VisConfigPopup';
+import { useSettings } from '../../hooks/SettingsManager';
 import './Vis/Vis.css';
 
 interface DashboardBlockProps {
@@ -19,6 +20,7 @@ interface DashboardBlockProps {
 const DashboardBlock: React.FC<DashboardBlockProps> = ({
   block, columns, rows, editMode, onUpdate, onDelete, isAreaAvailable
 }) => {
+  const { language } = useSettings();
   const blockRef = useRef<HTMLDivElement>(null);
   const [showConfig, setShowConfig] = useState(false);
 
@@ -86,14 +88,14 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
               <button
                 className="action-btn"
                 onClick={(e) => { e.stopPropagation(); setShowConfig(true); }}
-                title="ตั้งค่า Visualization"
+                title={language === 'th' ? 'ตั้งค่า Visualization' : 'Configure Visualization'}
               >
                 <Settings size={14} />
               </button>
               <button
                 className="action-btn"
                 onClick={(e) => { e.stopPropagation(); onDelete(block.id); }}
-                title="ลบ Block"
+                title={language === 'th' ? 'ลบ Block' : 'Delete Block'}
               >
                 <Trash2 size={14} />
               </button>
