@@ -14,7 +14,7 @@ import './App.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [currentPlanId, setCurrentPlanId] = useState<string | null>(null);
+  const [currentPlanId, setCurrentPlanId] = useState<string | null>('plan-free');
   
   // Mock Data สำหรับงาน UI
   const renderContent = () => {

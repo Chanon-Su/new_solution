@@ -14,7 +14,7 @@ interface VisLineChartTLogProps {
 }
 
 export const VisLineChartTLog: React.FC<VisLineChartTLogProps> = ({ points, currency = 'THB' }) => (
-  <ResponsiveContainer width="100%" height="100%">
+  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
     <LineChart data={points} margin={{ top: 8, right: 8, bottom: 8, left: 0 }}>
       <defs>
         <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
@@ -68,7 +68,7 @@ export const VisLineChartAsset: React.FC<VisLineChartAssetProps> = ({ points, sy
           {isUp ? '▲' : '▼'} {Math.abs(((currentPrice - firstPrice) / firstPrice) * 100).toFixed(2)}%
         </span>
       </div>
-      <ResponsiveContainer width="100%" height="75%">
+      <ResponsiveContainer width="100%" height="75%" minWidth={0} minHeight={0}>
         <LineChart data={points} margin={{ top: 4, right: 4, bottom: 4, left: 0 }}>
           <defs>
             <linearGradient id={`assetGrad-${symbol}`} x1="0" y1="0" x2="0" y2="1">

@@ -2,6 +2,15 @@ import type { SubscriptionPlan } from '../../types';
 
 export const STATIC_PLANS: SubscriptionPlan[] = [
   {
+    id: 'plan-free',
+    title: 'Free Plan',
+    description: 'Essential features for personal tracking',
+    features: ['Track up to 10 assets', 'Standard encryption', 'Version history (7 days)'],
+    billing: { monthlyPrice: 0, yearlyPrice: 0, currency: 'USD' },
+    type: 'standard',
+    rank: 0
+  },
+  {
     id: 'plan-basic',
     title: 'Basic Plan',
     description: 'Perfect for beginners',

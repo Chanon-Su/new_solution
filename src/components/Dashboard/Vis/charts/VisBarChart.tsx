@@ -13,7 +13,7 @@ interface VisBarChartProps {
 }
 
 export const VisBarChart: React.FC<VisBarChartProps> = ({ points, currency = 'THB' }) => (
-  <ResponsiveContainer width="100%" height="100%">
+  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
     <BarChart data={points} margin={{ top: 8, right: 8, bottom: 8, left: 0 }}>
       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
       <XAxis dataKey="name" tick={{ fill: '#888', fontSize: 10 }} axisLine={false} tickLine={false} />
@@ -57,7 +57,7 @@ export const VisTargetBarChart: React.FC<VisTargetBarChartProps> = ({ points }) 
   }));
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
       <BarChart data={data} layout="vertical" margin={{ top: 4, right: 40, bottom: 4, left: 8 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" horizontal={false} />
         <XAxis type="number" domain={[0, 100]} tick={{ fill: '#888', fontSize: 10 }}

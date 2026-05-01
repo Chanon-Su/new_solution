@@ -92,20 +92,19 @@ const PricingCard: React.FC<PricingCardProps> = ({
   onCardClick,
   currentPlanRank
 }) => {
-  const isVisuallyActive = isCurrent || isSelected;
+
 
   return (
     <div
       onClick={() => !isCurrent && onCardClick(plan.id)}
       className={`
-        relative flex flex-col p-8 bg-[#0D0D0D] border rounded-3xl transition-all duration-300 group
-        ${!isCurrent ? 'cursor-pointer' : 'cursor-default'}
-        hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]
-        ${isVisuallyActive
-          ? 'border-[#10B981] ring-2 ring-[#10B981]/50 shadow-[0_0_30px_rgba(16,185,129,0.1)]'
-          : !hasAnySelected
-            ? 'border-white/[0.05] hover:border-[#10B981] hover:ring-2 hover:ring-[#10B981]/50'
-            : 'border-white/[0.05]'}
+        relative flex flex-col p-8 rounded-3xl transition-all duration-500 group border
+        ${isCurrent 
+          ? 'cursor-default border-[#10B981] ring-2 ring-[#10B981]/50 shadow-[0_0_30px_rgba(16,185,129,0.1)] bg-[#0D0D0D]' 
+          : 'cursor-pointer border-white/[0.05]'}
+        ${isSelected 
+          ? 'bg-white/[0.12] brightness-125 shadow-[0_20px_80px_rgba(0,0,0,0.6)] z-10 scale-[1.02]' 
+          : 'bg-[#0D0D0D] hover:bg-white/[0.05] hover:brightness-110'}
       `}
     >
       {isCurrent && (

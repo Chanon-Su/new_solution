@@ -30,7 +30,7 @@ const CustomContent = ({ x, y, width, height, name, value, color }: any) => {
 };
 
 const VisTreeMap: React.FC<VisTreeMapProps> = ({ points, currency = 'THB' }) => (
-  <ResponsiveContainer width="100%" height="100%">
+  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
     <Treemap
       data={points.map(p => ({ ...p, size: p.value }))}
       dataKey="size"
