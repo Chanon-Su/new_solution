@@ -4,8 +4,10 @@ import {
   Pencil, 
   Trash2, 
   Check, 
-  X 
+  X,
+  Shield
 } from 'lucide-react';
+import { useSettings } from '../../hooks/SettingsManager';
 import type { Transaction } from '../../types';
 import { getAssetMetadata } from '../../utils/assetMapping';
 
@@ -16,7 +18,28 @@ interface HistoryTableProps {
 }
 
 const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onUpdate }) => {
+  const { privacyHideNumbers, privacyHideText, timezoneOffset } = useSettings();
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+
+  const formatWithTimezone = (dateStr: string) => {
+    if (!dateStr) return '-';
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr;
+
+    // Adjust for timezone offset
+    // Calculate UTC time first
+    const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+    const adjustedDate = new Date(utc + (3600000 * timezoneOffset));
+
+    return adjustedDate.toLocaleString('en-GB', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    }).replace(',', '');
+  };
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<Transaction | null>(null);
 
@@ -105,14 +128,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       onChange={(e) => handleEditChange('date', e.target.value)}
                     />
                   ) : (
-                    tx.date ? new Date(tx.date).toLocaleString('en-GB', { 
-                      day: '2-digit', 
-                      month: '2-digit', 
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit'
-                    }).replace(',', '') : '-'
+                    privacyHideText ? '********' : formatWithTimezone(tx.date)
                   )}
                 </td>
 
@@ -152,9 +168,9 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                           ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20'
                           : 'bg-[#6366F1]/10 text-[#6366F1] border-[#6366F1]/30 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
                     }`}>
-                      {tx.type === 'DIVIDEND' && tx.frequency 
+                      {privacyHideText ? '********' : (tx.type === 'DIVIDEND' && tx.frequency 
                         ? `DIVIDEND_${tx.frequency.toUpperCase()}` 
-                        : (tx.type || 'UNKNOWN')}
+                        : (tx.type || 'UNKNOWN'))}
                     </span>
                   )}
                 </td>
@@ -163,7 +179,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                 <td className="px-3 py-5">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-[#10B981]/30 transition-all">
-                      <metadata.icon size={14} color={metadata.color} strokeWidth={2.5} />
+                      {privacyHideText ? <Shield size={12} className="text-gray-600" /> : <metadata.icon size={14} color={metadata.color} strokeWidth={2.5} />}
                     </div>
                     {isEditing ? (
                       <input 
@@ -173,7 +189,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                         onChange={(e) => handleEditChange('asset', e.target.value)}
                       />
                     ) : (
-                      <span className="font-bold text-white tracking-tight">{tx.asset || 'N/A'}</span>
+                      <span className="font-bold text-white tracking-tight">{privacyHideText ? '********' : (tx.asset || 'N/A')}</span>
                     )}
                   </div>
                 </td>
@@ -192,7 +208,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                     </select>
                   ) : (
                     <span className="text-[13px] text-[#9CA3AF] font-medium">
-                      {categoryLabels[tx.category] || tx.category || '-'}
+                      {privacyHideText ? '********' : (categoryLabels[tx.category] || tx.category || '-')}
                     </span>
                   )}
                 </td>
@@ -207,7 +223,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       onChange={(e) => handleEditChange('amount', e.target.value)}
                     />
                   ) : (
-                    amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 8 })
+                    privacyHideNumbers ? '********' : amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 8 })
                   )}
                 </td>
 
@@ -221,7 +237,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       onChange={(e) => handleEditChange('price', e.target.value)}
                     />
                   ) : (
-                    price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    privacyHideNumbers ? '********' : price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                   )}
                 </td>
 
@@ -262,9 +278,9 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                   ) : (
                     <div className="flex flex-col items-end">
                       <span className="text-white/80 font-bold">
-                        {fee > 0 ? fee.toLocaleString(undefined, { minimumFractionDigits: 2 }) : '-'}
+                        {privacyHideNumbers ? '********' : (fee > 0 ? fee.toLocaleString(undefined, { minimumFractionDigits: 2 }) : '-')}
                       </span>
-                      {(displayTx.fee_vat || displayTx.fee_discount) ? (
+                      {(displayTx.fee_vat || displayTx.fee_discount) && !privacyHideNumbers ? (
                         <div className="flex gap-2 text-[9px] opacity-40 font-sans tracking-tight">
                           {displayTx.fee_vat ? <span>VAT: {Number(displayTx.fee_vat).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span> : null}
                           {displayTx.fee_discount ? <span>Disc: {Number(displayTx.fee_discount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span> : null}
@@ -276,7 +292,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
 
                 {/* Total Cell */}
                 <td className="px-3 py-5 text-right font-mono text-[15px] font-bold text-[#10B981]">
-                  {total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {privacyHideNumbers ? '********' : total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
 
                 {/* Currency Cell */}
@@ -292,9 +308,11 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                     </select>
                   ) : (
                     <span className={`text-[11px] font-black px-1.5 py-0.5 rounded ${
-                      tx.currency === 'USD' ? 'text-[#3B82F6] bg-[#3B82F6]/10' : 'text-[#F59E0B] bg-[#F59E0B]/10'
+                      privacyHideText 
+                        ? 'text-gray-500 bg-gray-500/10' 
+                        : (tx.currency === 'USD' ? 'text-[#3B82F6] bg-[#3B82F6]/10' : 'text-[#F59E0B] bg-[#F59E0B]/10')
                     }`}>
-                      {tx.currency}
+                      {privacyHideText ? '********' : tx.currency}
                     </span>
                   )}
                 </td>
@@ -313,7 +331,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       <div className="relative group/note inline-block">
                         <MessageSquare size={16} className="text-[#9CA3AF] opacity-40 group-hover/note:opacity-100 cursor-help" />
                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#1C1C1E] border border-white/10 rounded-lg text-xs text-white opacity-0 group-hover/note:opacity-100 pointer-events-none transition-all shadow-2xl z-50">
-                          {tx.notes}
+                          {privacyHideText ? '********' : tx.notes}
                         </div>
                       </div>
                     ) : (

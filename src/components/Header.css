@@ -60,6 +60,14 @@
   filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.5));
 }
 
+.logo-placeholder-icon {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #0d0d0d;
+  z-index: 3;
+  user-select: none;
+}
+
 .logo-text-stack {
   display: flex;
   flex-direction: column;

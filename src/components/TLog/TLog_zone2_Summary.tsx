@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTLog } from '../../hooks/TLogManager';
+import { useSettings } from '../../hooks/SettingsManager';
 import { Plus } from 'lucide-react';
 
 const TLog_zone2_Summary: React.FC = () => {
   const { assetSummaries, isLoading } = useTLog();
+  const { privacyHideNumbers, privacyHideText } = useSettings();
 
   const formatRelativeTime = (dateStr: string) => {
     if (!dateStr) return '-';
@@ -50,15 +52,20 @@ const TLog_zone2_Summary: React.FC = () => {
               className="min-w-[220px] bg-[#121214] border border-white/[0.04] rounded-2xl p-5 transition-all duration-300 hover:border-[#10B981]/30 hover:bg-[#161618] group"
             >
               <div className="flex justify-between items-start mb-4">
-                <span className="font-bold text-[15px] text-white group-hover:text-[#10B981] transition-colors">{asset.symbol}</span>
+                <span className="font-bold text-[15px] text-white group-hover:text-[#10B981] transition-colors">
+                  {privacyHideText ? '********' : asset.symbol}
+                </span>
                 <span className="text-[10px] text-[#9CA3AF] opacity-40 font-medium">{formatRelativeTime(asset.lastUpdate)}</span>
               </div>
 
               <div className="flex items-baseline gap-1.5 mb-1">
                 <span className="text-2xl font-bold text-white tracking-tighter">
-                  {asset.amount > 0 
-                    ? asset.amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 4 })
-                    : (asset.latestDividendPrice || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })
+                  {privacyHideNumbers 
+                    ? '********'
+                    : (asset.amount > 0 
+                        ? asset.amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 4 })
+                        : (asset.latestDividendPrice || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })
+                      )
                   }
                 </span>
                 <span className="text-[11px] text-[#9CA3AF] font-bold opacity-30 uppercase tracking-widest">
@@ -70,7 +77,7 @@ const TLog_zone2_Summary: React.FC = () => {
                 <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/[0.03]">
                   <span className="text-[9px] text-[#9CA3AF] font-bold uppercase opacity-30 tracking-tighter">Avg Div:</span>
                   <span className="text-[10px] text-[#10B981] font-mono font-bold">
-                    {asset.avgDividend.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    {privacyHideNumbers ? '********' : asset.avgDividend.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                   </span>
                 </div>
               )}

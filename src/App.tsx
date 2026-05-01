@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TLogProvider } from './hooks/TLogManager';
 import { QuickFillProvider } from './hooks/QuickFillManager';
+import { SettingsProvider } from './hooks/SettingsManager';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import AssetMart from './components/AssetMart/AssetMart';
@@ -8,6 +9,7 @@ import TLog from './components/TLog/TLog';
 import SubscriptionJourney from './components/Subscription/SubscriptionJourney';
 import MilestonesPage from './components/Milestones/MilestonesPage';
 import QuickFillSetup from './components/TLog/QuickFillSetup';
+import SettingsPage from './components/Settings/SettingsPage';
 import './App.css';
 
 function App() {
@@ -70,30 +72,34 @@ function App() {
             </div>
           </div>
         );
+      case 'settings':
+        return <SettingsPage />;
       default:
         return <Dashboard />;
     }
   };
 
   return (
-    <TLogProvider>
-      <QuickFillProvider>
-        <div className="app-shell">
-          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-          
-          <main className="main-content">
-            {renderContent()}
-          </main>
+    <SettingsProvider>
+      <TLogProvider>
+        <QuickFillProvider>
+          <div className="app-shell">
+            <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+            
+            <main className="main-content">
+              {renderContent()}
+            </main>
 
-          {/* Zen Background Elements */}
-          <div className="zen-glow top-left"></div>
-          <div className="zen-glow bottom-right"></div>
+            {/* Zen Background Elements */}
+            <div className="zen-glow top-left"></div>
+            <div className="zen-glow bottom-right"></div>
 
-          {/* Global Modals */}
-          <QuickFillSetup />
-        </div>
-      </QuickFillProvider>
-    </TLogProvider>
+            {/* Global Modals */}
+            <QuickFillSetup />
+          </div>
+        </QuickFillProvider>
+      </TLogProvider>
+    </SettingsProvider>
   );
 }
 

@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
         <div className="logo-section" onClick={() => setActiveTab('dashboard')}>
           <div className="logo-circle">
             <div className="logo-glow-core"></div>
-            <img src="/logo.png" alt="PLANTO Logo" className="logo-img" />
+            <div className="logo-placeholder-icon">P</div>
           </div>
           <div className="logo-text-stack">
             <span className="logo-main emerald-text">PLANTO</span>
@@ -144,7 +144,11 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             >
               <User size={18} />
             </button>
-            <button className="util-btn settings-btn" title="Settings">
+            <button 
+              className={`util-btn settings-btn ${activeTab === 'settings' ? 'active' : ''}`}
+              title="Settings"
+              onClick={() => setActiveTab('settings')}
+            >
               <Settings size={18} />
             </button>
           </div>
