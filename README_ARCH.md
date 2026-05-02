@@ -447,3 +447,5 @@ Dashboard มี 3 หน้าแยกกัน ใช้ CSS `translateX` sli
 
 > [!IMPORTANT]
 > This file is the **Source of Truth** for the project architecture. Before initiating any task, the Agent must review this document to ensure alignment with the overarching design philosophy and actual file structure.
+
+สามารถดู feature_lineage.md เพื่อดูว่า feature ต่างๆ มีโค้ดอยู่ที่ไหนบ้าง และถ้าแก้ที่ใดจะกระทบอะไรบ้าง ได้ที่ `./feature_lineage.md`

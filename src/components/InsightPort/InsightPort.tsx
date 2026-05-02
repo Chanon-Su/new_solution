@@ -9,7 +9,8 @@ import {
   ChevronUp,
   TrendingUp,
   Activity,
-  PieChart as PieIcon
+  PieChart as PieIcon,
+  Globe
 } from 'lucide-react';
 import { useInsightData } from '../../hooks/useInsightData';
 import type { InsightTimeDimension, InsightAssetFocus } from '../../hooks/useInsightData';
@@ -111,7 +112,7 @@ const InsightPort: React.FC = () => {
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
   const [activeVisIndex, setActiveVisIndex] = useState(0);
   
-  const { metrics, allocationData, assetStats, trendData, activityData, dropdownLists } = useInsightData(
+  const { metrics, allocationData, brokerData, assetStats, trendData, activityData, dropdownLists } = useInsightData(
     timeDimension, 
     assetFocus, 
     selectedYear, 
@@ -190,8 +191,8 @@ const InsightPort: React.FC = () => {
 
   // ─── Carousel Navigation ───────────────────────────────────────────────────
 
-  const nextVis = () => setActiveVisIndex((prev) => (prev + 1) % 3);
-  const prevVis = () => setActiveVisIndex((prev) => (prev - 1 + 3) % 3);
+  const nextVis = () => setActiveVisIndex((prev) => (prev + 1) % 4);
+  const prevVis = () => setActiveVisIndex((prev) => (prev - 1 + 4) % 4);
 
   return (
     <div className="insight-report-container">
@@ -210,7 +211,7 @@ const InsightPort: React.FC = () => {
                   <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การจัดสรรสินทรัพย์' : 'Asset Allocation'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <PieChart>
                       <Pie
                         data={allocationData}
@@ -252,7 +253,7 @@ const InsightPort: React.FC = () => {
                   <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'ผลประกอบการ' : 'Growth Performance'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <AreaChart data={trendData}>
                       <defs>
                         <linearGradient id="colorVal" x1="0" y1="0" x2="0" y2="1">
@@ -290,7 +291,7 @@ const InsightPort: React.FC = () => {
                   <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การวิเคราะห์กระแสเงิน' : 'Flow Analysis'}</h4>
                 </div>
                 <div style={{ width: '100%', height: 240, minHeight: 240 }}>
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                     <BarChart data={activityData}>
                       <Bar dataKey="buy" fill="var(--neon-emerald)" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="sell" fill="#f43f5e" radius={[4, 4, 0, 0]} />
@@ -315,6 +316,48 @@ const InsightPort: React.FC = () => {
               </div>
             </div>
           )}
+
+          {activeVisIndex === 3 && (
+            <div className="sidebar-widget animate-[fadeIn_0.4s]">
+              <div className="sidebar-group">
+                <div className="flex items-center gap-2 mb-4">
+                  <Globe size={14} className="text-[var(--neon-emerald)]" />
+                  <h4 className="sidebar-section-title !mb-0">{language === 'th' ? 'การจัดสรรตาม Broker' : 'Broker Allocation'}</h4>
+                </div>
+                <div style={{ width: '100%', height: 240, minHeight: 240 }}>
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                    <PieChart>
+                      <Pie
+                        data={brokerData}
+                        cx="50%" cy="50%"
+                        innerRadius={60} outerRadius={85}
+                        paddingAngle={5}
+                        dataKey="value"
+                      >
+                        {brokerData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <RechartsTooltip 
+                        contentStyle={{ background: 'var(--obsidian-void)', border: '1px solid var(--glass-border)', borderRadius: '8px', fontSize: '10px', color: 'var(--text-primary)' }}
+                        itemStyle={{ color: 'var(--text-primary)' }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+              <div className="sidebar-stats-row">
+                 <div className="stat-box">
+                    <span className="label">{language === 'th' ? 'จำนวน Broker' : 'Broker Count'}</span>
+                    <span className="value">{brokerData.length}</span>
+                 </div>
+                 <div className="stat-box">
+                    <span className="label">{language === 'th' ? 'Broker หลัก' : 'Primary Broker'}</span>
+                    <span className="value text-[var(--neon-emerald)] truncate max-w-[80px]">{brokerData[0]?.name || '-'}</span>
+                 </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <button onClick={nextVis} className="vis-nav-btn bottom">
@@ -323,7 +366,7 @@ const InsightPort: React.FC = () => {
 
         <div className="sidebar-pagination-container mt-auto pb-4">
            <div className="flex gap-2 justify-center">
-              {[0,1,2].map(i => (
+              {[0,1,2,3].map(i => (
                 <div key={i} className={`h-1 rounded-full transition-all ${i === activeVisIndex ? 'w-6 bg-[var(--neon-emerald)]' : 'w-1 bg-[var(--glass-bg-subtle)]'}`}></div>
               ))}
            </div>
@@ -453,6 +496,9 @@ const InsightPort: React.FC = () => {
 
                    <FactRow label={language === 'th' ? 'ปันผลสะสม' : 'Accumulated Dividends'} value={formatCurrency(stat.dividends)} highlight="highlight-amber" />
                    <FactRow label={language === 'th' ? 'ผลตอบแทนรวม' : 'Total Asset Return'} value={formatCurrency(stat.totalReturn)} highlight={stat.totalReturn >= 0 ? 'highlight-emerald' : 'highlight-rose'} />
+                   {stat.brokers && stat.brokers.length > 0 && (
+                     <FactRow label={language === 'th' ? 'ถือผ่าน Broker' : 'Held via Brokers'} value={stat.brokers.join(', ')} />
+                   )}
                 </div>
               </div>
             ))

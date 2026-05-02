@@ -10,7 +10,8 @@ const CSV_HEADERS = [
   'price',
   'currency',
   'fee',
-  'notes'
+  'notes',
+  'broker'
 ];
 
 export const exportToCSV = (transactions: Transaction[]): void => {
@@ -26,7 +27,8 @@ export const exportToCSV = (transactions: Transaction[]): void => {
       tx.price,
       tx.currency,
       tx.fee,
-      `"${(tx.notes || '').replace(/"/g, '""')}"`
+      `"${(tx.notes || '').replace(/"/g, '""')}"`,
+      `"${(tx.broker || '').replace(/"/g, '""')}"`
     ].join(','))
   ];
 

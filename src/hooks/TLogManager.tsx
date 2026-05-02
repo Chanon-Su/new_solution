@@ -19,7 +19,26 @@ export const TLogProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const data = storage.loadTransactions();
+    let data = storage.loadTransactions();
+    
+    // Migration: Add mock broker if missing for existing data
+    let modified = false;
+    const mockBrokers = ['Binance', 'Bitkub', 'SCB', 'K-Asset', 'Coinbase'];
+    
+    data = data.map(tx => {
+      if (!tx.broker) {
+        modified = true;
+        // Deterministic mock based on asset or random
+        const mockBroker = mockBrokers[tx.asset.length % mockBrokers.length];
+        return { ...tx, broker: mockBroker };
+      }
+      return tx;
+    });
+
+    if (modified && data.length > 0) {
+      storage.saveTransactions(data);
+    }
+
     setInternalTransactions(data);
     setIsLoading(false);
   }, []);

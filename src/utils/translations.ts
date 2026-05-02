@@ -72,8 +72,16 @@ export const translations = {
         currency: 'สกุลเงิน',
         fee: 'ค่าธรรมเนียม (สุทธิ)',
         notes: 'โน้ตเพิ่มเติม',
+        broker: 'ผู้ให้บริการ / Broker',
         submit: 'บันทึกรายการ',
         update: 'อัปเดตรายการ',
+        placeholders: {
+          asset: 'เช่น BTC, AAPL, ทองคำ',
+          broker: 'เช่น Binance, Bitkub, K-Asset',
+          notes: 'เหตุผลการซื้อขาย, รายละเอียดเพิ่มเติม, ฯลฯ',
+          amount: '0.00',
+          price: '0.00',
+        }
       },
       summary: {
         title: 'สรุปสินทรัพย์',
@@ -100,6 +108,7 @@ export const translations = {
           total: 'รวมสุทธิ',
           currency: 'สกุลเงิน',
           notes: 'โน้ต',
+          broker: 'ผู้ให้บริการ',
           actions: 'จัดการ',
         }
       }
@@ -251,8 +260,16 @@ export const translations = {
         currency: 'Currency',
         fee: 'Total Fee',
         notes: 'Notes',
+        broker: 'Broker / Platform',
         submit: 'Add Transaction',
         update: 'Update Transaction',
+        placeholders: {
+          asset: 'e.g., BTC, AAPL, Gold',
+          broker: 'e.g., Binance, Coinbase, IBKR',
+          notes: 'Transaction reason, additional details, etc.',
+          amount: '0.00',
+          price: '0.00',
+        }
       },
       summary: {
         title: 'Asset Summary',
@@ -279,6 +296,7 @@ export const translations = {
           total: 'Total',
           currency: 'Currency',
           notes: 'Notes',
+          broker: 'Broker',
           actions: 'Manage',
         }
       }

@@ -33,16 +33,19 @@ const TLog_zone1_Form: React.FC = () => {
     fee_vat: '',
     fee_discount: '',
     currency: 'USD' as 'USD' | 'THB',
-    notes: ''
+    notes: '',
+    broker: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showBrokerSuggestions, setShowBrokerSuggestions] = useState(false);
   const [followedAssets, setFollowedAssets] = useState<any[]>([]);
   const timePickerRef = useRef<HTMLDivElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+  const brokerSuggestionsRef = useRef<HTMLDivElement>(null);
 
   // Click outside to close pickers/suggestions
   React.useEffect(() => {
@@ -52,6 +55,9 @@ const TLog_zone1_Form: React.FC = () => {
       }
       if (suggestionsRef.current && !suggestionsRef.current.contains(event.target as Node)) {
         setShowSuggestions(false);
+      }
+      if (brokerSuggestionsRef.current && !brokerSuggestionsRef.current.contains(event.target as Node)) {
+        setShowBrokerSuggestions(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -80,6 +86,7 @@ const TLog_zone1_Form: React.FC = () => {
         if (qf.fee_vat !== undefined) next.fee_vat = qf.fee_vat.toString();
         if (qf.fee_discount !== undefined) next.fee_discount = qf.fee_discount.toString();
         if (qf.notes !== undefined) next.notes = qf.notes;
+        if (qf.broker !== undefined) next.broker = qf.broker;
         return next;
       });
     };
@@ -128,6 +135,10 @@ const TLog_zone1_Form: React.FC = () => {
       setShowSuggestions(value.length > 0);
     }
 
+    if (name === 'broker') {
+      setShowBrokerSuggestions(value.length > 0);
+    }
+
     if (name === 'category') {
       localStorage.setItem('planto_tlog_last_category', value);
     }
@@ -166,6 +177,11 @@ const TLog_zone1_Form: React.FC = () => {
     }
     
     setShowSuggestions(false);
+  };
+
+  const handleBrokerSuggestionSelect = (broker: string) => {
+    setFormData(prev => ({ ...prev, broker }));
+    setShowBrokerSuggestions(false);
   };
 
   const handleTimeSelect = (type: 'hour' | 'minute' | 'second', val: string) => {
@@ -237,7 +253,8 @@ const TLog_zone1_Form: React.FC = () => {
       fee: parseFloat(formData.fee) || 0,
       fee_vat: parseFloat(formData.fee_vat) || 0,
       fee_discount: parseFloat(formData.fee_discount) || 0,
-      notes: formData.notes
+      notes: formData.notes,
+      broker: formData.broker.trim()
     };
 
     // Simulate small delay for tactile feedback
@@ -256,6 +273,7 @@ const TLog_zone1_Form: React.FC = () => {
         fee_vat: '',
         fee_discount: '',
         notes: '',
+        broker: '',
         frequency: undefined
       }));
       setIsTotalOverridden(false);
@@ -313,6 +331,13 @@ const TLog_zone1_Form: React.FC = () => {
       return countB - countA;
     });
   }, [transactions, defaultCategories]);
+
+  const uniqueBrokers = React.useMemo(() => {
+    const brokers = transactions
+      .map(tx => tx.broker)
+      .filter((b): b is string => !!b);
+    return Array.from(new Set(brokers));
+  }, [transactions]);
 
   const typeOptions: ZenDropdownOption[] = [
     { value: 'BUY', label: 'BUY' },
@@ -484,7 +509,7 @@ const TLog_zone1_Form: React.FC = () => {
                   onFocus={() => formData.asset.length > 0 && setShowSuggestions(true)}
                   required
                   autoComplete="off"
-                  placeholder="เช่น BTC, AAPL" 
+                  placeholder={t.tlog.form.placeholders.asset} 
                   className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50 h-full" 
                 />
                 
@@ -546,7 +571,7 @@ const TLog_zone1_Form: React.FC = () => {
                 onChange={handleNumericInputChange}
                 required
                 autoComplete="off"
-                placeholder="0.00" 
+                placeholder={t.tlog.form.placeholders.amount} 
                 className="flex-1 bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50" 
               />
             </ZenField>
@@ -568,11 +593,11 @@ const TLog_zone1_Form: React.FC = () => {
                 onChange={handleNumericInputChange}
                 autoComplete="off"
                 required
-                placeholder="0.00" 
+                placeholder={t.tlog.form.placeholders.price}
                 className="flex-1 bg-transparent border-none px-3 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50" 
               />
             </ZenField>
-
+            
             <div className="tlog-fee-group col-span-1 md:col-span-3 lg:col-span-1">
               <div className="flex flex-col gap-2.5">
                 <label className="text-xs font-semibold text-[var(--text-secondary)] tracking-wide uppercase px-1">{t.tlog.form.fee}</label>
@@ -619,45 +644,86 @@ const TLog_zone1_Form: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="tlog-form-footer flex flex-col md:flex-row gap-6 items-stretch md:items-end">
-            <div className="tlog-memo-wrapper flex flex-col gap-2.5 flex-1">
-              <label className="text-xs font-semibold text-[var(--text-secondary)] tracking-wide uppercase">{t.tlog.form.notes}</label>
-              <div className="tlog-memo-input-box bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded-xl overflow-hidden focus-within:border-[var(--neon-emerald)] focus-within:shadow-[0_0_0_1px_var(--neon-emerald)] transition-all duration-200">
-                <textarea 
-                  name="notes"
-                  value={formData.notes}
+            {/* Row 3 - Broker */}
+            <div className="md:col-span-1">
+              <ZenField label={t.tlog.form.broker} className="tlog-field-broker relative">
+                <input 
+                  type="text" 
+                  name="broker"
+                  value={formData.broker}
                   onChange={handleInputChange}
-                  placeholder="เหตุผล, แพลตฟอร์ม, ฯลฯ" 
-                  className="w-full h-[52px] bg-transparent border-none px-4 py-3 text-[var(--text-primary)] text-[14px] resize-none outline-none placeholder:text-[var(--text-secondary)]/50"
-                ></textarea>
+                  onFocus={() => formData.broker.length > 0 && setShowBrokerSuggestions(true)}
+                  autoComplete="off"
+                  placeholder={t.tlog.form.placeholders.broker} 
+                  className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none placeholder:text-[var(--text-secondary)]/50 h-full" 
+                />
+                
+                {showBrokerSuggestions && uniqueBrokers.length > 0 && (
+                  <div 
+                    ref={brokerSuggestionsRef}
+                    className="absolute bottom-full left-0 w-full mb-2 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden backdrop-blur-md"
+                  >
+                    {uniqueBrokers
+                      .filter(b => b.toLowerCase().includes(formData.broker.toLowerCase()))
+                      .slice(0, 5)
+                      .map((broker) => (
+                        <div 
+                          key={broker}
+                          onClick={() => handleBrokerSuggestionSelect(broker)}
+                          className="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/[0.03] transition-colors border-b border-white/[0.03] last:border-none"
+                        >
+                          <span className="text-[13px] font-bold text-[var(--text-primary)]">{broker}</span>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </ZenField>
+            </div>
+
+            {/* Row 3 - Notes & Submit */}
+            <div className="md:col-span-2 flex flex-col md:flex-row gap-6 items-end">
+              <div className="flex-1 w-full">
+                <div className="tlog-memo-wrapper flex flex-col gap-2.5">
+                  <label className="text-xs font-semibold text-[var(--text-secondary)] tracking-wide uppercase">{t.tlog.form.notes}</label>
+                  <div className="tlog-memo-input-box bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded-xl overflow-hidden focus-within:border-[var(--neon-emerald)] focus-within:shadow-[0_0_0_1px_var(--neon-emerald)] transition-all duration-200">
+                    <textarea 
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleInputChange}
+                      placeholder={t.tlog.form.placeholders.notes} 
+                      className="w-full h-[52px] bg-transparent border-none px-4 py-3 text-[var(--text-primary)] text-[14px] resize-none outline-none placeholder:text-[var(--text-secondary)]/50"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="shrink-0 w-full md:w-auto">
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`tlog-submit-button h-[52px] min-w-[180px] px-8 rounded-xl font-bold flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 ${
+                    isSuccess 
+                      ? 'bg-[var(--neon-emerald)] text-black shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+                      : 'bg-[var(--neon-emerald)] text-black hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(16,185,129,0.25)]'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  {isSubmitting ? (
+                    <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                  ) : isSuccess ? (
+                    <>
+                      <CheckCircle2 size={18} strokeWidth={3} />
+                      <span className="text-[14px]">บันทึกแล้ว</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={18} strokeWidth={2.5} />
+                      <span className="text-[14px]">{t.tlog.form.submit}</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
-            
-            <button 
-              type="submit"
-              disabled={isSubmitting}
-              className={`tlog-submit-button h-[52px] min-w-[180px] px-6 rounded-xl font-bold flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 ${
-                isSuccess 
-                  ? 'bg-[var(--neon-emerald)] text-black shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
-                  : 'bg-[var(--neon-emerald)] text-black hover:-translate-y-0.5 hover:shadow-[0_8px_16px_rgba(16,185,129,0.25)]'
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              {isSubmitting ? (
-                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-              ) : isSuccess ? (
-                <>
-                  <CheckCircle2 size={18} strokeWidth={3} />
-                  <span className="text-[14px]">บันทึกแล้ว</span>
-                </>
-              ) : (
-                <>
-                  <Plus size={18} strokeWidth={2.5} />
-                  <span className="text-[14px]">{t.tlog.form.submit}</span>
-                </>
-              )}
-            </button>
           </div>
         </form>
       </div>

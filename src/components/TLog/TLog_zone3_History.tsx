@@ -2,16 +2,35 @@ import React, { useState, useMemo, useEffect } from 'react';
 import HistoryTable from './HistoryTable';
 import HistoryPagination from './HistoryPagination';
 import { useTLog } from '../../hooks/TLogManager';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
+import ZenDropdown from '../UI/ZenDropdown';
 
 const TLog_zone3_History: React.FC = () => {
   const { transactions, removeTransaction, updateTransaction, isLoading } = useTLog();
+  const { language } = useSettings();
+  const t = translations[language];
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBroker, setSelectedBroker] = useState('all');
+
+  const uniqueBrokers = useMemo(() => {
+    const brokers = new Set<string>();
+    transactions.forEach(tx => {
+      if (tx.broker) brokers.add(tx.broker);
+    });
+    return ['all', ...Array.from(brokers).sort()];
+  }, [transactions]);
+
+  const filteredTransactions = useMemo(() => {
+    if (selectedBroker === 'all') return transactions;
+    return transactions.filter(tx => tx.broker === selectedBroker);
+  }, [transactions, selectedBroker]);
 
   const paginatedTransactions = useMemo(() => {
     const startIndex = (currentPage - 1) * rowsPerPage;
-    return transactions.slice(startIndex, startIndex + rowsPerPage);
-  }, [transactions, currentPage, rowsPerPage]);
+    return filteredTransactions.slice(startIndex, startIndex + rowsPerPage);
+  }, [filteredTransactions, currentPage, rowsPerPage]);
 
   // Handle case where items are deleted and current page becomes empty
   useEffect(() => {
@@ -38,7 +57,7 @@ const TLog_zone3_History: React.FC = () => {
   return (
     <section className="flex flex-col gap-5 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl overflow-hidden p-8 shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
-        <div className="mb-8">
+        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-4">
               <div className="w-1 h-6 bg-[var(--neon-emerald)] rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.4)]"></div>
@@ -46,6 +65,19 @@ const TLog_zone3_History: React.FC = () => {
             </div>
             <p className="text-[var(--text-secondary)] text-[15px] opacity-40 ml-5 pt-1">ทุกรายการคือเมล็ดพันธุ์ ทุกบันทึกคือรากฐาน</p>
           </div>
+
+          <div className="flex items-center gap-3">
+             <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-40">{t.tlog.form.broker}</span>
+             <ZenDropdown 
+               options={uniqueBrokers.map(b => ({ value: b, label: b === 'all' ? (language === 'th' ? 'ทั้งหมด' : 'All') : b }))}
+               value={selectedBroker}
+               onChange={(val) => {
+                 setSelectedBroker(val);
+                 setCurrentPage(1);
+               }}
+               className="min-w-[140px]"
+             />
+           </div>
         </div>
 
         <HistoryTable 
@@ -62,7 +94,7 @@ const TLog_zone3_History: React.FC = () => {
               setCurrentPage(1);
             }}
             currentPage={currentPage}
-            totalRows={transactions.length}
+            totalRows={filteredTransactions.length}
             onPageChange={handlePageChange}
           />
         )}

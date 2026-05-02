@@ -96,6 +96,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
             <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.type}</th>
             <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.asset}</th>
             <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.category}</th>
+            <th className="text-left px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.broker}</th>
             <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.amount}</th>
             <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.price}</th>
             <th className="text-right px-3 py-4 text-xs font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{t.tlog.history.table.fee}</th>
@@ -214,6 +215,23 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                   )}
                 </td>
 
+                {/* Broker Cell */}
+                <td className="px-3 py-5 text-left">
+                  {isEditing ? (
+                    <input 
+                      type="text"
+                      className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-20 outline-none text-[var(--text-primary)]"
+                      value={displayTx.broker || ''}
+                      placeholder={t.tlog.form.placeholders.broker}
+                      onChange={(e) => handleEditChange('broker', e.target.value)}
+                    />
+                  ) : (
+                    <span className="text-[13px] text-[var(--text-secondary)] font-medium">
+                      {privacyHideText ? '********' : (tx.broker || '-')}
+                    </span>
+                  )}
+                </td>
+
                 {/* Amount Cell */}
                 <td className="px-3 py-5 text-right font-mono text-[14px] text-[var(--text-primary)]">
                   {isEditing ? (
@@ -325,6 +343,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ transactions, onDelete, onU
                       type="text"
                       className="bg-[var(--obsidian-void)] border border-[var(--glass-border)] rounded px-1.5 py-0.5 text-xs w-24 outline-none text-[var(--text-primary)]"
                       value={displayTx.notes}
+                      placeholder={t.tlog.form.placeholders.notes}
                       onChange={(e) => handleEditChange('notes', e.target.value)}
                     />
                   ) : (

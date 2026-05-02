@@ -5,6 +5,19 @@ import { getMarketPrice } from '../data/marketData';
 export type InsightTimeDimension = 'all' | 'year' | 'month' | 'yearly_avg' | 'monthly_avg';
 export type InsightAssetFocus = 'all' | 'global' | 'custom';
 
+const PALETTE = [
+  '#10b981', // Emerald
+  '#3b82f6', // Blue
+  '#f59e0b', // Amber
+  '#8b5cf6', // Violet
+  '#ef4444', // Red
+  '#06b6d4', // Cyan
+  '#f472b6', // Pink
+  '#6366f1', // Indigo
+  '#fb923c', // Orange
+  '#2dd4bf'  // Teal
+];
+
 export interface AssetStat {
   symbol: string;
   amount: number;
@@ -14,7 +27,14 @@ export interface AssetStat {
   marketPrice: number | null; // Live price from AssetMart
   unrealizedPnL: number | null; // (MarketPrice - AvgPrice) * Amount
   dividends: number;
-  totalReturn: number; // Realized + Dividends + Unrealized (if market price available)
+  totalReturn: number; 
+  brokers: string[]; // Unique brokers holding this asset
+}
+
+export interface BrokerStat {
+  name: string;
+  value: number;
+  color: string;
 }
 
 export interface InsightMetrics {
@@ -121,12 +141,14 @@ export const useInsightData = (
   }, [transactions, assetFocus, timeDimension, selectedYear, selectedMonth, selectedAssets]);
 
   const assetStats = useMemo((): AssetStat[] => {
-    const statsMap: Record<string, { totalAmount: number; totalCost: number; totalValue: number; totalDiv: number }> = {};
+    const statsMap: Record<string, { totalAmount: number; totalCost: number; totalValue: number; totalDiv: number; brokers: Set<string> }> = {};
     
     filteredTransactions.forEach(tx => {
       const symbol = tx.asset.toUpperCase();
-      if (!statsMap[symbol]) statsMap[symbol] = { totalAmount: 0, totalCost: 0, totalValue: 0, totalDiv: 0 };
+      if (!statsMap[symbol]) statsMap[symbol] = { totalAmount: 0, totalCost: 0, totalValue: 0, totalDiv: 0, brokers: new Set() };
       
+      if (tx.broker) statsMap[symbol].brokers.add(tx.broker);
+
       const val = tx.amount * tx.price;
       if (tx.type === 'BUY') {
         statsMap[symbol].totalAmount += tx.amount;
@@ -155,7 +177,8 @@ export const useInsightData = (
           marketPrice: mktPrice,
           unrealizedPnL: unrealizedPnL,
           dividends: data.totalDiv,
-          totalReturn: capitalGain + data.totalDiv + (unrealizedPnL || 0)
+          totalReturn: capitalGain + data.totalDiv + (unrealizedPnL || 0),
+          brokers: Array.from(data.brokers).sort()
         };
       })
       .filter(s => s.amount > 0 || s.dividends > 0)
@@ -286,5 +309,19 @@ export const useInsightData = (
     }));
   }, [filteredTransactions]);
 
-  return { metrics, allocationData, assetStats, trendData, activityData, dropdownLists, filteredTransactions };
+  const brokerData = useMemo((): BrokerStat[] => {
+    const bMap: Record<string, number> = {};
+    filteredTransactions.forEach(tx => {
+      const broker = tx.broker || 'Unknown';
+      bMap[broker] = (bMap[broker] || 0) + (tx.amount * tx.price);
+    });
+
+    return Object.entries(bMap)
+      .sort(([, a], [, b]) => b - a)
+      .map(([name, value], i) => ({
+        name, value, color: PALETTE[i % PALETTE.length]
+      }));
+  }, [filteredTransactions]);
+
+  return { metrics, allocationData, brokerData, assetStats, trendData, activityData, dropdownLists, filteredTransactions };
 };

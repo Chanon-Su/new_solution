@@ -38,6 +38,7 @@ export type Transaction = {
   fee_discount?: number;
   fee_vat?: number;
   notes: string;
+  broker?: string;
 };
 
 export interface QuickFillItem {
@@ -55,6 +56,7 @@ export interface QuickFillItem {
   fee_vat?: number;
   fee_discount?: number;
   notes?: string;
+  broker?: string;
 }
 
 // ─── Vis Type System ──────────────────────────────────────────────────────────

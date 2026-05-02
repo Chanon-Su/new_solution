@@ -33,6 +33,7 @@ export interface VisTableRow {
   price: number;
   currency: string;
   notes: string;
+  broker: string;
 }
 
 export type VisData =
@@ -261,6 +262,7 @@ export function useVisData({ config, transactions, milestones, calculateProgress
         price: t.price,
         currency: t.currency,
         notes: t.notes ?? '',
+        broker: t.broker ?? '',
       }));
       return { kind: 'table', rows };
     }

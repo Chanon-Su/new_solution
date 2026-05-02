@@ -4,9 +4,13 @@ import ZenField from '../UI/ZenField';
 import ZenDropdown, { type ZenDropdownOption } from '../UI/ZenDropdown';
 import { useQuickFill } from '../../hooks/QuickFillManager';
 import type { QuickFillItem } from '../../types';
+import { useSettings } from '../../hooks/SettingsManager';
+import { translations } from '../../utils/translations';
 
 const QuickFillSetup: React.FC = () => {
   const { addQuickFill, removeQuickFill, updateQuickFill } = useQuickFill();
+  const { language } = useSettings();
+  const t = translations[language];
   const [isOpen, setIsOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<QuickFillItem | null>(null);
 
@@ -16,7 +20,8 @@ const QuickFillSetup: React.FC = () => {
     type: 'BUY',
     currency: 'USD',
     category: 'STOCK',
-    notes: ''
+    notes: '',
+    broker: ''
   });
   
   const [followedAssets, setFollowedAssets] = useState<any[]>([]);
@@ -46,7 +51,8 @@ const QuickFillSetup: React.FC = () => {
           type: 'BUY',
           currency: 'USD',
           category: 'STOCK',
-          notes: ''
+          notes: '',
+          broker: ''
         });
       }
       setIsOpen(true);
@@ -97,7 +103,8 @@ const QuickFillSetup: React.FC = () => {
       amount: formData.amount ? parseFloat(formData.amount as any) : undefined,
       price: formData.price ? parseFloat(formData.price as any) : undefined,
       currency: formData.currency,
-      notes: formData.notes
+      notes: formData.notes,
+      broker: formData.broker
     };
 
     if (editingItem) {
@@ -247,8 +254,8 @@ const QuickFillSetup: React.FC = () => {
                 </div>
               )}
             </ZenField>
-            <ZenField label="หมวดหมู่">
-              <select 
+            <ZenField label={t.tlog.form.category}>
+               <select 
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
@@ -262,8 +269,8 @@ const QuickFillSetup: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <ZenField label="ประเภทรายการ">
-              <ZenDropdown 
+            <ZenField label={t.tlog.form.type}>
+               <ZenDropdown 
                 options={typeOptions}
                 value={formData.type || 'BUY'}
                 subValue={formData.frequency}
@@ -271,17 +278,29 @@ const QuickFillSetup: React.FC = () => {
                 className="flex-1"
               />
             </ZenField>
-            <ZenField label="สกุลเงิน">
-              <select 
-                name="currency"
-                value={formData.currency}
-                onChange={handleInputChange}
-                className="w-full bg-transparent border-none text-[13px] font-medium text-white outline-none cursor-pointer px-4"
-              >
-                <option value="USD" className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">USD</option>
-                <option value="THB" className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">THB</option>
-              </select>
-            </ZenField>
+            <div className="grid grid-cols-2 gap-2">
+              <ZenField label={t.tlog.form.currency}>
+                 <select 
+                  name="currency"
+                  value={formData.currency}
+                  onChange={handleInputChange}
+                  className="w-full bg-transparent border-none text-[13px] font-medium text-white outline-none cursor-pointer px-4"
+                >
+                  <option value="USD" className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">USD</option>
+                  <option value="THB" className="bg-[var(--obsidian-void)] text-[var(--text-primary)]">THB</option>
+                </select>
+              </ZenField>
+              <ZenField label="Broker">
+                <input 
+                  type="text" 
+                  name="broker"
+                  value={formData.broker || ''}
+                  onChange={handleInputChange}
+                  placeholder={t.tlog.form.placeholders.broker}
+                  className="w-full bg-transparent border-none px-4 text-[var(--text-primary)] text-[14px] outline-none" 
+                />
+              </ZenField>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
