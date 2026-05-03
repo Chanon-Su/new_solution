@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSettings } from '../../../hooks/SettingsManager';
-import { translations } from '../../../utils/translations';
 import { BarChart2, Settings } from 'lucide-react';
 
 interface VisEmptyStateProps {
@@ -10,7 +9,6 @@ interface VisEmptyStateProps {
 
 const VisEmptyState: React.FC<VisEmptyStateProps> = ({ editMode, onConfigure }) => {
   const { language } = useSettings();
-  const t = translations[language] || translations.th;
 
   return (
     <div className="vis-empty-state">

@@ -16,7 +16,6 @@ import { useInsightData } from '../../hooks/useInsightData';
 import type { InsightTimeDimension, InsightAssetFocus } from '../../hooks/useInsightData';
 import ZenDropdown from '../UI/ZenDropdown';
 import { useSettings } from '../../hooks/SettingsManager';
-import { translations } from '../../utils/translations';
 import './InsightPort.css';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Milestone } from '../../types';
 import { useSettings } from '../../hooks/SettingsManager';
-import { translations } from '../../utils/translations';
 import { Home, Bitcoin, DollarSign, TrendingUp } from 'lucide-react';
 
 interface MilestoneCardProps {
@@ -12,7 +11,6 @@ interface MilestoneCardProps {
 
 const MilestoneCard: React.FC<MilestoneCardProps> = ({ milestone, currentValue, onViewDetails }) => {
   const { language } = useSettings();
-  const t = translations[language] || translations.th;
   
   const progressPercent = Math.min(Math.round((currentValue / milestone.targetValue) * 100), 100);
 
