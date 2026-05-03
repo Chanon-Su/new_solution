@@ -18,52 +18,62 @@ export const useBlockInteraction = ({
   editMode,
   onUpdate,
   isAreaAvailable,
-  blockRef
+  blockRef,
 }: UseBlockInteractionProps) => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  
+  const [isDragging, setIsDragging]   = useState(false);
+  const [isResizing, setIsResizing]   = useState(false);
+
+  // dragStart ref เก็บ position ณ วินาทีที่กด mouse down
   const dragStart = useRef({ mouseX: 0, mouseY: 0, blockX: 0, blockY: 0, blockW: 0, blockH: 0 });
 
-  const getContainerRect = useCallback(() => {
-    return blockRef.current?.parentElement?.getBoundingClientRect();
-  }, [blockRef]);
+  // ─── Cell metric cache ────────────────────────────────────────────────────
+  // คำนวณ cellWidth/Height เพียงครั้งเดียวตอน mousedown ไม่ใช่ทุก mousemove
+  // หลีกเลี่ยง getBoundingClientRect() + layout reflow ที่ 60fps
+  const cellMetrics = useRef({ cellWidth: 0, cellHeight: 0 });
 
+  const cacheCellMetrics = useCallback(() => {
+    const rect = blockRef.current?.parentElement?.getBoundingClientRect();
+    if (!rect) return false;
+    cellMetrics.current = {
+      cellWidth:  rect.width  / columns,
+      cellHeight: rect.height / rows,
+    };
+    return true;
+  }, [blockRef, columns, rows]);
+
+  // ─── Mouse Move ───────────────────────────────────────────────────────────
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    const rect = getContainerRect();
-    if (!rect) return;
-
-    const cellWidth = rect.width / columns;
-    const cellHeight = rect.height / rows;
+    const { cellWidth, cellHeight } = cellMetrics.current;
+    if (!cellWidth || !cellHeight) return;
 
     if (isDragging) {
       const deltaX = (e.clientX - dragStart.current.mouseX) / cellWidth;
       const deltaY = (e.clientY - dragStart.current.mouseY) / cellHeight;
-      
       const nextX = Math.round(dragStart.current.blockX + deltaX);
       const nextY = Math.round(dragStart.current.blockY + deltaY);
 
-      if (isAreaAvailable(block.page, nextX, nextY, block.w, block.h, block.id)) {
-        if (nextX !== block.x || nextY !== block.y) {
-          onUpdate(block.id, { x: nextX, y: nextY });
-        }
+      if (
+        (nextX !== block.x || nextY !== block.y) &&
+        isAreaAvailable(block.page, nextX, nextY, block.w, block.h, block.id)
+      ) {
+        onUpdate(block.id, { x: nextX, y: nextY });
       }
     }
 
     if (isResizing) {
       const deltaW = (e.clientX - dragStart.current.mouseX) / cellWidth;
       const deltaH = (e.clientY - dragStart.current.mouseY) / cellHeight;
-      
       const nextW = Math.max(1, Math.round(dragStart.current.blockW + deltaW));
       const nextH = Math.max(1, Math.round(dragStart.current.blockH + deltaH));
 
-      if (isAreaAvailable(block.page, block.x, block.y, nextW, nextH, block.id)) {
-        if (nextW !== block.w || nextH !== block.h) {
-          onUpdate(block.id, { w: nextW, h: nextH });
-        }
+      if (
+        (nextW !== block.w || nextH !== block.h) &&
+        isAreaAvailable(block.page, block.x, block.y, nextW, nextH, block.id)
+      ) {
+        onUpdate(block.id, { w: nextW, h: nextH });
       }
     }
-  }, [isDragging, isResizing, columns, rows, block, isAreaAvailable, onUpdate, getContainerRect]);
+  }, [isDragging, isResizing, block, isAreaAvailable, onUpdate]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -71,6 +81,7 @@ export const useBlockInteraction = ({
     document.body.classList.remove('no-select');
   }, []);
 
+  // ─── Event Listeners (attach เฉพาะช่วงที่ drag/resize) ───────────────────
   useEffect(() => {
     if (isDragging || isResizing) {
       window.addEventListener('mousemove', handleMouseMove);
@@ -82,8 +93,12 @@ export const useBlockInteraction = ({
     };
   }, [isDragging, isResizing, handleMouseMove, handleMouseUp]);
 
+  // ─── Drag / Resize Start ──────────────────────────────────────────────────
   const onDragStart = (e: React.MouseEvent) => {
     if (!editMode || isResizing) return;
+    // cache cell metrics ตอน mousedown ครั้งเดียว
+    if (!cacheCellMetrics()) return;
+
     setIsDragging(true);
     dragStart.current = {
       mouseX: e.clientX,
@@ -91,13 +106,16 @@ export const useBlockInteraction = ({
       blockX: block.x,
       blockY: block.y,
       blockW: block.w,
-      blockH: block.h
+      blockH: block.h,
     };
     document.body.classList.add('no-select');
   };
 
   const onResizeStart = (e: React.MouseEvent) => {
     e.stopPropagation();
+    // cache cell metrics ตอน mousedown ครั้งเดียว
+    if (!cacheCellMetrics()) return;
+
     setIsResizing(true);
     dragStart.current = {
       mouseX: e.clientX,
@@ -105,15 +123,10 @@ export const useBlockInteraction = ({
       blockX: block.x,
       blockY: block.y,
       blockW: block.w,
-      blockH: block.h
+      blockH: block.h,
     };
     document.body.classList.add('no-select');
   };
 
-  return {
-    isDragging,
-    isResizing,
-    onDragStart,
-    onResizeStart
-  };
+  return { isDragging, isResizing, onDragStart, onResizeStart };
 };

@@ -365,7 +365,7 @@ const TLog_zone1_Form: React.FC = () => {
         className="hidden" 
       />
       
-      <div className="tlog-form-container bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl p-8 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+      <div className="tlog-form-container glass-panel rounded-xl p-8">
         <div className="tlog-header flex justify-between items-center mb-8">
           <div className="tlog-header-title flex items-center gap-4">
             <div className="w-1 h-6 bg-[var(--neon-emerald)] rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.4)]"></div>
@@ -425,7 +425,7 @@ const TLog_zone1_Form: React.FC = () => {
                 {isTimePickerOpen && (
                   <div 
                     ref={timePickerRef}
-                    className="absolute top-full left-0 mt-2 w-64 h-64 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden flex"
+                    className="absolute top-full left-0 mt-2 w-64 h-64 bg-[var(--glass-bg-deep)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] z-[100] overflow-hidden flex"
                   >
                     {/* Hours Column */}
                     <div className="flex-1 overflow-y-auto [scrollbar-width:none] border-r border-white/5 py-2">
@@ -516,7 +516,7 @@ const TLog_zone1_Form: React.FC = () => {
                 {showSuggestions && (
                   <div 
                     ref={suggestionsRef}
-                    className="absolute top-full left-0 w-full mt-2 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden backdrop-blur-md"
+                    className="absolute top-full left-0 w-full mt-2 bg-[var(--glass-bg-deep)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] z-[100] overflow-hidden backdrop-blur-md"
                   >
                     {followedAssets
                       .filter(item => 
@@ -662,7 +662,7 @@ const TLog_zone1_Form: React.FC = () => {
                 {showBrokerSuggestions && uniqueBrokers.length > 0 && (
                   <div 
                     ref={brokerSuggestionsRef}
-                    className="absolute bottom-full left-0 w-full mb-2 bg-[var(--dark-slate)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-[100] overflow-hidden backdrop-blur-md"
+                    className="absolute bottom-full left-0 w-full mb-2 bg-[var(--glass-bg-deep)] border border-[var(--glass-border)] rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] z-[100] overflow-hidden backdrop-blur-md"
                   >
                     {uniqueBrokers
                       .filter(b => b.toLowerCase().includes(formData.broker.toLowerCase()))

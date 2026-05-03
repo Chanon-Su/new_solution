@@ -1,3 +1,5 @@
+/* ── App.css — App Shell Styles ─────────────────────────────────────────── */
+
 .app-shell {
   min-height: 100vh;
   position: relative;
@@ -13,25 +15,25 @@
 .container-centered {
   max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 var(--page-padding-x);
 }
 
-/* Floating Help Circle (PRD บรรทัดที่ 18) */
+/* ── Floating Help Circle ─────────────────────────────────────────────────── */
 .help-circle {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: var(--space-6);
+  right: var(--space-6);
   width: 48px;
   height: 48px;
   background: var(--dark-slate);
   border: 1px solid var(--glass-border);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   color: var(--neon-emerald);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   cursor: pointer;
   z-index: 500;
   transition: var(--transition-fast);
@@ -45,7 +47,7 @@
   box-shadow: 0 0 20px var(--neon-emerald);
 }
 
-/* Zen Background Glows (PRD บรรทัดที่ 209-210) */
+/* ── Zen Background Glows ─────────────────────────────────────────────────── */
 .zen-glow {
   position: fixed;
   width: 45vw;
@@ -65,15 +67,8 @@
 .zen-glow.bottom-right {
   bottom: -15vw;
   right: -15vw;
-  background: var(--accent-blue); /* Subtle Blue accent to complement Emerald */
+  background: var(--color-info);
 }
 
-/* Global Transitions for tabs */
-.page-container {
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ── Page Transitions ─────────────────────────────────────────────────────── */
+/* .page-container animation อยู่ใน index.css @layer utilities แล้ว */

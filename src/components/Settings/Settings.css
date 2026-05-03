@@ -1,95 +1,95 @@
-/* Settings Page Styles */
+/* ── Settings.css ───────────────────────────────────────────────────────── */
 
 .settings-page {
-    animation: fadeIn 0.4s ease-out;
-    min-height: 100vh;
+  animation: fadeInUp 0.4s ease-out;
+  min-height: 100vh;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Section Styling */
+/* Section */
 .settings-section {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .settings-section:hover {
-    border-color: var(--glass-border);
+  border-color: var(--glass-border);
 }
 
-/* Zen Toggle Switch */
+/* ── Zen Toggle Switch ───────────────────────────────────────────────────── */
 .zen-toggle {
-    width: 44px;
-    height: 24px;
-    background: var(--glass-bg-subtle);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 44px;
+  height: 24px;
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
 .zen-toggle.active {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: rgba(16, 185, 129, 0.4);
+  background: var(--emerald-20);
+  border-color: var(--emerald-40);
 }
 
 .toggle-knob {
-    width: 18px;
-    height: 18px;
-    background: var(--muted-grey);
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  width: 18px;
+  height: 18px;
+  background: var(--muted-grey);
+  border-radius: var(--radius-full);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .zen-toggle.active .toggle-knob {
-    left: 22px;
-    background: #10b981;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  left: 22px;
+  background: var(--color-success);
+  box-shadow: 0 0 10px var(--emerald-50);
 }
 
-/* Select Styling */
+/* ── Select Styling ──────────────────────────────────────────────────────── */
 .zen-select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 16px;
-    padding-right: 32px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
 }
 
-/* Nuke Button Animations */
+[data-theme="light"] .zen-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.3)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* ── Nuke Button ─────────────────────────────────────────────────────────── */
 .inline-confirmation-box {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: var(--space-2);
 }
 
 .nuke-btn-initial {
-    transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .nuke-btn-initial:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 
-/* Responsive adjustments */
+/* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-    .setting-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-    
-    .setting-control {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-    }
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .setting-control {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
 }

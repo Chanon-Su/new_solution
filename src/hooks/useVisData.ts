@@ -116,13 +116,16 @@ export function useVisData({ config, transactions, milestones, calculateProgress
   data: VisData;
   isEmpty: boolean;
 } {
+  // Cache USD/THB rate — อ่าน localStorage เพียงครั้งเดียวต่อ mount
+  // ไม่ต้องอ่านซ้ำทุกครั้งที่ transactions หรือ config เปลี่ยน
+  const rate = useMemo(() => getUsdThbRate(), []);
+
   const data = useMemo<VisData>(() => {
     if (!config || config.visType === 'empty' || config.visType === 'title') {
       return { kind: 'empty' };
     }
 
     const { dataSource, visType, dimension = 'category', value = 'cash', currency = 'THB', filter, dateRange } = config;
-    const rate = getUsdThbRate();
 
     // ─── AssetMart Source ────────────────────────────────────────────────────
     if (dataSource === 'assetmart') {
@@ -296,7 +299,7 @@ export function useVisData({ config, transactions, milestones, calculateProgress
       }));
 
     return { kind: 'series', points };
-  }, [config, transactions, milestones, calculateProgress]);
+  }, [config, transactions, milestones, calculateProgress, rate]);
 
   const isEmpty = data.kind === 'empty';
 

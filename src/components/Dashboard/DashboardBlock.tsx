@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import type { DashboardBlock as IBlock, VisConfig } from '../../types';
 import { Settings, Trash2 } from 'lucide-react';
 import { useBlockInteraction } from '../../hooks/useBlockInteraction';
@@ -24,38 +24,23 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
   const blockRef = useRef<HTMLDivElement>(null);
   const [showConfig, setShowConfig] = useState(false);
 
-  const {
-    isDragging,
-    isResizing,
-    onDragStart,
-    onResizeStart
-  } = useBlockInteraction({
-    block,
-    columns,
-    rows,
-    editMode,
-    onUpdate,
-    isAreaAvailable,
-    blockRef
+  const { isDragging, isResizing, onDragStart, onResizeStart } = useBlockInteraction({
+    block, columns, rows, editMode, onUpdate, isAreaAvailable, blockRef,
   });
 
   // คำนวณตำแหน่ง % สำหรับ 0px Gap
   const style: React.CSSProperties = {
-    left: `${(block.x / columns) * 100}%`,
-    top: `${(block.y / rows) * 100}%`,
-    width: `${(block.w / columns) * 100}%`,
-    height: `${(block.h / rows) * 100}%`,
+    left:     `${(block.x / columns) * 100}%`,
+    top:      `${(block.y / rows) * 100}%`,
+    width:    `${(block.w / columns) * 100}%`,
+    height:   `${(block.h / rows) * 100}%`,
     position: 'absolute',
     transition: isDragging || isResizing ? 'none' : 'all 0.2s ease',
-    zIndex: isDragging ? 100 : 10
+    zIndex:   isDragging ? 100 : 10,
   };
 
   const handleSaveConfig = (config: VisConfig) => {
-    onUpdate(block.id, {
-      type: config.visType,
-      title: config.title,
-      visConfig: config,
-    });
+    onUpdate(block.id, { type: config.visType, title: config.title, visConfig: config });
     setShowConfig(false);
   };
 
@@ -67,7 +52,6 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
         style={style}
         onMouseDown={onDragStart}
       >
-        {/* Block title (แสดงเฉพาะ edit mode หรือ visType ที่ไม่ใช่ title/chart) */}
         {editMode && (
           <div className="block-header">
             <span className="block-title">{block.title}</span>
@@ -105,7 +89,6 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
         )}
       </div>
 
-      {/* Config Popup — rendered outside block to avoid z-index issues */}
       {showConfig && (
         <VisConfigPopup
           blockId={block.id}
@@ -118,4 +101,16 @@ const DashboardBlock: React.FC<DashboardBlockProps> = ({
   );
 };
 
-export default DashboardBlock;
+// React.memo — ป้องกัน block re-render เมื่อ blocks อื่นเปลี่ยน
+// หรือเมื่อ parent state เปลี่ยนแต่ block นี้ไม่ได้รับผลกระทบ
+export default memo(DashboardBlock, (prev, next) => {
+  return (
+    prev.block     === next.block     && // object reference (useDashboard ส่ง immutable updates)
+    prev.editMode  === next.editMode  &&
+    prev.columns   === next.columns   &&
+    prev.rows      === next.rows      &&
+    prev.onUpdate  === next.onUpdate  && // stable ref จาก useCallback
+    prev.onDelete  === next.onDelete  && // stable ref จาก useCallback
+    prev.isAreaAvailable === next.isAreaAvailable
+  );
+});

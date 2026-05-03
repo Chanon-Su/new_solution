@@ -56,7 +56,7 @@ const TLog_zone3_History: React.FC = () => {
 
   return (
     <section className="flex flex-col gap-5 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl overflow-hidden p-8 shadow-[0_20px_40px_rgba(0,0,0,0.3)]">
+      <div className="glass-panel rounded-xl overflow-hidden p-8">
         <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-4">
