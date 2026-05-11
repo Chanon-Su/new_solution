@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSettings } from '../../hooks/SettingsManager';
 import { translations } from '../../utils/translations';
 import { ArrowLeft, ExternalLink, Calendar, Info, TrendingUp, DollarSign, Activity, FileText, Heart } from 'lucide-react';
+import TradingViewChart from './TradingViewChart';
 
 interface AssetDetailProps {
   asset: {
@@ -158,13 +159,32 @@ const AssetDetail: React.FC<AssetDetailProps> = ({ asset, onBack }) => {
           </div>
         </div>
 
-        <div className="chart-placeholder">
-          <div className="chart-path"></div>
-          {/* Mock Grid Lines */}
-          <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5">
-            {[1, 2, 3, 4, 5].map(i => <div key={i} className="w-full h-px bg-[var(--text-primary)]"></div>)}
-          </div>
-        </div>
+      <div className="mt-4">
+        {(() => {
+          const tvMapping: Record<string, string> = {
+            'BTC': 'BINANCE:BTCUSDT',
+            'AAPL': 'NASDAQ:AAPL'
+          };
+          const tvSymbol = tvMapping[asset.symbol];
+          
+          if (tvSymbol) {
+            return <TradingViewChart tvSymbol={tvSymbol} />;
+          }
+          
+          return (
+            <div className="chart-placeholder">
+              <div className="chart-path"></div>
+              {/* Mock Grid Lines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5">
+                {[1, 2, 3, 4, 5].map(i => <div key={i} className="w-full h-px bg-[var(--text-primary)]"></div>)}
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center text-gray-500/50 text-sm italic">
+                Chart for {asset.symbol} is currently in mock mode
+              </div>
+            </div>
+          );
+        })()}
+      </div>
 
         <div className="mt-8 grid grid-cols-2 gap-8">
           <div className="p-6 rounded-2xl bg-[var(--glass-bg-subtle)] border border-[var(--glass-border)]">

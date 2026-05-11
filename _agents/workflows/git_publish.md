@@ -12,7 +12,7 @@ description: "Workflow สำหรับ Push งานขึ้น GitHub แ�
    // turbo
    - รัน `git add .`
    // turbo
-   - รัน `git commit -m "chore: update and deploy [brief description]"`
+   - รัน `git commit -m "publish, [brief description]"`
    // turbo
    - รัน `git push origin main` (หรือ branch ปัจจุบัน)
 
